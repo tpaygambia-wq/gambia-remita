@@ -1,41 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gambia Remita - Pay GRA, NAWEC, UTG Online</title>
+  <title>Gambia Remita</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body{font-family:Arial;padding:20px;background:#f4f4f9}
-    .card{background:white;padding:20px;border-radius:12px;max-width:400px;margin:auto;box-shadow:0 4px 10px rgba(0,0,0,0.1);margin-bottom:20px}
-    input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc}
-    button{background:#008751;color:white;font-weight:bold;border:none;cursor:pointer}
-    .fee-box{background:#eef9f0;padding:10px;border-radius:8px;margin:10px 0}
-    .status-box{background:#fff3cd;padding:15px;border-radius:8px;margin-top:10px}
+    body{font-family:Arial;padding:15px;background:#f4f4f9}
+    .card{background:white;padding:20px;border-radius:12px;max-width:420px;margin:auto;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:20px}
+    input,select,button{width:100%;padding:14px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:16px}
+    button{background:#008751;color:white;font-weight:bold;border:none}
+    .wave-box{background:#003366;color:white;padding:15px;border-radius:10px;text-align:center;margin:12px 0}
+    .wave-box h2{margin:5px 0;font-size:28px;letter-spacing:2px}
+    .order-box{background:#e8f5e9;border:2px dashed #008751;padding:15px;border-radius:10px;text-align:center;margin:10px 0}
+    .copy-btn{background:#008751;color:white;padding:8px 12px;border-radius:6px;width:auto;font-size:14px;margin-left:8px}
   </style>
 </head>
 <body>
 
-<!-- CARD 1: CREATE ORDER -->
 <div class="card">
   <h2>🇬🇲 Gambia Remita</h2>
-  <p>Pay GRA, NAWEC, UTG from home</p>
   <input id="name" placeholder="Full Name">
-  <input id="phone" placeholder="Phone Number">
+  <input id="phone" placeholder="Phone Number e.g 3XXXXXXX">
   <select id="service">
     <option>GRA Tax</option><option>NAWEC Bill</option><option>UTG Fees</option><option>Police Clearance</option><option>Immigration</option>
   </select>
   <input id="amount" type="number" placeholder="Amount e.g 5000" oninput="calc()">
-  <div class="fee-box">
+  
+  <div style="background:#eef9f0;padding:10px;border-radius:8px">
     <div>Fee (2%): <b id="fee">D0</b></div>
-    <div>Total Pay: <b id="total" style="color:green">D0</b> to Wave 872 713 918</div>
+    <div>Total Pay: <b id="total" style="color:green;font-size:18px">D0</b></div>
   </div>
+
+  <!-- WAVE NUMBER VERY CLEAR -->
+  <div class="wave-box">
+    <div style="font-size:14px;opacity:0.8">PAY TO WAVE</div>
+    <h2>872 713 918</h2>
+    <div style="font-size:18px;font-weight:bold">Name: Gambia Remita</div>
+    <div style="font-size:12px;margin-top:5px">Use Order ID as Reference!</div>
+  </div>
+  
   <button onclick="submitOrder()">Get Order ID</button>
   <div id="result"></div>
 </div>
 
-<!-- CARD 2: CHECK STATUS WITH ID/ORDER -->
 <div class="card">
-  <h3>🔍 Check Status With Order ID</h3>
-  <input id="checkId" placeholder="Enter Order ID e.g ORD-123456-AB2">
+  <h3>🔍 Check Status</h3>
+  <input id="checkId" placeholder="Enter Order ID">
   <button onclick="checkStatus()" style="background:#003366">Check Status</button>
   <div id="statusResult"></div>
 </div>
@@ -50,18 +59,44 @@ function calc(){
   return {amt, fee, total};
 }
 
+function copyText(text){
+  navigator.clipboard.writeText(text);
+  alert('Copied: ' + text);
+}
+
 function submitOrder(){
   const {amt, fee, total} = calc();
   const name = document.getElementById('name').value;
   const phone = document.getElementById('phone').value;
   const service = document.getElementById('service').value;
-  if(!name || !phone || amt==0){alert('Fill all');return;}
+  if(!name || !phone || amt==0){alert('Fill all fields');return;}
   const orderId = 'ORD-' + Date.now().toString().slice(-6) + '-' + Math.random().toString(36).substring(2,5).toUpperCase();
   const orderData = {orderId, name, phone, service, amount:amt, fee, total, status:'PENDING_PAYMENT', rrr:null, date:new Date().toISOString()};
   let orders = JSON.parse(localStorage.getItem('gambia_orders') || '[]');
   orders.push(orderData);
   localStorage.setItem('gambia_orders', JSON.stringify(orders));
-  document.getElementById('result').innerHTML = `✅ Order Created!<br>Order ID: <span style="color:blue;font-size:18px">${orderId}</span><br>Total Pay: D${total.toFixed(2)} to Wave 872 713 918<br><small>Save this Order ID to check status!</small>`;
+  
+  // RESULT WITH COPY BUTTON AND CLEAR WAVE INFO
+  document.getElementById('result').innerHTML = `
+    <div class="order-box">
+      ✅ Order Created!<br>
+      <div style="margin:10px 0">
+        Order ID: <b style="font-size:20px;color:#003366">${orderId}</b>
+        <button class="copy-btn" onclick="copyText('${orderId}')">📋 COPY</button>
+      </div>
+      <div>Total to Pay: <b style="font-size:20px;color:green">D${total.toFixed(2)}</b></div>
+    </div>
+    
+    <div class="wave-box">
+      <div>PAY THIS AMOUNT TO:</div>
+      <h2>872 713 918 <button class="copy-btn" style="background:white;color:#003366" onclick="copyText('872713918')">📋 COPY NUMBER</button></h2>
+      <div style="font-size:20px"><b>Name: Gambia Remita</b></div>
+      <div style="margin-top:8px;background:white;color:#003366;padding:8px;border-radius:6px">
+        Reference: <b>${orderId}</b> <button class="copy-btn" onclick="copyText('${orderId}')">COPY</button>
+      </div>
+    </div>
+    <p style="text-align:center"><small>After paying Wave, check status below with your Order ID. RRR will appear after confirmation.</small></p>
+  `;
 }
 
 function checkStatus(){
@@ -71,13 +106,28 @@ function checkStatus(){
   let order = orders.find(o => o.orderId === id);
   let box = document.getElementById('statusResult');
   if(!order){
-    box.innerHTML = `<div class="status-box" style="background:#f8d7da">❌ Order ID not found: ${id}</div>`;
+    box.innerHTML = `<div style="background:#f8d7da;padding:12px;border-radius:8px">❌ Not found: ${id}</div>`;
     return;
   }
   if(order.status === 'PENDING_PAYMENT'){
-    box.innerHTML = `<div class="status-box">⏳ Order: ${order.orderId}<br>Status: <b style="color:orange">PENDING - Waiting Wave Payment</b><br>Amount: D${order.amount}<br>Total Paid: D${order.total}<br><small>Please pay to Wave 872 713 918 and wait for confirmation. Your RRR will show here after.</small></div>`;
-  } else if(order.status === 'PAID'){
-    box.innerHTML = `<div class="status-box" style="background:#d4edda">✅ Order: ${order.orderId}<br>Status: <b style="color:green">PAID & CONFIRMED</b><br>Your RRR: <span style="font-size:20px;color:blue">${order.rrr}</span><br>Service: ${order.service}<br><button onclick="window.print()">Download Receipt</button></div>`;
+    box.innerHTML = `
+      <div style="background:#fff3cd;padding:15px;border-radius:8px">
+        ⏳ <b>${order.orderId}</b> <button class="copy-btn" onclick="copyText('${order.orderId}')">COPY</button><br>
+        Status: <b style="color:orange">PENDING - Waiting Wave Payment</b><br>
+        Total: D${order.total}<br>
+        <div class="wave-box" style="margin-top:10px">
+          Pay to: <h2 style="font-size:22px">872 713 918</h2>
+          Name: Gambia Remita<br>
+          Ref: ${order.orderId}
+        </div>
+      </div>`;
+  } else {
+    box.innerHTML = `
+      <div style="background:#d4edda;padding:15px;border-radius:8px;text-align:center">
+        ✅ <b>${order.orderId}</b> - PAID<br>
+        RRR: <b style="font-size:22px;color:blue">${order.rrr}</b> <button class="copy-btn" onclick="copyText('${order.rrr}')">COPY RRR</button><br>
+        <button onclick="window.print()" style="margin-top:10px">Download Receipt</button>
+      </div>`;
   }
 }
 </script>
