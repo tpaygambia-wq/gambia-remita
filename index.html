@@ -1,87 +1,73 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gambia Remita 2% Auto Fee</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gambia Remita 2% Fee Locked</title>
 <style>
-body{font-family:Arial;background:#f1f5f9;padding:12px}
-.box{max-width:420px;margin:auto;background:white;padding:18px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-input,select{width:100%;padding:13px;margin:6px 0 12px 0;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}
-button{width:100%;padding:15px;background:#006633;color:white;font-weight:bold;border:none;border-radius:12px;font-size:17px}
-.feeBox{background:#fef9c3;border:2px solid #eab308;padding:12px;border-radius:12px;text-align:center;margin:10px 0;font-weight:bold}
-.pay{border:2px solid #ddd;padding:12px;border-radius:10px;margin:7px 0;cursor:pointer;background:white}
-.pay.active{border-color:#006633;background:#dcfce7;font-weight:bold}
-.receipt{display:none;background:#f0fdf4;border:2px solid #16a34a;padding:15px;border-radius:12px;margin-top:15px;text-align:center}
+*{box-sizing:border-box;font-family:system-ui,Arial}
+body{margin:0;background:#f0fdf4;padding:12px}
+.card{max-width:420px;margin:auto;background:white;border-radius:16px;padding:18px;box-shadow:0 4px 20px rgba(0,0,0,.1);border:2px solid #16a34a}
+h1{margin:0 0 4px;text-align:center;color:#166534;font-size:20px}
+.sub{text-align:center;color:#666;font-size:12px;margin-bottom:14px}
+label{font-weight:700;font-size:13px;display:block;margin:10px 0 4px}
+input,select{width:100%;padding:12px;border:2px solid #d1d5db;border-radius:10px;font-size:15px}
+input:focus{border-color:#16a34a;outline:none}
+.feeBox{margin:12px 0;background:#fef9c3;border:2px dashed #ca8a04;border-radius:12px;padding:12px;text-align:center}
+.total{font-size:19px;font-weight:900;color:#166534;margin-top:6px}
+.lock{font-size:11px;background:#dcfce7;color:#166534;padding:5px 10px;border-radius:20px;display:inline-block;margin-top:6px;font-weight:800}
+.alert{background:#e0f2fe;border:2px solid #0284c7;border-radius:10px;padding:10px;text-align:center;margin:10px 0;font-size:12px}
+.btn{width:100%;padding:14px;background:#16a34a;color:white;border:none;border-radius:12px;font-weight:900;font-size:16px;cursor:pointer;margin-top:8px}
+.result{margin-top:14px;background:#f0fdf4;border:2px solid #16a34a;border-radius:12px;padding:14px;text-align:center;display:none}
 </style>
 </head>
 <body>
-<div class="box">
-<h2 style="text-align:center;margin:0">🇬🇲 Gambia Remita</h2>
-<p style="text-align:center;font-size:13px;color:#555">Auto Fee 2% Added Instantly</p>
-
+<div class="card">
+<h1>🇬🇲 Gambia Remita</h1>
+<div class="sub">V3 - 2% Fee Protected - Cannot Be Avoided</div>
 <label>Institution</label>
-<select id="inst"><option>UTG University</option><option>GRA Tax</option><option>MOBSE School Fees</option><option>GPF Police Fine</option><option>GTTI</option><option>Gambia College</option></select>
-
+<select id="inst"><option>UTG University</option><option>GRA Tax</option><option>Passport</option><option>Business Registration</option><option>Other Gov</option></select>
 <label>Full Name</label>
 <input id="name" placeholder="Lamin Jallow">
-
 <label>Phone</label>
-<input id="phone" type="number" placeholder="6599013">
-
-<label>Government Amount (GMD)</label>
-<input id="amt" type="number" placeholder="5000">
-
-<div id="feeBox" class="feeBox">💰 Type amount - Fee adds automatically</div>
-
-<label>Choose Payment:</label>
-<div onclick="setPay('Bank Transfer',this)" class="pay active">🏦 Bank Transfer</div>
-<div onclick="setPay('Card',this)" class="pay">💳 Card - Visa/Mastercard</div>
-<div onclick="setPay('Wave',this)" class="pay">🌊 Wave Mobile Money</div>
-<div onclick="setPay('QMoney',this)" class="pay">📱 QMoney</div>
-<div onclick="setPay('Afrimoney',this)" class="pay">📱 Afrimoney</div>
-
-<div style="background:#cffafe;padding:10px;border-radius:10px;margin:12px 0;text-align:center">
-⚠️ <b>YOUR 2% FEE TO:</b><br><span style="font-size:22px;font-weight:bold;color:#065f46">Wave: 659 9013</span><br>Marian Tunkara
+<input id="phone" type="tel" placeholder="6599013">
+<label>Amount Customer Pays (GMD)</label>
+<input id="amount" type="number" placeholder="e.g 5000" oninput="calc()">
+<div class="feeBox" id="feeBox">Type amount above to see 2% split</div>
+<div class="alert">🔒 <b>2% FEE LOCKED:</b> If customer pays 5000, fee 100 is auto-deducted. Gov gets 4900. Customer CANNOT avoid fee!</div>
+<div style="background:#ccfbf1;padding:10px;border-radius:10px;text-align:center"><b>YOUR 2% FEE TO:</b><br><span style="font-size:18px;font-weight:900;color:#0f766e">Wave: 659 9013</span><br>Marian Tunkara</div>
+<label>Payment Method</label>
+<select id="payMethod"><option>Wave Mobile Money</option><option>QMoney</option><option>Bank Transfer</option></select>
+<button class="btn" onclick="generate()">Generate RRR</button>
+<div class="result" id="result"></div>
 </div>
-
-<button onclick="gen()">Generate RRR</button>
-
-<div id="receipt" class="receipt">
-<h3>✅ RRR Generated!</h3>
-<h2 id="rrr"></h2>
-<p id="details"></p>
-<button onclick="location.reload()" style="background:#334155;margin-top:10px">New Payment</button>
-</div>
-</div>
-
 <script>
-let selectedPay='Bank Transfer';let fee=0,total=0,gov=0;
-function setPay(m,el){selectedPay=m;document.querySelectorAll('.pay').forEach(x=>x.classList.remove('active'));el.classList.add('active');}
-function autoCalc(){
- gov=parseFloat(document.getElementById('amt').value);
+function calc(){
+ let total=parseFloat(document.getElementById('amount').value)||0;
  let box=document.getElementById('feeBox');
- if(!gov||gov<=0){box.innerHTML='💰 Type amount - Fee adds automatically';fee=0;total=0;return;}
- fee=gov*0.02;total=gov+fee;
- box.innerHTML='Gov: '+gov+' GMD<br>Fee 2%: '+fee.toFixed(2)+' GMD<br><span style="font-size:18px">TOTAL: '+total.toFixed(2)+' GMD</span><br><small>Fee added automatically ✅</small>';
+ if(total<=0){box.innerHTML='Type amount above to see 2% split';return null;}
+ let fee=total*0.02;
+ let gov=total-fee;
+ box.innerHTML=`Customer Pays: <b>${total.toFixed(2)} GMD</b><br>Fee 2% Deducted: <b style="color:#dc2626">${fee.toFixed(2)} GMD</b><br>Gov Gets: <b>${gov.toFixed(2)} GMD</b><div class="total">YOU KEEP: ${fee.toFixed(2)} GMD (2%)</div><div class="lock">🔒 2% FEE LOCKED - Cannot Avoid</div>`;
+ return {total,fee,gov};
 }
-document.getElementById('amt').addEventListener('input', autoCalc);
-document.getElementById('amt').addEventListener('keyup', autoCalc);
-document.getElementById('amt').addEventListener('change', autoCalc);
-function gen(){
+function generate(){
  let name=document.getElementById('name').value.trim();
- let phone=document.getElementById('phone').value.trim();
- gov=parseFloat(document.getElementById('amt').value);
  let inst=document.getElementById('inst').value;
- if(!name||!phone||!gov){alert('Fill Name, Phone, Amount');return;}
- autoCalc();
+ let phone=document.getElementById('phone').value.trim();
+ let amt=document.getElementById('amount').value;
+ let method=document.getElementById('payMethod').value;
+ if(!name||!amt||!phone){alert('Fill Name, Phone, Amount');return;}
+ let c=calc();
+ if(!c) return;
  let rrr='GM-'+Math.floor(10000000+Math.random()*90000000);
+ let res=document.getElementById('result');
+ res.style.display='block';
+ res.innerHTML=`<h2 style="margin:0;color:#16a34a">✅ RRR Generated!</h2><div style="font-size:26px;font-weight:900;margin:8px 0">${rrr}</div><div><b>${name}</b><br>${inst}<br>Phone: ${phone}<br>${method}</div><div style="margin-top:8px;background:white;padding:8px;border-radius:8px">Paid: <b>${c.total.toFixed(2)} GMD</b><br>Fee 2%: <b style="color:red">${c.fee.toFixed(2)} GMD</b> → Your Wave 659 9013<br>Gov Gets: <b>${c.gov.toFixed(2)} GMD</b></div><div style="margin-top:8px;font-size:12px;color:#166534;font-weight:700">🔒 2% Fee auto-deducted. Customer could not avoid!</div><button class="btn" style="background:#334155;margin-top:10px" onclick="location.reload()">New Payment</button>`;
  let all=JSON.parse(localStorage.getItem('gambia_payments')||'[]');
- all.push({rrr,name,phone,amt:gov,fee,total,institution:inst,method:selectedPay,date:new Date().toLocaleString(),status:'pending'});
+ all.unshift({rrr,name,inst,phone,total:c.total,fee:c.fee,gov:c.gov,method,date:new Date().toLocaleString()});
  localStorage.setItem('gambia_payments',JSON.stringify(all));
- document.getElementById('rrr').innerText=rrr;
- document.getElementById('details').innerHTML=name+'<br>'+inst+'<br>Gov '+gov+' + Fee '+fee.toFixed(2)+' = <b>'+total.toFixed(2)+' GMD</b><br>'+selectedPay;
- document.getElementById('receipt').style.display='block';
- window.scrollTo(0,9999);
+ window.scrollTo(0,document.body.scrollHeight);
 }
 </script>
 </body>
