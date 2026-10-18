@@ -1,41 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Gambia Remita</title>
+<title>Gambia Remita 2% - Pay Government</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
-body{font-family:Arial;padding:20px;background:#f5f5f5}
-.card{background:white;padding:20px;border-radius:12px;max-width:500px;margin:auto}
-input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
-button{background:#006633;color:white;padding:14px;width:100%;border:none;border-radius:8px;font-weight:bold}
-.fee-box{background:#fff3cd;padding:12px;border-radius:8px;margin:10px 0;border:1px dashed #ffc107}
-.receipt{background:#d4edda;padding:15px;border-radius:8px;margin-top:20px}
+body{font-family:Arial;padding:15px;background:#f0f5f0;}
+.card{background:white;padding:20px;border-radius:15px;max-width:480px;margin:auto;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+input,select{width:100%;padding:12px;margin:6px 0 12px 0;border-radius:8px;border:1px solid #ccc;box-sizing:border-box;}
+button{background:#006633;color:white;padding:14px;border:none;border-radius:10px;width:100%;font-size:16px;font-weight:bold;margin-top:8px;}
+.fee-box{background:#fff3cd;padding:12px;border-radius:10px;border:2px dashed #856404;margin:12px 0;text-align:center;font-weight:bold;}
+.pay-methods{background:#fff;padding:12px;border-radius:10px;border:1px solid #ddd;margin:12px 0;}
+.pay-option{padding:12px;border:1px solid #ccc;border-radius:8px;margin:6px 0;cursor:pointer;background:#fafafa;}
+.pay-option.active{border-color:#006633;background:#e8f5e9;font-weight:bold;border-width:2px;}
+.before-box{background:#d1ecf1;padding:14px;border-radius:10px;border:2px solid #0c5460;margin:12px 0;text-align:center;}
+.receipt{background:#d4edda;padding:15px;border-radius:10px;margin-top:15px;display:none;border:2px solid #006633;}
+.wave-num{font-size:24px;font-weight:bold;color:#006633;letter-spacing:1px;}
 </style>
 </head>
 <body>
 <div class="card">
-<h2>Gambia Remita</h2>
-<p>Generate RRR for Government Payments</p>
+<h2 style="text-align:center;color:#006633;">🇬🇲 Gambia Remita</h2>
+<p style="text-align:center;font-size:13px;">Pay UTG | GRA | MOBSE | GPF - Service Fee 2%</p>
+
 <label>Institution</label>
-<select id="institution"><option value="UTG">University of The Gambia - UTG</option><option value="GRA">Gambia Revenue Authority - GRA</option><option value="MOBSE">Ministry of Basic Education</option></select>
-<label>Service</label>
-<select id="service"><option value="Tuition Fees - 15000">Tuition Fees - GMD 15,000</option><option value="Application Fees - 1000">Application Fees - GMD 1,000</option><option value="Tax Payment - 5000">Tax Payment - GMD 5,000</option><option value="Business Registration - 2500">Business Registration - GMD 2,500</option></select>
-<label>Full Name</label><input id="name" placeholder="John Doe">
-<label>Phone</label><input id="phone" placeholder="3000000">
-<div class="fee-box" id="feeBox"></div>
-<button onclick="generateRRR()">Generate RRR & Pay</button>
-<div id="receipt"></div>
+<select id="institution"><option value="UTG">UTG University</option><option value="GRA">GRA Tax</option><option value="MOBSE">MOBSE School Fees</option><option value="GPF">Gambia Police Fine</option></select>
+
+<label>Full Name</label><input id="name" placeholder="Your full name">
+<label>Phone</label><input id="phone" placeholder="220 3xxxxxxx">
+<label>Government Amount (GMD)</label><input id="amount" type="number" placeholder="e.g. 5000" oninput="calcFee()">
+
+<div class="fee-box" id="feeBox">Enter amount to see fee</div>
+
+<div class="pay-methods">
+<b>💳 Choose How To Pay GOVERNMENT Money:</b>
+<div class="pay-option active" onclick="selectPay(this,'Bank Transfer')">🏦 Bank Transfer - All Gambian Banks</div>
+<div class="pay-option" onclick="selectPay(this,'Card - Visa/Mastercard')">💳 Card - Visa / Mastercard</div>
+<div class="pay-option" onclick="selectPay(this,'Wave')">🌊 Wave Mobile Money</div>
+<div class="pay-option" onclick="selectPay(this,'QMoney')">📱 QMoney - QCell</div>
+<div class="pay-option" onclick="selectPay(this,'Afrimoney')">📱 Afrimoney - Africell</div>
+<p style="font-size:13px;color:#006633;margin-top:8px;" id="payDetails">✅ Selected: Bank Transfer</p>
 </div>
+
+<div class="before-box">
+<b>⚠️ BEFORE RRR - YOUR 2% SERVICE FEE TO:</b><br>
+<span class="wave-num">Wave: 659 9013</span><br>
+<span style="font-size:15px;font-weight:bold;">Marian Tunkara</span><br>
+<span style="font-size:11px;">This fee is separate from government payment above</span>
+</div>
+
+<button onclick="generateRRR()">Generate RRR</button>
+
+<div class="receipt" id="receipt">
+<h3 style="text-align:center;">✅ RRR Generated</h3>
+<p><b>RRR:</b> <span id="rrrNum"></span></p>
+<p><b>Name:</b> <span id="rName"></span></p>
+<p><b>Gov Pay Method:</b> <span id="rMethod"></span></p>
+<p><b>Gov Amount:</b> GMD <span id="rAmt"></span></p>
+<p><b>Your Fee (2%):</b> GMD <span id="rFee"></span> → Pay to Wave 659 9013 Marian Tunkara</p>
+<p><b>TOTAL:</b> GMD <span id="rTotal"></span></p>
+<div id="qrcode" style="display:flex;justify-content:center;margin:12px 0;"></div>
+<p style="font-size:12px;color:#555;text-align:center;">1. Pay Gov Amount via selected method<br>2. Pay 2% Fee to Wave above<br>3. Show RRR at institution</p>
+</div>
+</div>
+
 <script>
-const supabaseUrl='https://afzwszicghxwjywqkhbua.supabase.co';
-const supabaseKey='sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS';
-const supabaseClient=supabase.createClient(supabaseUrl,supabaseKey);
-const serviceEl=document.getElementById('service');
-const feeBox=document.getElementById('feeBox');
-function updateFee(){const parts=serviceEl.value.split(' - ');const amount=parseFloat(parts[1])||0;const fee=amount*0.015;const total=amount+fee;feeBox.innerHTML=`Service: GMD ${amount.toLocaleString()}<br>Your Fee (1.5%): GMD ${fee.toLocaleString()}<br><strong>Total: GMD ${total.toLocaleString()}</strong><br><small style="color:green">You earn GMD ${fee}</small>`;}
-serviceEl.addEventListener('change',updateFee);updateFee();
-async function generateRRR(){const name=document.getElementById('name').value;const phone=document.getElementById('phone').value;const institution=document.getElementById('institution').value;const serviceParts=serviceEl.value.split(' - ');const serviceName=serviceParts[0];const serviceAmount=parseFloat(serviceParts[1]);if(!name||!phone){alert('Enter name and phone');return;}const feeAmount=serviceAmount*0.015;const totalAmount=serviceAmount+feeAmount;const rrr=Math.floor(100000000000+Math.random()*900000000000).toString();const{error}=await supabaseClient.from('transactions').insert([{rrr:rrr,payer_name:name,payer_phone:phone,institution:institution,service_name:serviceName,service_amount:serviceAmount,fee_amount:feeAmount,total_amount:totalAmount,status:'pending'}]);if(error){alert('Error: '+error.message);return;}document.getElementById('receipt').innerHTML=`<div class="receipt"><h3>RRR Generated!</h3><p><strong>RRR:</strong> ${rrr}</p><p>Payer: ${name}</p><p>Institution: ${institution}</p><p>Service: ${serviceName}</p><p>Fee: GMD ${feeAmount}</p><p><strong>Total: GMD ${totalAmount}</strong></p></div>`;}
+let selectedMethod = 'Bank Transfer';
+function selectPay(el, method){
+ document.querySelectorAll('.pay-option').forEach(o=>o.classList.remove('active'));
+ el.classList.add('active');
+ selectedMethod = method;
+ document.getElementById('payDetails').innerText = '✅ Selected: ' + method;
+}
+function calcFee(){
+ let amt = parseFloat(document.getElementById('amount').value) || 0;
+ if(amt<=0){document.getElementById('feeBox').innerHTML='Enter amount';return;}
+ let fee = amt * 0.02;
+ let total = amt + fee;
+ document.getElementById('feeBox').innerHTML = `Gov: GMD ${amt.toFixed(2)}<br>Fee 2%: GMD ${fee.toFixed(2)}<br><b>TOTAL: GMD ${total.toFixed(2)}</b><br><small>Fee → Wave 659 9013 Marian Tunkara</small>`;
+ return {amt,fee,total};
+}
+function generateRRR(){
+ let data = calcFee();
+ if(!data){alert('Enter government amount');return;}
+ let name = document.getElementById('name').value || 'No Name';
+ let rrr = 'GM-' + Math.floor(10000000 + Math.random()*90000000);
+ document.getElementById('rrrNum').innerText = rrr;
+ document.getElementById('rName').innerText = name;
+ document.getElementById('rMethod').innerText = selectedMethod;
+ document.getElementById('rAmt').innerText = data.amt.toFixed(2);
+ document.getElementById('rFee').innerText = data.fee.toFixed(2);
+ document.getElementById('rTotal').innerText = data.total.toFixed(2);
+ document.getElementById('receipt').style.display='block';
+ document.getElementById('qrcode').innerHTML='';
+ new QRCode(document.getElementById('qrcode'), rrr);
+ window.scrollTo(0,document.body.scrollHeight);
+}
 </script>
 </body>
 </html>
