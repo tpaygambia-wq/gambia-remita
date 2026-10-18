@@ -1,144 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gambia Remita - Full Merchant Empire</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gambia Remita CEO Admin V2</title>
 <style>
-body{font-family:Arial;background:#0f172a;color:white;margin:0;padding:20px}
-.login{max-width:400px;margin:100px auto;background:#1e293b;padding:30px;border-radius:15px;text-align:center}
-.card{background:#1e293b;padding:20px;border-radius:12px;margin-bottom:20px;border:1px solid #334155}
-input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;font-size:15px}
-button{background:#22c55e;color:black;font-weight:bold;cursor:pointer}
-button:hover{background:#16a34a}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{padding:10px;border-bottom:1px solid #334155;text-align:left;font-size:12px}
-.badge{padding:4px 8px;border-radius:20px;font-size:11px;font-weight:bold}
-.paid{background:#22c55e;color:black}
-.pending{background:#f59e0b;color:black}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-.stat{background:#1e293b;padding:12px;border-radius:10px;text-align:center;border:1px solid #334155}
-.hidden{display:none}
-.cat{color:#f59e0b;font-weight:bold;margin-top:10px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:#0f172a;color:#e2e8f0}
+.login{height:100vh;display:flex;align-items:center;justify-content:center}
+.card{background:#1e293b;padding:30px;border-radius:14px;width:92%;max-width:400px;border:1px solid #334155}
+input,select{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #334155;background:#0f172a;color:white}
+button{padding:12px 18px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin:4px}
+.btn-g{background:#22c55e;color:black}.btn-b{background:#3b82f6;color:white}.btn-y{background:#f59e0b;color:black}.btn-r{background:#ef4444;color:white}
+.top{display:flex;justify-content:space-between;align-items:center;padding:15px;background:#1e293b;border-bottom:1px solid #334155;flex-wrap:wrap;gap:10px}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;padding:15px}
+.sbox{background:#1e293b;padding:15px;border-radius:10px;border:1px solid #334155;text-align:center}
+table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:10px;border-bottom:1px solid #334155;text-align:left;font-size:13px}th{background:#0f172a;color:#94a3b8}
+.tabs{display:flex;gap:8px;padding:10px;overflow:auto} .tab{padding:8px 14px;border-radius:20px;background:#1e293b;border:1px solid #334155;cursor:pointer;white-space:nowrap} .tab.active{background:#22c55e;color:black}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);align-items:center;justify-content:center;z-index:99;padding:15px}
+.modal-box{background:#1e293b;padding:22px;border-radius:12px;width:100%;max-width:520px;max-height:90vh;overflow:auto;border:1px solid #334155}
+.badge{padding:3px 8px;border-radius:10px;font-size:11px} .PENDING{background:#f59e0b;color:black} .PAID{background:#22c55e;color:black} .API{background:#3b82f6;color:white}
 </style>
 </head>
 <body>
 
-<div id="loginBox" class="login">
-<h2>🔒 OT GROUP - FULL EMPIRE</h2>
-<input type="password" id="pass" placeholder="CEO Password">
-<button onclick="login()">UNLOCK GAMBIA</button>
-<p id="err" style="color:#ef4444"></p>
-</div>
-
-<div id="dash" class="hidden">
-<h1>👑 Gambia Remita - ALL CLIENTS</h1>
-<p>Wave 872713918 | 15+ Merchants Ready</p>
-
-<div class="stats">
-<div class="stat"><h3 id="totalRRR">0</h3><small>Total RRR</small></div>
-<div class="stat"><h3 id="totalCash">D0</h3><small>Collected</small></div>
-<div class="stat"><h3 id="myProfit">D0</h3><small>Your 2%</small></div>
-<div class="stat"><h3 id="activeM">15</h3><small>Merchants</small></div>
-</div>
-
+<div id="loginDiv" class="login">
 <div class="card">
-<h3>➕ Generate RRR For Any Gambia Client</h3>
-<select id="merchant">
-<optgroup label="🏛️ GOVERNMENT & REGULATORY">
-<option value="GRA">GRA - Gambia Revenue Authority</option>
-<option value="MOFEA">MoFEA - Ministry of Finance</option>
-<option value="AGD">AGD - Accountant General's Department</option>
-<option value="GPA">GPA - Gambia Ports Authority</option>
-<option value="GPC">GPC - Gambia Petroleum Commission</option>
-</optgroup>
-<optgroup label="🎓 EDUCATION & HEALTH">
-<option value="UTG">UTG - University of The Gambia</option>
-<option value="GTTI">GTTI - Technical Institute</option>
-<option value="MOBSE">MOBSE - Ministry Basic Education</option>
-<option value="EFSTH">EFSTH - Teaching Hospital</option>
-</optgroup>
-<optgroup label="📡 TELCOS & UTILITIES">
-<option value="GAMTEL">GAMTEL - Gamtel & Gamcel</option>
-<option value="AFRICELL">AFRICELL - Africell Gambia</option>
-<option value="QCELL">QCELL - QCell Gambia</option>
-<option value="NAWEC">NAWEC - Water & Electricity</option>
-</optgroup>
-<optgroup label="🏦 BANKS & PRIVATE">
-<option value="TRUSTBANK">TRUSTBANK - Trust Bank</option>
-<option value="ECOBANK">ECOBANK - Ecobank Gambia</option>
-<option value="MFH">MFH - MFH Group</option>
-<option value="SSHFC">SSHFC - Social Security</option>
-<option value="GPF">GPF - Gambia Police Force</option>
-<option value="CUSTOM">CUSTOM - Any Other Client</option>
-</optgroup>
-</select>
-<input type="text" id="clientName" placeholder="Customer/Student Name">
-<input type="text" id="service" placeholder="Service (Tax, Tuition, Bill)">
-<input type="number" id="amount" placeholder="Amount D">
-<button onclick="generateRRR()">GENERATE RRR</button>
-<p id="rrrOut" style="font-weight:bold;color:#22c55e;margin-top:12px"></p>
+<h2 style="text-align:center">🔐 CEO Admin V2</h2>
+<p style="text-align:center;color:#94a3b8;font-size:13px;margin:5px 0 15px">Gambia Remita Empire</p>
+<input id="passInput" type="password" placeholder="Enter CEO Password">
+<button class="btn-g" style="width:100%" onclick="doLogin()">Login</button>
+<p id="loginErr" style="color:#ef4444;text-align:center;margin-top:8px;font-size:13px"></p>
+<p style="text-align:center;font-size:11px;color:#64748b;margin-top:10px">Default: OT2026CEO</p>
+</div>
 </div>
 
-<div class="card">
-<h3>📊 Empire Ledger - Who Owes Who</h3>
-<table>
-<thead><tr><th>Merchant</th><th>Collected</th><th>Your 2%</th><th>98% To Client</th></tr></thead>
-<tbody id="merchantTable"></tbody>
-</table>
+<div id="adminDiv" style="display:none">
+<div class="top">
+<div><b id="bizName">Gambia Remita</b> <span style="color:#94a3b8;font-size:12px">CEO V2</span><br><small style="color:#94a3b8">Wave: <span id="waveDisp"></span> | Fee: <span id="feeDisp"></span>%</small></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<button class="btn-b" onclick="openSet('business')">⚙️ Settings</button>
+<button class="btn-y" onclick="openSet('withdraw')">💸 Withdraw</button>
+<button class="btn-r" onclick="doLogout()">Logout</button>
+</div>
 </div>
 
-<div class="card">
-<h3>📝 All Transactions</h3>
-<button onclick="exportCSV()" style="width:auto;background:#3b82f6;color:white;padding:8px 15px">Export Excel</button>
-<table><thead><tr><th>RRR</th><th>Merchant</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead><tbody id="txTable"></tbody></table>
+<div class="tabs">
+<div class="tab active" onclick="filterTab('all',this)">All</div>
+<div class="tab" onclick="filterTab('PENDING',this)">Pending</div>
+<div class="tab" onclick="filterTab('PAID',this)">Paid</div>
+<div class="tab" onclick="filterTab('API',this)">API Auto</div>
 </div>
 
-<div class="card">
-<h3>🔗 Client Verification (Give to clients)</h3>
-<p style="background:#0f172a;padding:10px;border-radius:8px">https://gambia-remita.vercel.app/verify.html</p>
+<div class="stat">
+<div class="sbox"><small>Total Volume</small><h3 id="tVol">D0</h3></div>
+<div class="sbox"><small>Your Profit (Fee)</small><h3 id="tProf" style="color:#22c55e">D0</h3></div>
+<div class="sbox"><small>Available to Withdraw</small><h3 id="tAvail" style="color:#f59e0b">D0</h3></div>
+<div class="sbox"><small>Total Transactions</small><h3 id="tCount">0</h3></div>
+</div>
+
+<div style="padding:0 15px 15px;display:flex;gap:8px;flex-wrap:wrap">
+<select id="mSel" style="max-width:180px"></select>
+<input id="cName" placeholder="Customer Name" style="max-width:180px">
+<input id="cServ" placeholder="Service Desc" style="max-width:180px">
+<input id="cAmt" type="number" placeholder="Amount D" style="max-width:130px">
+<button class="btn-g" onclick="genManual()">+ Generate RRR</button>
+<button class="btn-b" onclick="exportCSV()">📥 Export</button>
+<input id="search" placeholder="Search RRR/Name" oninput="render()" style="max-width:180px">
+</div>
+
+<div style="padding:0 15px 80px;overflow:auto">
+<table><thead><tr><th>RRR</th><th>Merchant</th><th>Customer</th><th>Amount</th><th>Fee</th><th>Status</th><th>Source</th><th>Action</th></tr></thead><tbody id="tbody"></tbody></table>
+</div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="setModal" class="modal">
+<div class="modal-box">
+<h3 id="setTitle">Settings</h3>
+<div id="setBusiness">
+<label>Business Name</label><input id="setBizName">
+<label>Wave Number (Pay To)</label><input id="setWave">
+<label>Your Fee %</label><input id="setFee" type="number" min="0" max="20" step="0.5">
+<label>Enabled Merchants (comma)</label><input id="setMerchList" placeholder="GRA,UTG,NAWEC... leave empty = all">
+<button class="btn-g" style="width:100%;margin-top:10px" onclick="saveBusiness()">💾 Save Business</button>
+<hr style="margin:15px 0;border:0;border-top:1px solid #334155">
+<h4>🔐 Change CEO Password</h4>
+<input id="oldPass" type="password" placeholder="Old Password">
+<input id="newPass" type="password" placeholder="New Password">
+<input id="newPass2" type="password" placeholder="Confirm New Password">
+<button class="btn-y" style="width:100%" onclick="changePass()">Change Password</button>
+<hr style="margin:15px 0;border:0;border-top:1px solid #334155">
+<button class="btn-r" style="width:48%" onclick="clearAll()">🗑️ Clear All Tx</button>
+<button class="btn-b" style="width:48%" onclick="closeSet()">Close</button>
+</div>
+
+<div id="setWithdraw" style="display:none">
+<div style="background:#0f172a;padding:12px;border-radius:8px;margin-bottom:10px">
+<p>Available: <b id="wAvail" style="color:#22c55e">D0</b></p>
+<p>Total Withdrawn: <b id="wTotal">D0</b></p>
+</div>
+<label>Withdraw Amount D</label><input id="wAmount" type="number" placeholder="e.g 5000">
+<label>Withdraw To (Wave/Bank)</label><input id="wTo" placeholder="Your Wave 872713918 or Bank">
+<label>Note</label><input id="wNote" placeholder="Profit withdrawal">
+<button class="btn-g" style="width:100%;margin-top:8px" onclick="doWithdraw()">💸 Request Withdrawal</button>
+<h4 style="margin-top:15px">Withdrawal History</h4>
+<div id="wHistory" style="max-height:200px;overflow:auto;margin-top:8px"></div>
+<button class="btn-b" style="width:100%;margin-top:10px" onclick="closeSet()">Close</button>
+</div>
 </div>
 </div>
 
 <script>
-const PASSWORD="OT2026CEO";
-const MERCHANTS={
-GRA:{prefix:"GRA-GM"},MOFEA:{prefix:"MOFEA-GM"},AGD:{prefix:"AGD-GM"},GPA:{prefix:"GPA-GM"},GPC:{prefix:"GPC-GM"},
-UTG:{prefix:"UTG-GM"},GTTI:{prefix:"GTTI-GM"},MOBSE:{prefix:"MOBSE-GM"},EFSTH:{prefix:"EFSTH-GM"},
-GAMTEL:{prefix:"GAMTEL-GM"},AFRICELL:{prefix:"AFRICELL-GM"},QCELL:{prefix:"QCELL-GM"},NAWEC:{prefix:"NAWEC-GM"},
-TRUSTBANK:{prefix:"TRUSTBANK-GM"},ECOBANK:{prefix:"ECOBANK-GM"},MFH:{prefix:"MFH-GM"},SSHFC:{prefix:"SSHFC-GM"},GPF:{prefix:"GPF-GM"},CUSTOM:{prefix:"CUSTOM-GM"}
-};
+let MERCHANTS=["GRA","MOFEA","AGD","GPA","GPC","UTG","GTTI","MOBSE","EFSTH","GAMTEL","AFRICELL","QCELL","NAWEC","TRUSTBANK","ECOBANK","MFH","SSHFC","GPF","CUSTOM"];
 let txs=JSON.parse(localStorage.getItem("ot_txs_full")||"[]");
-function login(){if(document.getElementById("pass").value===PASSWORD){document.getElementById("loginBox").classList.add("hidden");document.getElementById("dash").classList.remove("hidden");render()}else{document.getElementById("err").innerText="Wrong Password!"}}
-function generateRRR(){
-let m=document.getElementById("merchant").value;
-let cName=document.getElementById("clientName").value;
-let serv=document.getElementById("service").value;
-let amt=parseFloat(document.getElementById("amount").value);
-if(!cName||!amt){alert("Enter Name & Amount");return}
-let rrr=`${MERCHANTS[m].prefix}-${new Date().getFullYear()}-${1000+txs.length+1}-${Math.floor(Math.random()*9000+1000)}`;
-let tx={rrr,merchant:m,customer:cName,service:serv,amount:amt,status:"PENDING",date:new Date().toLocaleString()};
-txs.unshift(tx);localStorage.setItem("ot_txs_full",JSON.stringify(txs));
-document.getElementById("rrrOut").innerHTML=`✅ ${rrr}<br>${m} | ${cName} | D${amt}<br>Pay to Wave 872713918`;
-render();document.getElementById("clientName").value="";document.getElementById("amount").value="";document.getElementById("service").value="";
+let withdrawals=JSON.parse(localStorage.getItem("ot_withdrawals")||"[]");
+let curFilter="all";
+
+function getPass(){return localStorage.getItem("ot_admin_pass")||"OT2026CEO";}
+function getWave(){return localStorage.getItem("ot_wave")||"872713918";}
+function getBiz(){return localStorage.getItem("ot_biz_name")||"Gambia Remita";}
+function getFee(){return parseFloat(localStorage.getItem("ot_fee")||"2");}
+function getEnabled(){let s=localStorage.getItem("ot_enabled_merch"); return s? s.split(",").map(x=>x.trim().toUpperCase()).filter(Boolean): MERCHANTS;}
+
+function doLogin(){
+let p=document.getElementById("passInput").value;
+if(p===getPass()){document.getElementById("loginDiv").style.display="none";document.getElementById("adminDiv").style.display="block";init();}
+else document.getElementById("loginErr").innerText="❌ Wrong Password!";
+}
+function doLogout(){location.reload();}
+function init(){
+document.getElementById("bizName").innerText=getBiz();
+document.getElementById("waveDisp").innerText=getWave();
+document.getElementById("feeDisp").innerText=getFee();
+let sel=document.getElementById("mSel"); sel.innerHTML=""; getEnabled().forEach(m=>{let o=document.createElement("option");o.value=m;o.textContent=m;sel.appendChild(o);});
+render();
 }
 function render(){
-document.getElementById("totalRRR").innerText=txs.length;
-let total=txs.reduce((s,t)=>s+t.amount,0);
-document.getElementById("totalCash").innerText="D"+total.toLocaleString();
-document.getElementById("myProfit").innerText="D"+(total*0.02).toLocaleString();
-let tbody=document.getElementById("txTable");tbody.innerHTML="";
-txs.forEach(t=>{tbody.innerHTML+=`<tr><td>${t.rrr}</td><td>${t.merchant}</td><td>${t.customer}</td><td>D${t.amount}</td><td>${t.status}</td></tr>`});
-let mTable=document.getElementById("merchantTable");mTable.innerHTML="";
-Object.keys(MERCHANTS).forEach(k=>{
-let sum=txs.filter(x=>x.merchant===k).reduce((s,x)=>s+x.amount,0);
-if(sum>0){mTable.innerHTML+=`<tr><td>${k}</td><td>D${sum.toLocaleString()}</td><td style="color:#22c55e">D${(sum*0.02).toLocaleString()}</td><td>D${(sum*0.98).toLocaleString()}</td></tr>`}
+let search=(document.getElementById("search").value||"").toLowerCase();
+let enabled=getEnabled();
+let filtered=txs.filter(t=>{
+if(!enabled.includes(t.merchant)) return false;
+if(curFilter!=="all" && t.status!==curFilter && t.source!==curFilter) return false;
+if(search && !(t.rrr.toLowerCase().includes(search)||t.customer.toLowerCase().includes(search)||t.merchant.toLowerCase().includes(search))) return false;
+return true;
+});
+let tbody=document.getElementById("tbody"); tbody.innerHTML="";
+let vol=0,prof=0;
+txs.forEach(t=>{if(t.status==="PAID"){vol+=t.amount; prof+= t.amount*getFee()/100;}});
+let withdrawn=withdrawals.reduce((s,w)=>s+w.amount,0);
+let avail=prof-withdrawn;
+document.getElementById("tVol").innerText="D"+vol.toLocaleString();
+document.getElementById("tProf").innerText="D"+prof.toLocaleString();
+document.getElementById("tAvail").innerText="D"+avail.toLocaleString();
+document.getElementById("tCount").innerText=txs.length;
+
+filtered.forEach((t,i)=>{
+let realIdx=txs.indexOf(t);
+let fee=Math.round(t.amount*getFee()/100);
+let tr=document.createElement("tr");
+tr.innerHTML=`<td><b>${t.rrr}</b><br><small style="color:#94a3b8">${t.date}</small></td><td>${t.merchant}</td><td>${t.customer}<br><small>${t.service}</small></td><td>D${t.amount.toLocaleString()}</td><td>D${fee}</td><td><span class="badge ${t.status}">${t.status}</span></td><td><span class="badge ${t.source==="API"?"API":""}">${t.source||"MANUAL"}</span></td><td>${t.status==="PENDING"?`<button class="btn-g" style="padding:5px 8px" onclick="markPaid(${realIdx})">Paid</button>`:""}<button class="btn-r" style="padding:5px 8px" onclick="delTx(${realIdx})">X</button></td>`;
+tbody.appendChild(tr);
 });
 }
-function exportCSV(){
-let csv="RRR,Merchant,Customer,Service,Amount,Status,Date\n";
-txs.forEach(t=>{csv+=`${t.rrr},${t.merchant},${t.customer},${t.service},${t.amount},${t.status},${t.date}\n`});
-let blob=new Blob([csv],{type:"text/csv"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`GambiaRemita_Full_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+function genManual(){
+let m=document.getElementById("mSel").value;
+let n=document.getElementById("cName").value||"Guest";
+let s=document.getElementById("cServ").value||"Payment";
+let a=parseFloat(document.getElementById("cAmt").value);
+if(!a){alert("Enter amount");return;}
+let prefix=m+"-GM";
+let rrr=`${prefix}-${new Date().getFullYear()}-${1000+txs.length+1}-${Math.floor(Math.random()*9000+1000)}`;
+txs.unshift({rrr,merchant:m,customer:n,service:s,amount:a,status:"PENDING",date:new Date().toLocaleString(),source:"MANUAL"});
+localStorage.setItem("ot_txs_full",JSON.stringify(txs));
+document.getElementById("cName").value="";document.getElementById("cAmt").value="";document.getElementById("cServ").value="";
+render();
+alert("✅ Generated: "+rrr);
+}
+function markPaid(idx){txs[idx].status="PAID";localStorage.setItem("ot_txs_full",JSON.stringify(txs));render();}
+function delTx(idx){if(confirm("Delete?")){txs.splice(idx,1);localStorage.setItem("ot_txs_full",JSON.stringify(txs));render();}}
+function filterTab(f,el){curFilter=f;document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));el.classList.add("active");render();}
+function exportCSV(){let csv="RRR,Merchant,Customer,Service,Amount,Fee,Status,Source,Date\n";txs.forEach(t=>{let fee=Math.round(t.amount*getFee()/100);csv+=`"${t.rrr}","${t.merchant}","${t.customer}","${t.service}",${t.amount},${fee},${t.status},${t.source||"MANUAL"},"${t.date}"\n`;});let blob=new Blob([csv],{type:"text/csv"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="gambia-remita.csv";a.click();}
+
+// SETTINGS
+function openSet(which){
+document.getElementById("setModal").style.display="flex";
+document.getElementById("setBusiness").style.display=which==="business"?"block":"none";
+document.getElementById("setWithdraw").style.display=which==="withdraw"?"block":"none";
+document.getElementById("setTitle").innerText=which==="business"?"⚙️ CEO Settings":"💸 Withdrawal Center";
+document.getElementById("setBizName").value=getBiz();
+document.getElementById("setWave").value=getWave();
+document.getElementById("setFee").value=getFee();
+document.getElementById("setMerchList").value=localStorage.getItem("ot_enabled_merch")||"";
+if(which==="withdraw") refreshWithdraw();
+}
+function closeSet(){document.getElementById("setModal").style.display="none";}
+function saveBusiness(){
+let b=document.getElementById("setBizName").value.trim();let w=document.getElementById("setWave").value.trim();let f=document.getElementById("setFee").value;let ml=document.getElementById("setMerchList").value.trim();
+if(b) localStorage.setItem("ot_biz_name",b);
+if(w) localStorage.setItem("ot_wave",w);
+if(f) localStorage.setItem("ot_fee",f);
+if(ml) localStorage.setItem("ot_enabled_merch",ml.toUpperCase()); else localStorage.removeItem("ot_enabled_merch");
+alert("✅ Saved! Reloading..."); closeSet(); init();
+}
+function changePass(){
+let oldP=document.getElementById("oldPass").value;let newP=document.getElementById("newPass").value;let newP2=document.getElementById("newPass2").value;
+if(oldP!==getPass()){alert("❌ Old password wrong!");return;}
+if(newP.length<6){alert("New password too short (min 6)");return;}
+if(newP!==newP2){alert("Confirm not match");return;}
+localStorage.setItem("ot_admin_pass",newP);alert("✅ Password Changed! New: "+newP);document.getElementById("oldPass").value="";document.getElementById("newPass").value="";document.getElementById("newPass2").value="";
+}
+function clearAll(){if(confirm("Clear ALL transactions? Cannot undo!")){txs=[];localStorage.setItem("ot_txs_full","[]");render();alert("Cleared!");}}
+function refreshWithdraw(){
+let prof=0;txs.forEach(t=>{if(t.status==="PAID") prof+= t.amount*getFee()/100;});
+let withdrawn=withdrawals.reduce((s,w)=>s+w.amount,0);
+let avail=prof-withdrawn;
+document.getElementById("wAvail").innerText="D"+avail.toLocaleString();
+document.getElementById("wTotal").innerText="D"+withdrawn.toLocaleString();
+let h=document.getElementById("wHistory");h.innerHTML="";if(withdrawals.length===0)h.innerHTML="<small style='color:#94a3b8'>No withdrawals yet</small>"; else withdrawals.slice().reverse().forEach(w=>{let d=document.createElement("div");d.style.cssText="background:#0f172a;padding:8px;border-radius:6px;margin:4px 0;border:1px solid #334155;font-size:12px";d.innerHTML=`<b>D${w.amount}</b> → ${w.to}<br><small>${w.date} | ${w.note}</small>`;h.appendChild(d);});
+}
+function doWithdraw(){
+let amt=parseFloat(document.getElementById("wAmount").value);let to=document.getElementById("wTo").value||getWave();let note=document.getElementById("wNote").value||"Profit";
+let prof=0;txs.forEach(t=>{if(t.status==="PAID") prof+= t.amount*getFee()/100;});
+let withdrawn=withdrawals.reduce((s,w)=>s+w.amount,0);
+let avail=prof-withdrawn;
+if(!amt||amt<=0){alert("Enter amount");return;}
+if(amt>avail){alert("❌ Not enough! Available D"+avail);return;}
+withdrawals.push({amount:amt,to,note,date:new Date().toLocaleString()});
+localStorage.setItem("ot_withdrawals",JSON.stringify(withdrawals));
+document.getElementById("wAmount").value="";document.getElementById("wTo").value="";document.getElementById("wNote").value="";
+refreshWithdraw();render();
+alert("✅ Withdrawal D"+amt+" to "+to+" recorded! In real system, Wave would send money.");
 }
 </script>
 </body>
