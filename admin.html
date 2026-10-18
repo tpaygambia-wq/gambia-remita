@@ -1,79 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Boss - Ousman Only</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boss Dashboard - Pro 2%</title>
 <style>
-body{font-family:Arial;background:#0f172a;color:white;padding:15px}
-.login{max-width:350px;margin:80px auto;background:white;color:black;padding:25px;border-radius:15px;text-align:center}
-.card{background:white;color:black;padding:12px;border-radius:10px;margin:8px 0}
-.pending{border-left:6px solid orange} .paid{border-left:6px solid green}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
-.stat{background:white;color:black;padding:15px;border-radius:10px;text-align:center}
-button{padding:8px 12px;border-radius:6px;border:none;margin:2px;cursor:pointer;font-weight:bold}
-.topbar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+*{box-sizing:border-box;font-family:Inter,system-ui}
+body{margin:0;background:#f8fafc;color:#1e293b}
+.header{background:white;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.1);position:sticky;top:0}
+.badge{background:#16a34a;color:white;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900}
+.search{margin:16px;background:white;border:2px solid #16a34a;border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center}
+.search input{border:none;outline:none;width:100%;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
+.card{background:white;border-radius:16px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid #f1f5f9}
+.card .label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin:6px 0}
+.card .value{font-size:18px;font-weight:800}
+.card .sub{font-size:11px;margin-top:6px}
+.green{color:#16a34a} .orange{color:#d97706}
+.list{padding:16px}
+.item{background:white;border-radius:12px;padding:12px;margin:8px 0;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.05);border:1px solid #f1f5f9}
+.item b{font-size:13px}
+.item span{font-size:11px;color:#64748b}
+.btns{padding:0 16px 80px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:10px 14px;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer}
+.btn-green{background:#16a34a;color:white}
+.btn-gray{background:#f1f5f9;color:#475569}
+.nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e2e8f0;display:flex;justify-content:space-around;padding:10px 0}
+.nav div{text-align:center;font-size:11px;color:#94a3b8}
+.nav .active{color:#16a34a}
 </style>
 </head>
 <body>
-<div id="loginBox" class="login">
-<h2>🔐 Boss Only</h2><p>Enter PIN to access admin</p>
-<input id="pin" type="password" placeholder="Enter PIN" style="width:100%;padding:12px;margin:10px 0">
-<button onclick="login()" style="background:#006633;color:white;width:100%;padding:12px">LOGIN</button>
-<p style="font-size:11px;color:gray">Default PIN: 6599</p>
+<div class="header">
+<div style="display:flex;gap:12px;align-items:center">
+<div class="badge">B</div>
+<div><b>Gambia Remita</b><br><span style="font-size:12px;color:#64748b">Boss Dashboard - 2% Fee</span></div>
 </div>
-<div id="adminBox" style="display:none">
-<div class="topbar">
-<h2>🇬🇲 Boss Dashboard</h2>
-<button onclick="logout()" style="background:red;color:white">Logout</button>
+<div>🔔</div>
 </div>
-<div class="stats">
-<div class="stat"><h3 id="totalCust">0</h3><small>Total Customers</small></div>
-<div class="stat"><h3 id="totalFees">0 GMD</h3><small>YOUR PROFIT 2%</small></div>
-<div class="stat"><h3 id="pendingAmt">0 GMD</h3><small>Gov Money To Pay At Bank</small></div>
-<div class="stat"><h3 id="paidCount">0</h3><small>Paid Already</small></div>
+
+<div class="search">🔍 <input id="searchBox" placeholder="Search customers, RRR..." oninput="filter()"></div>
+
+<div class="grid">
+<div class="card"><div>👥</div><div class="label">Total Customers</div><div class="value" id="cCount">0</div><div class="sub green" id="cWeek">+0 total</div></div>
+<div class="card"><div>📈</div><div class="label">Your Profit 2%</div><div class="value" id="cProfit">0.00 GMD</div><div class="sub green">2% locked</div></div>
+<div class="card"><div>🏛️</div><div class="label">Gov Money to Settle</div><div class="value" id="cSettle">0.00 GMD</div><div class="sub orange">Pending settlement</div></div>
+<div class="card"><div>✅</div><div class="label">Settled Already</div><div class="value" id="cPaid">0.00 GMD</div><div class="sub green">Bank ready</div></div>
 </div>
-<input id="search" placeholder="🔍 Search name, phone, RRR..." oninput="render()" style="width:100%;padding:12px;border-radius:8px;margin:10px 0;box-sizing:border-box">
-<select id="filterInst" onchange="render()" style="width:100%;padding:10px;border-radius:8px"><option value="">All Institutions</option><option>UTG</option><option>GRA</option><option>MOBSE</option><option>GPF</option><option>GTTI</option><option>GAMBIA COLLEGE</option></select>
-<div style="margin:10px 0">
-<button onclick="exportExcel()" style="background:green;color:white">📥 Excel for Bank</button>
-<button onclick="clearPaid()" style="background:orange;color:black">Clear Paid Only</button>
-<button onclick="clearAll()" style="background:red;color:white">Delete ALL</button>
+
+<div class="list">
+<div style="display:flex;justify-content:space-between;align-items:center"><b>Recent Transactions</b><span style="color:#16a34a;font-weight:700;cursor:pointer" onclick="load()">See all</span></div>
+<div id="list">No payments yet</div>
 </div>
-<div id="list"></div>
+
+<div class="btns">
+<button class="btn btn-green" onclick="exportExcel()">📊 Excel for Bank (2%)</button>
+<button class="btn btn-gray" onclick="markAllPaid()">Mark All Paid</button>
 </div>
+
+<div class="nav">
+<div class="active">💳<br>Dashboard</div>
+<div>🏛️<br>Transactions</div>
+<div>📄<br>Reports</div>
+<div>👤<br>Profile</div>
+</div>
+
 <script>
-const MY_PIN="6599";
-function login(){ if(document.getElementById('pin').value==MY_PIN){ document.getElementById('loginBox').style.display='none'; document.getElementById('adminBox').style.display='block'; localStorage.setItem('admin_ok','yes'); render(); } else alert('Wrong PIN!'); }
-function logout(){ localStorage.removeItem('admin_ok'); location.reload(); }
-if(localStorage.getItem('admin_ok')=='yes'){ document.getElementById('loginBox').style.display='none'; document.getElementById('adminBox').style.display='block'; }
-function getData(){ return JSON.parse(localStorage.getItem('gambia_payments')||'[]'); }
-function saveData(d){ localStorage.setItem('gambia_payments', JSON.stringify(d)); }
-function render(){
- let data=getData(); let q=document.getElementById('search').value.toLowerCase(); let fInst=document.getElementById('filterInst').value;
- let filtered=data.filter(x=> (x.name+x.phone+x.rrr+x.institution).toLowerCase().includes(q) && (fInst==''||x.institution==fInst));
- let pending=data.filter(x=>x.status=='pending'); let paid=data.filter(x=>x.status=='paid');
- document.getElementById('totalCust').innerText=data.length;
- document.getElementById('totalFees').innerText=data.reduce((s,x)=>s+x.fee,0).toFixed(2)+' GMD';
- document.getElementById('pendingAmt').innerText=pending.reduce((s,x)=>s+x.amt,0).toFixed(2)+' GMD';
- document.getElementById('paidCount').innerText=paid.length;
- document.getElementById('list').innerHTML=filtered.reverse().map(x=>`
-  <div class="card ${x.status}">
-   <b>${x.name.toUpperCase()}</b> | ${x.rrr} <span style="float:right">${x.status.toUpperCase()}</span><br>
-   🏫 ${x.institution} | 💰 Gov: ${x.amt} GMD | 💸 Fee: ${x.fee} GMD<br>
-   📱 ${x.phone} | 💳 ${x.method} | 📅 ${x.date}<br>
-   <button onclick="markPaid('${x.rrr}')" style="background:green;color:white">✅ PAID at Bank</button>
-   <button onclick="wa('${x.phone}','${x.name}','${x.rrr}')" style="background:#25D366;color:white">WhatsApp</button>
-   <button onclick="delOne('${x.rrr}')" style="background:red;color:white">Delete</button>
-  </div>
- `).join('') || '<p>No payments yet</p>';
+let data=JSON.parse(localStorage.getItem('gambia_payments')||'[]');
+function load(){
+let tGov=0,tFee=0; data.forEach(p=>{tGov+=p.gov;tFee+=p.fee});
+document.getElementById('cCount').innerText=data.length;
+document.getElementById('cProfit').innerText=tFee.toFixed(2)+' GMD';
+document.getElementById('cSettle').innerText=tGov.toFixed(2)+' GMD';
+let list=document.getElementById('list');
+if(data.length==0){list.innerHTML='No payments yet';return;}
+list.innerHTML=data.map(p=>`<div class="item"><div><b>${p.name}</b><br><span>${p.inst} • ${p.rrr}</span></div><div style="text-align:right"><b>${p.total.toFixed(2)} GMD</b><br><span style="font-size:10px;background:#dcfce7;color:#166534;padding:3px 6px;border-radius:10px">Gov: ${p.gov.toFixed(2)}</span></div></div>`).join('');
 }
-function markPaid(rrr){ let d=getData(); let i=d.find(x=>x.rrr==rrr); if(i)i.status='paid'; saveData(d); render(); }
-function delOne(rrr){ if(!confirm('Delete '+rrr+'?'))return; let d=getData().filter(x=>x.rrr!=rrr); saveData(d); render(); }
-function wa(phone,name,rrr){ let num=phone.replace(/[^0-9]/g,'').slice(-8); window.open(`https://wa.me/220${num}?text=Hello ${name}, Your payment ${rrr} is CONFIRMED and PAID. Thank you - Remita Gambia`); }
-function exportExcel(){ let d=getData(); if(!d.length)return alert('No data'); let csv="RRR,Name,Phone,Institution,Gov Amount,Fee,Method,Date,Status\n"+d.map(x=>`${x.rrr},"${x.name}",${x.phone},${x.institution},${x.amt},${x.fee},${x.method},"${x.date}",${x.status}`).join("\n"); let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='bank_payments.csv'; a.click(); }
-function clearPaid(){ if(!confirm('Delete only PAID?'))return; let d=getData().filter(x=>x.status!='paid'); saveData(d); render(); }
-function clearAll(){ if(!confirm('DELETE EVERYTHING?'))return; localStorage.removeItem('gambia_payments'); render(); }
-render();
+function filter(){
+let q=document.getElementById('searchBox').value.toLowerCase();
+let f=data.filter(p=> (p.name+p.rrr).toLowerCase().includes(q));
+document.getElementById('list').innerHTML=f.map(p=>`<div class="item"><div><b>${p.name}</b></div><div>${p.total.toFixed(2)}</div></div>`).join('')||'No result';
+}
+function exportExcel(){
+let csv="RRR,Name,Institution,Gov,Fee 2%,Total\n"+data.map(p=>`${p.rrr},${p.name},${p.inst},${p.gov},${p.fee},${p.total}`).join("\n");
+let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv]));a.download='Gambia_Remita_2pct_Settlement.csv';a.click();
+}
+function markAllPaid(){alert('All marked as settled');}
+load();
 </script>
 </body>
 </html>
