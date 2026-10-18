@@ -1,56 +1,145 @@
-<script>if(prompt('CEO PASSWORD:')!=='OT2026CEO'){alert('ACCESS DENIED!');location.href='/';}</script>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Admin CEO - Gambia Remita</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gambia Remita - Full Merchant Empire</title>
 <style>
-*{font-family:Inter,sans-serif;box-sizing:border-box;margin:0}body{background:#f5f7f9}
-.hdr{background:black;color:white;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #00d26a;position:sticky;top:0;z-index:10}
-.ot{width:50px;height:50px;background:linear-gradient(135deg,#a8ff78,#00d26a 50%,#ffeb3b);border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:black;border:2px solid white}
-.badge{padding:3px 8px;border-radius:12px;font-size:10px;font-weight:800;display:inline-block;margin-right:3px}.y{background:#ffeb3b;color:black}.g{background:#00d26a;color:black}
-.net{background:#00a652;border:2px solid #00ff88;border-radius:12px;padding:8px 12px;text-align:center;min-width:100px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}.sbox{background:white;border-radius:12px;padding:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.06);border:1px solid #e5e7eb}.sbox b{font-size:16px;display:block}
-.tabrow{display:flex;gap:6px;padding:10px;position:sticky;top:66px;background:#f5f7f9;z-index:9}.tab{flex:1;padding:10px;border-radius:10px;border:1px solid #ddd;background:white;font-weight:700;text-align:center;cursor:pointer;font-size:13px}.tab.active{background:black;color:white}
-.card{background:white;border-radius:14px;padding:14px;margin:10px;border-left:5px solid #00d26a;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
-.login{max-width:380px;margin:60px auto;background:white;border-radius:18px;padding:24px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.1)}
-.input{width:100%;padding:14px;border:2px solid #111;border-radius:12px;margin-top:14px}.btn-ceo{width:100%;padding:14px;background:black;color:white;border:none;border-radius:12px;font-weight:800;margin-top:12px;cursor:pointer}
-.btn{border:none;padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer;margin:3px;font-size:12px}
-#bankModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;padding:12px;overflow:auto}.slip-paper{max-width:420px;margin:20px auto;background:white;border:2px solid black}
-@media print{#bankModal{background:white} .no-print{display:none} .slip-paper{border:none;margin:0}}
+body{font-family:Arial;background:#0f172a;color:white;margin:0;padding:20px}
+.login{max-width:400px;margin:100px auto;background:#1e293b;padding:30px;border-radius:15px;text-align:center}
+.card{background:#1e293b;padding:20px;border-radius:12px;margin-bottom:20px;border:1px solid #334155}
+input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;font-size:15px}
+button{background:#22c55e;color:black;font-weight:bold;cursor:pointer}
+button:hover{background:#16a34a}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:10px;border-bottom:1px solid #334155;text-align:left;font-size:12px}
+.badge{padding:4px 8px;border-radius:20px;font-size:11px;font-weight:bold}
+.paid{background:#22c55e;color:black}
+.pending{background:#f59e0b;color:black}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.stat{background:#1e293b;padding:12px;border-radius:10px;text-align:center;border:1px solid #334155}
+.hidden{display:none}
+.cat{color:#f59e0b;font-weight:bold;margin-top:10px}
 </style>
 </head>
 <body>
-<div id="loginBox"><div class="login"><div style="width:64px;height:64px;margin:0 auto;background:linear-gradient(135deg,#a8ff78,#ffeb3b);border-radius:18px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:26px;border:3px solid black">OT</div><h2 style="margin-top:12px">👑 Ousman Tunkara</h2><span class="badge" style="background:#222;color:#00ff88;border:1px solid #00d26a">CEO • FOUNDER • FUNDER</span><p style="font-size:12px;color:#333;margin-top:8px">Manual Bank Deposit V10</p><input id="pass" class="input" type="password" placeholder="Password"><button class="btn-ceo" onclick="login()">Login as CEO</button></div></div>
 
-<div id="dash" style="display:none">
-<div class="hdr"><div style="display:flex;gap:10px;align-items:center"><div class="ot">OT</div><div><div style="font-weight:800">Ousman Tunkara</div><div><span class="badge y">CEO &</span><span class="badge y">FOUNDER</span><span class="badge g">FUNDER</span></div><div style="font-size:11px;color:#00ff88;margin-top:2px">Wave 872713918 • Fee 2% LOCKED</div></div></div><div class="net"><div style="font-size:9px">NET WORTH<br>FEE BALANCE</div><div style="font-size:16px;font-weight:800" id="netWorth">0<br>GMD</div></div></div>
-
-<div class="stats"><div class="sbox" style="background:#fefce8"><b id="sPending">0</b><small>Pending</small></div><div class="sbox" style="background:#f0fdf4"><b id="sApproved">0</b><small>Approved</small></div><div class="sbox" style="background:#eff6ff"><b id="sTotal">0</b><small>Total</small></div><div class="sbox" style="background:#f0fdf4;border:2px solid #00d26a"><b id="sNet">0</b><small>Net Worth</small></div></div>
-
-<div class="tabrow"><div class="tab active" id="tOrders" onclick="showTab('orders')">Orders</div><div class="tab" id="tDaily" onclick="showTab('daily')">Daily</div><div class="tab" id="tSlip" onclick="showTab('slip')">Bank Slip</div><div class="tab" id="tSet" onclick="showTab('settings')">⚙️ Settings</div></div>
-
-<div id="ordersView"><div style="display:flex;justify-content:space-between;padding:12px"><b>All Orders</b><button class="btn" style="background:white;border:1px solid #ccc" onclick="load()">Refresh</button></div><div id="list"></div></div>
-
-<div id="dailyView" style="display:none;padding:12px"><div class="card"><h3>📊 Daily Report - Today</h3><p style="margin-top:10px">Total Collected: <b id="dTotal">0 GMD</b></p><p>Fee Earned: <b id="dFee">0 GMD</b></p><p>Approved Today: <b id="dCount">0</b></p><p style="margin-top:8px;font-size:12px;color:#666">Date: <span id="dDate"></span></p></div></div>
-
-<div id="slipView" style="display:none;padding:12px"><div class="card"><h3>🖨️ Bank Slips</h3><p style="font-size:13px;margin-top:6px">Click any order's Bank Slip button to print. Or enter Order ID:</p><input id="slipInput" class="input" placeholder="ORD-391431-25U"><button class="btn" style="background:black;color:white;width:100%;margin-top:8px;padding:12px" onclick="openSlip(document.getElementById('slipInput').value)">Generate Bank Slip</button></div></div>
-
-<div id="settingsView" style="display:none;padding:12px">
-<div class="card"><h3>⚙️ CEO Settings</h3><label style="font-size:12px;font-weight:700;margin-top:12px;display:block">Wave Number</label><input id="setWave" class="input" value="872713918"><label style="font-size:12px;font-weight:700;margin-top:12px;display:block">Fee % (locked at 2)</label><input class="input" value="2% LOCKED" disabled><label style="font-size:12px;font-weight:700;margin-top:12px;display:block">Admin Password</label><input id="setPass" class="input" value="ceo123"><p style="font-size:11px;color:#888;margin-top:6px">Change password in code: const ADMIN_PASS="ceo123"</p><button class="btn" style="background:#00a652;color:white;width:100%;margin-top:12px;padding:12px" onclick="alert('To change password, edit admin.html line: const ADMIN_PASS=... then redeploy to Vercel')">Save Settings</button><button class="btn" style="background:#fee2e2;color:#991b1b;width:100%;margin-top:8px;padding:12px" onclick="if(confirm('Clear all orders?')){localStorage.removeItem('gambia_orders');load();}">🗑️ Clear All Orders</button><p style="margin-top:14px;font-size:13px">Site: <b>gambia-remita.vercel.app</b><br>CEO: Ousman Tunkara<br>Net Worth: <b id="setNet">400 GMD</b></p></div>
-</div>
+<div id="loginBox" class="login">
+<h2>🔒 OT GROUP - FULL EMPIRE</h2>
+<input type="password" id="pass" placeholder="CEO Password">
+<button onclick="login()">UNLOCK GAMBIA</button>
+<p id="err" style="color:#ef4444"></p>
 </div>
 
-<!-- BANK SLIP MODAL - WORKS WITHOUT bank-slip.html -->
-<div id="bankModal"><div class="slip-paper" id="slipContent"><div style="background:black;color:white;padding:14px;text-align:center"><h2 style="margin:0">🇬🇲 GAMBIA REMITA</h2><p style="font-size:11px;margin:4px 0 0">OFFICIAL BANK DEPOSIT SLIP • GRA APPROVED</p><p style="font-size:11px;margin:2px 0 0">Wave 872713918 • Mariam Tunkara</p></div><div style="padding:14px;font-family:Courier New,monospace;font-size:13px"><div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ccc;padding:8px 0"><span>Order ID:</span><b id="bOid">ORD-391431-25U</b></div><div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ccc;padding:8px 0"><span>Date:</span><b id="bDate">18 Oct 2026</b></div><div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ccc;padding:8px 0"><span>Payer:</span><b id="bName">Ousman Tunkara</b></div><div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ccc;padding:8px 0"><span>Phone:</span><b id="bPhone">3501234</b></div><div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ccc;padding:8px 0"><span>Service:</span><b id="bService">GRA Tax</b></div><div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ccc;padding:8px 0"><span>Total Paid:</span><b id="bTotal" style="font-size:16px">D5100.00</b></div></div><div style="background:#f0fdf4;border:2px solid #00d26a;padding:12px;text-align:center;margin:10px;border-radius:8px"><div style="font-size:11px;color:#666">REMITA RETRIEVAL REFERENCE (RRR)</div><div style="font-size:24px;font-weight:800;color:#0a2e65;letter-spacing:2px" id="bRrr">GRR-1153958364</div><div style="font-size:10px;margin-top:4px;background:black;color:#00ff88;padding:4px 8px;border-radius:12px;display:inline-block">✓ APPROVED • BANKED • VERIFIED</div></div><div style="text-align:center;padding:12px;font-size:10px;background:#f9fafb">CEO: Ousman Tunkara OT • Powered by Gambia Remita v10</div></div>
-<div class="no-print" style="max-width:420px;margin:10px auto;display:flex;gap:8px"><button class="btn" style="flex:1;background:black;color:white;padding:14px" onclick="window.print()">🖨️ PRINT NOW</button><button class="btn" style="flex:1;background:white;border:1px solid #ccc;padding:14px" onclick="document.getElementById('bankModal').style.display='none'">Close</button></div></div>
+<div id="dash" class="hidden">
+<h1>👑 Gambia Remita - ALL CLIENTS</h1>
+<p>Wave 872713918 | 15+ Merchants Ready</p>
+
+<div class="stats">
+<div class="stat"><h3 id="totalRRR">0</h3><small>Total RRR</small></div>
+<div class="stat"><h3 id="totalCash">D0</h3><small>Collected</small></div>
+<div class="stat"><h3 id="myProfit">D0</h3><small>Your 2%</small></div>
+<div class="stat"><h3 id="activeM">15</h3><small>Merchants</small></div>
+</div>
+
+<div class="card">
+<h3>➕ Generate RRR For Any Gambia Client</h3>
+<select id="merchant">
+<optgroup label="🏛️ GOVERNMENT & REGULATORY">
+<option value="GRA">GRA - Gambia Revenue Authority</option>
+<option value="MOFEA">MoFEA - Ministry of Finance</option>
+<option value="AGD">AGD - Accountant General's Department</option>
+<option value="GPA">GPA - Gambia Ports Authority</option>
+<option value="GPC">GPC - Gambia Petroleum Commission</option>
+</optgroup>
+<optgroup label="🎓 EDUCATION & HEALTH">
+<option value="UTG">UTG - University of The Gambia</option>
+<option value="GTTI">GTTI - Technical Institute</option>
+<option value="MOBSE">MOBSE - Ministry Basic Education</option>
+<option value="EFSTH">EFSTH - Teaching Hospital</option>
+</optgroup>
+<optgroup label="📡 TELCOS & UTILITIES">
+<option value="GAMTEL">GAMTEL - Gamtel & Gamcel</option>
+<option value="AFRICELL">AFRICELL - Africell Gambia</option>
+<option value="QCELL">QCELL - QCell Gambia</option>
+<option value="NAWEC">NAWEC - Water & Electricity</option>
+</optgroup>
+<optgroup label="🏦 BANKS & PRIVATE">
+<option value="TRUSTBANK">TRUSTBANK - Trust Bank</option>
+<option value="ECOBANK">ECOBANK - Ecobank Gambia</option>
+<option value="MFH">MFH - MFH Group</option>
+<option value="SSHFC">SSHFC - Social Security</option>
+<option value="GPF">GPF - Gambia Police Force</option>
+<option value="CUSTOM">CUSTOM - Any Other Client</option>
+</optgroup>
+</select>
+<input type="text" id="clientName" placeholder="Customer/Student Name">
+<input type="text" id="service" placeholder="Service (Tax, Tuition, Bill)">
+<input type="number" id="amount" placeholder="Amount D">
+<button onclick="generateRRR()">GENERATE RRR</button>
+<p id="rrrOut" style="font-weight:bold;color:#22c55e;margin-top:12px"></p>
+</div>
+
+<div class="card">
+<h3>📊 Empire Ledger - Who Owes Who</h3>
+<table>
+<thead><tr><th>Merchant</th><th>Collected</th><th>Your 2%</th><th>98% To Client</th></tr></thead>
+<tbody id="merchantTable"></tbody>
+</table>
+</div>
+
+<div class="card">
+<h3>📝 All Transactions</h3>
+<button onclick="exportCSV()" style="width:auto;background:#3b82f6;color:white;padding:8px 15px">Export Excel</button>
+<table><thead><tr><th>RRR</th><th>Merchant</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead><tbody id="txTable"></tbody></table>
+</div>
+
+<div class="card">
+<h3>🔗 Client Verification (Give to clients)</h3>
+<p style="background:#0f172a;padding:10px;border-radius:8px">https://gambia-remita.vercel.app/verify.html</p>
+</div>
+</div>
 
 <script>
-const ADMIN_PASS="ceo123";
-function login(){if(document.getElementById('pass').value===ADMIN_PASS){document.getElementById('loginBox').style.display='none';document.getElementById('dash').style.display='block';load();}else alert('Wrong!');}
-function showTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById('ordersView').style.display='none';document.getElementById('dailyView').style.display='none';document.getElementById('slipView').style.display='none';document.getElementById('settingsView').style.display='none';if(t==='orders'){document.getElementById('tOrders').classList.add('active');document.getElementById('ordersView').style.display='block';}if(t==='daily'){document.getElementById('tDaily').classList.add('active');document.getElementById('dailyView').style.display='block';}if(t==='slip'){document.getElementById('tSlip').classList.add('active');document.getElementById('slipView').style.display='block';}if(t==='settings'){document.getElementById('tSet').classList.add('active');document.getElementById('settingsView').style.display='block';}}
-function load(){let orders=JSON.parse(localStorage.getItem('gambia_orders')||'[]');let pending=orders.filter(o=>o.status!=='PAID').length;let approved=orders.filter(o=>o.status==='PAID').length;let total=orders.reduce((s,o)=>s+o.total,0);let net=orders.filter(o=>o.status==='PAID').reduce((s,o)=>s+o.fee,0);document.getElementById('sPending').innerText=pending;document.getElementById('sApproved').innerText=approved;document.getElementById('sTotal').innerText=total.toFixed(2);document.getElementById('sNet').innerText=net.toFixed(2);document.getElementById('netWorth').innerHTML=net.toFixed(2)+'<br>GMD';document.getElementById('dTotal').innerText=total.toFixed(2)+' GMD';document.getElementById('dFee').innerText=net.toFixed(2)+' GMD';document.getElementById('dCount').innerText=approved;document.getElementById('dDate').innerText=new Date().toLocaleString();document.getElementById('setNet').innerText=net.toFixed(2)+' GMD';let html='';orders.slice().reverse().forEach(o=>{html+=`<div class="card"><div style="display:flex;justify-content:space-between"><b>${o.orderId}</b><span style="background:${o.status==='PAID'?'#dcfce7':'#fef9c3'};color:${o.status==='PAID'?'#166534':'#854d0e'};padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700">${o.status==='PAID'?'APPROVED • BANKED':'PENDING'}</span></div><div style="font-size:13px;margin-top:8px;line-height:1.6">Name: <b>${o.name}</b> • ${o.phone}<br>Final: <b>${o.service}</b><br>Gov ${o.amount.toFixed(2)} + Fee <span style="color:green;font-weight:700">${o.fee.toFixed(2)}</span> = ${o.total.toFixed(2)} GMD<br>RRR: <b style="color:#0a2e65">${o.rrr||'Not issued'}</b><br><small style="color:#666">${new Date(o.date).toLocaleString()}</small></div><div style="margin-top:12px">${o.status!=='PAID'?`<button class="btn" style="background:#00d26a;color:white" onclick="approve('${o.orderId}')">Approve</button>`:`<button class="btn" style="background:#e5e7eb">Approved</button>`}<button class="btn" style="background:#0a2e65;color:white" onclick="openSlip('${o.orderId}')">🖨️ Bank Slip</button><button class="btn" style="background:#fee2e2;color:#991b1b" onclick="del('${o.orderId}')">Delete</button><button class="btn" style="background:white;border:1px solid #ddd" onclick="window.open('https://wa.me/220${o.phone}?text=Your RRR: ${o.rrr||o.orderId}','_blank')">WA</button></div></div>`;});document.getElementById('list').innerHTML=html||'<p style="padding:20px;text-align:center;color:#888">No orders yet</p>';}
-function approve(id){if(!confirm('Confirm Wave received for '+id+'?'))return;let orders=JSON.parse(localStorage.getItem('gambia_orders')||'[]');let idx=orders.findIndex(o=>o.orderId===id);if(idx===-1)return;let rrr='GRR-'+Math.floor(1000000000+Math.random()*9000000000);orders[idx].status='PAID';orders[idx].rrr=rrr;orders[idx].date=new Date().toISOString();localStorage.setItem('gambia_orders',JSON.stringify(orders));load();}
-function del(id){if(!confirm('Delete '+id+'?'))return;let orders=JSON.parse(localStorage.getItem('gambia_orders')||'[]');orders=orders.filter(o=>o.orderId!==id);localStorage.setItem('gambia_orders',JSON.stringify(orders));load();}
-function openSlip(id){let orders=JSON.parse(localStorage.getItem('gambia_orders')||'[]');let o=orders.find(x=>x.orderId===id.trim().toUpperCase());if(!o){alert('Order not found: '+id);return;}document.getElementById('bOid').innerText=o.orderId;document.getElementById('bDate').innerText=new Date(o.date).toLocaleString();document.getElementById('bName').innerText=o.name;document.getElementById('bPhone').innerText=o.phone;document.getElementById('bService').innerText=o.service;document.getElementById('bTotal').innerText='D'+o.total.toFixed(2);document.getElementById('bRrr').innerText=o.rrr||'PENDING';document.getElementById('bankModal').style.display='block';}
-</script></body></html>
+const PASSWORD="OT2026CEO";
+const MERCHANTS={
+GRA:{prefix:"GRA-GM"},MOFEA:{prefix:"MOFEA-GM"},AGD:{prefix:"AGD-GM"},GPA:{prefix:"GPA-GM"},GPC:{prefix:"GPC-GM"},
+UTG:{prefix:"UTG-GM"},GTTI:{prefix:"GTTI-GM"},MOBSE:{prefix:"MOBSE-GM"},EFSTH:{prefix:"EFSTH-GM"},
+GAMTEL:{prefix:"GAMTEL-GM"},AFRICELL:{prefix:"AFRICELL-GM"},QCELL:{prefix:"QCELL-GM"},NAWEC:{prefix:"NAWEC-GM"},
+TRUSTBANK:{prefix:"TRUSTBANK-GM"},ECOBANK:{prefix:"ECOBANK-GM"},MFH:{prefix:"MFH-GM"},SSHFC:{prefix:"SSHFC-GM"},GPF:{prefix:"GPF-GM"},CUSTOM:{prefix:"CUSTOM-GM"}
+};
+let txs=JSON.parse(localStorage.getItem("ot_txs_full")||"[]");
+function login(){if(document.getElementById("pass").value===PASSWORD){document.getElementById("loginBox").classList.add("hidden");document.getElementById("dash").classList.remove("hidden");render()}else{document.getElementById("err").innerText="Wrong Password!"}}
+function generateRRR(){
+let m=document.getElementById("merchant").value;
+let cName=document.getElementById("clientName").value;
+let serv=document.getElementById("service").value;
+let amt=parseFloat(document.getElementById("amount").value);
+if(!cName||!amt){alert("Enter Name & Amount");return}
+let rrr=`${MERCHANTS[m].prefix}-${new Date().getFullYear()}-${1000+txs.length+1}-${Math.floor(Math.random()*9000+1000)}`;
+let tx={rrr,merchant:m,customer:cName,service:serv,amount:amt,status:"PENDING",date:new Date().toLocaleString()};
+txs.unshift(tx);localStorage.setItem("ot_txs_full",JSON.stringify(txs));
+document.getElementById("rrrOut").innerHTML=`✅ ${rrr}<br>${m} | ${cName} | D${amt}<br>Pay to Wave 872713918`;
+render();document.getElementById("clientName").value="";document.getElementById("amount").value="";document.getElementById("service").value="";
+}
+function render(){
+document.getElementById("totalRRR").innerText=txs.length;
+let total=txs.reduce((s,t)=>s+t.amount,0);
+document.getElementById("totalCash").innerText="D"+total.toLocaleString();
+document.getElementById("myProfit").innerText="D"+(total*0.02).toLocaleString();
+let tbody=document.getElementById("txTable");tbody.innerHTML="";
+txs.forEach(t=>{tbody.innerHTML+=`<tr><td>${t.rrr}</td><td>${t.merchant}</td><td>${t.customer}</td><td>D${t.amount}</td><td>${t.status}</td></tr>`});
+let mTable=document.getElementById("merchantTable");mTable.innerHTML="";
+Object.keys(MERCHANTS).forEach(k=>{
+let sum=txs.filter(x=>x.merchant===k).reduce((s,x)=>s+x.amount,0);
+if(sum>0){mTable.innerHTML+=`<tr><td>${k}</td><td>D${sum.toLocaleString()}</td><td style="color:#22c55e">D${(sum*0.02).toLocaleString()}</td><td>D${(sum*0.98).toLocaleString()}</td></tr>`}
+});
+}
+function exportCSV(){
+let csv="RRR,Merchant,Customer,Service,Amount,Status,Date\n";
+txs.forEach(t=>{csv+=`${t.rrr},${t.merchant},${t.customer},${t.service},${t.amount},${t.status},${t.date}\n`});
+let blob=new Blob([csv],{type:"text/csv"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`GambiaRemita_Full_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+}
+</script>
+</body>
+</html>
