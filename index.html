@@ -1,62 +1,88 @@
-Remita 2% - Pay Government</title>
+<!DOCTYPE html>
+<html>
+<head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<title>Gambia Remita 2% Auto Fee</title>
 <style>
-body{font-family:Arial;padding:15px;background:#f0f5f0;}
-.card{background:white;padding:20px;border-radius:15px;max-width:480px;margin:auto;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-input,select{width:100%;padding:12px;margin:6px 0 12px 0;border-radius:8px;border:1px solid #ccc;box-sizing:border-box;}
-button{background:#006633;color:white;padding:14px;border:none;border-radius:10px;width:100%;font-size:16px;font-weight:bold;margin-top:8px;}
-.fee-box{background:#fff3cd;padding:12px;border-radius:10px;border:2px dashed #856404;margin:12px 0;text-align:center;font-weight:bold;}
-.pay-methods{background:#fff;padding:12px;border-radius:10px;border:1px solid #ddd;margin:12px 0;}
-.pay-option{padding:12px;border:1px solid #ccc;border-radius:8px;margin:6px 0;cursor:pointer;background:#fafafa;}
-.pay-option.active{border-color:#006633;background:#e8f5e9;font-weight:bold;border-width:2px;}
-.before-box{background:#d1ecf1;padding:14px;border-radius:10px;border:2px solid #0c5460;margin:12px 0;text-align:center;}
-.receipt{background:#d4edda;padding:15px;border-radius:10px;margin-top:15px;display:none;border:2px solid #006633;}
-.wave-num{font-size:24px;font-weight:bold;color:#006633;letter-spacing:1px;}
+body{font-family:Arial;background:#f1f5f9;padding:12px}
+.box{max-width:420px;margin:auto;background:white;padding:18px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+input,select{width:100%;padding:13px;margin:6px 0 12px 0;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}
+button{width:100%;padding:15px;background:#006633;color:white;font-weight:bold;border:none;border-radius:12px;font-size:17px}
+.feeBox{background:#fef9c3;border:2px solid #eab308;padding:12px;border-radius:12px;text-align:center;margin:10px 0;font-weight:bold}
+.pay{border:2px solid #ddd;padding:12px;border-radius:10px;margin:7px 0;cursor:pointer;background:white}
+.pay.active{border-color:#006633;background:#dcfce7;font-weight:bold}
+.receipt{display:none;background:#f0fdf4;border:2px solid #16a34a;padding:15px;border-radius:12px;margin-top:15px;text-align:center}
 </style>
 </head>
 <body>
-<div class="card">
-<h2 style="text-align:center;color:#006633;">🇬🇲 Gambia Remita</h2>
-<p style="text-align:center;font-size:13px;">Pay UTG | GRA | MOBSE | GPF - Service Fee 2%</p>
+<div class="box">
+<h2 style="text-align:center;margin:0">🇬🇲 Gambia Remita</h2>
+<p style="text-align:center;font-size:13px;color:#555">Auto Fee 2% Added Instantly</p>
 
 <label>Institution</label>
-<select id="institution"><option value="UTG">UTG University</option><option value="GRA">GRA Tax</option><option value="MOBSE">MOBSE School Fees</option><option value="GPF">Gambia Police Fine</option></select>
+<select id="inst"><option>UTG University</option><option>GRA Tax</option><option>MOBSE School Fees</option><option>GPF Police Fine</option><option>GTTI</option><option>Gambia College</option></select>
 
-<label>Full Name</label><input id="name" placeholder="Your full name">
-<label>Phone</label><input id="phone" placeholder="220 3xxxxxxx">
-<label>Government Amount (GMD)</label><input id="amount" type="number" placeholder="e.g. 5000" oninput="calcFee()">
+<label>Full Name</label>
+<input id="name" placeholder="Lamin Jallow">
 
-<div class="fee-box" id="feeBox">Enter amount to see fee</div>
+<label>Phone</label>
+<input id="phone" type="number" placeholder="6599013">
 
-<div class="pay-methods">
-<b>💳 Choose How To Pay GOVERNMENT Money:</b>
-<div class="pay-option active" onclick="selectPay(this,'Bank Transfer')">🏦 Bank Transfer - All Gambian Banks</div>
-<div class="pay-option" onclick="selectPay(this,'Card - Visa/Mastercard')">💳 Card - Visa / Mastercard</div>
-<div class="pay-option" onclick="selectPay(this,'Wave')">🌊 Wave Mobile Money</div>
-<div class="pay-option" onclick="selectPay(this,'QMoney')">📱 QMoney - QCell</div>
-<div class="pay-option" onclick="selectPay(this,'Afrimoney')">📱 Afrimoney - Africell</div>
-<p style="font-size:13px;color:#006633;margin-top:8px;" id="payDetails">✅ Selected: Bank Transfer</p>
+<label>Government Amount (GMD)</label>
+<input id="amt" type="number" placeholder="5000">
+
+<div id="feeBox" class="feeBox">💰 Type amount - Fee adds automatically</div>
+
+<label>Choose Payment:</label>
+<div onclick="setPay('Bank Transfer',this)" class="pay active">🏦 Bank Transfer</div>
+<div onclick="setPay('Card',this)" class="pay">💳 Card - Visa/Mastercard</div>
+<div onclick="setPay('Wave',this)" class="pay">🌊 Wave Mobile Money</div>
+<div onclick="setPay('QMoney',this)" class="pay">📱 QMoney</div>
+<div onclick="setPay('Afrimoney',this)" class="pay">📱 Afrimoney</div>
+
+<div style="background:#cffafe;padding:10px;border-radius:10px;margin:12px 0;text-align:center">
+⚠️ <b>YOUR 2% FEE TO:</b><br><span style="font-size:22px;font-weight:bold;color:#065f46">Wave: 659 9013</span><br>Marian Tunkara
 </div>
 
-<div class="before-box">
-<b>⚠️ BEFORE RRR - YOUR 2% SERVICE FEE TO:</b><br>
-<span class="wave-num">Wave: 659 9013</span><br>
-<span style="font-size:15px;font-weight:bold;">Marian Tunkara</span><br>
-<span style="font-size:11px;">This fee is separate from government payment above</span>
+<button onclick="gen()">Generate RRR</button>
+
+<div id="receipt" class="receipt">
+<h3>✅ RRR Generated!</h3>
+<h2 id="rrr"></h2>
+<p id="details"></p>
+<button onclick="location.reload()" style="background:#334155;margin-top:10px">New Payment</button>
+</div>
 </div>
 
-<button onclick="generateRRR()">Generate RRR</button>
-
-<div class="receipt" id="receipt">
-<h3 style="text-align:center;">✅ RRR Generated</h3>
-<p><b>RRR:</b> <span id="rrrNum"></span></p>
-<p><b>Name:</b> <span id="rName"></span></p>
-<p><b>Gov Pay Method:</b> <span id="rMethod"></span></p>
-<p><b>Gov Amount:</b> GMD <span id="rAmt"></span></p>
-<p><b>Your Fee (2%):</b> GMD <span id="rFee"></span> → Pay to Wave 659 9013 Marian Tunkara</p>
-<p><b>TOTAL:</b> GMD <span id="rTotal"></span></p>
-<div id="qrcode" style="display:flex;justify-content:center;margin:12px 0;"></div>
-<p style="font-size:12px;color:#555;text-align:center;">1. Pay Gov Amount via selected method<br>2. Pay 2% Fee to Wave above<br>3. Show RRR at institution</p>
-</div>
-</div>
+<script>
+let selectedPay='Bank Transfer';let fee=0,total=0,gov=0;
+function setPay(m,el){selectedPay=m;document.querySelectorAll('.pay').forEach(x=>x.classList.remove('active'));el.classList.add('active');}
+function autoCalc(){
+ gov=parseFloat(document.getElementById('amt').value);
+ let box=document.getElementById('feeBox');
+ if(!gov||gov<=0){box.innerHTML='💰 Type amount - Fee adds automatically';fee=0;total=0;return;}
+ fee=gov*0.02;total=gov+fee;
+ box.innerHTML='Gov: '+gov+' GMD<br>Fee 2%: '+fee.toFixed(2)+' GMD<br><span style="font-size:18px">TOTAL: '+total.toFixed(2)+' GMD</span><br><small>Fee added automatically ✅</small>';
+}
+document.getElementById('amt').addEventListener('input', autoCalc);
+document.getElementById('amt').addEventListener('keyup', autoCalc);
+document.getElementById('amt').addEventListener('change', autoCalc);
+function gen(){
+ let name=document.getElementById('name').value.trim();
+ let phone=document.getElementById('phone').value.trim();
+ gov=parseFloat(document.getElementById('amt').value);
+ let inst=document.getElementById('inst').value;
+ if(!name||!phone||!gov){alert('Fill Name, Phone, Amount');return;}
+ autoCalc();
+ let rrr='GM-'+Math.floor(10000000+Math.random()*90000000);
+ let all=JSON.parse(localStorage.getItem('gambia_payments')||'[]');
+ all.push({rrr,name,phone,amt:gov,fee,total,institution:inst,method:selectedPay,date:new Date().toLocaleString(),status:'pending'});
+ localStorage.setItem('gambia_payments',JSON.stringify(all));
+ document.getElementById('rrr').innerText=rrr;
+ document.getElementById('details').innerHTML=name+'<br>'+inst+'<br>Gov '+gov+' + Fee '+fee.toFixed(2)+' = <b>'+total.toFixed(2)+' GMD</b><br>'+selectedPay;
+ document.getElementById('receipt').style.display='block';
+ window.scrollTo(0,9999);
+}
+</script>
+</body>
+</html>
