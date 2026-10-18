@@ -1,135 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gambia Remita</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body{font-family:Arial;padding:15px;background:#f4f4f9}
-    .card{background:white;padding:20px;border-radius:12px;max-width:420px;margin:auto;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:20px}
-    input,select,button{width:100%;padding:14px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:16px}
-    button{background:#008751;color:white;font-weight:bold;border:none}
-    .wave-box{background:#003366;color:white;padding:15px;border-radius:10px;text-align:center;margin:12px 0}
-    .wave-box h2{margin:5px 0;font-size:28px;letter-spacing:2px}
-    .order-box{background:#e8f5e9;border:2px dashed #008751;padding:15px;border-radius:10px;text-align:center;margin:10px 0}
-    .copy-btn{background:#008751;color:white;padding:8px 12px;border-radius:6px;width:auto;font-size:14px;margin-left:8px}
-  </style>
+<title>Gambia Remita - Pay GRA, NAWEC Online</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+*{font-family:'Inter',sans-serif;box-sizing:border-box}body{margin:0;background:#f0f4f8;padding:12px}
+.card{background:white;max-width:440px;margin:0 auto 14px auto;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,0.08);overflow:hidden}
+.header{background:#0a2e65;color:white;padding:16px;text-align:center}.header h1{margin:0;font-size:22px}.header p{margin:4px 0 0;font-size:12px;opacity:0.8}
+.body{padding:18px}label{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-top:10px}
+input,select{width:100%;padding:14px;border:1.5px solid #e2e8f0;border-radius:10px;margin-top:6px;font-size:15px;background:#f8fafc}
+.wave{background:#0a2e65;border-radius:14px;padding:18px;text-align:center;color:white;margin-top:14px}
+.wave .num{font-size:32px;font-weight:800;letter-spacing:3px;margin:6px 0}.pill{background:white;color:#0a2e65;border:none;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:800;cursor:pointer;margin-left:6px}
+.fee{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;margin-top:14px}
+.btn{width:100%;padding:16px;background:#00a652;color:white;border:none;border-radius:12px;font-weight:800;font-size:16px;margin-top:14px;cursor:pointer}
+.success{border:2px dashed #00a652;background:#f0fdf4;border-radius:14px;padding:16px;text-align:center;margin-top:14px}
+</style>
 </head>
 <body>
-
 <div class="card">
-  <h2>🇬🇲 Gambia Remita</h2>
-  <input id="name" placeholder="Full Name">
-  <input id="phone" placeholder="Phone Number e.g 3XXXXXXX">
-  <select id="service">
-    <option>GRA Tax</option><option>NAWEC Bill</option><option>UTG Fees</option><option>Police Clearance</option><option>Immigration</option>
-  </select>
-  <input id="amount" type="number" placeholder="Amount e.g 5000" oninput="calc()">
-  
-  <div style="background:#eef9f0;padding:10px;border-radius:8px">
-    <div>Fee (2%): <b id="fee">D0</b></div>
-    <div>Total Pay: <b id="total" style="color:green;font-size:18px">D0</b></div>
-  </div>
-
-  <!-- WAVE NUMBER VERY CLEAR -->
-  <div class="wave-box">
-    <div style="font-size:14px;opacity:0.8">PAY TO WAVE</div>
-    <h2>872 713 918</h2>
-    <div style="font-size:18px;font-weight:bold">Name: Gambia Remita</div>
-    <div style="font-size:12px;margin-top:5px">Use Order ID as Reference!</div>
-  </div>
-  
-  <button onclick="submitOrder()">Get Order ID</button>
-  <div id="result"></div>
-</div>
-
-<div class="card">
-  <h3>🔍 Check Status</h3>
-  <input id="checkId" placeholder="Enter Order ID">
-  <button onclick="checkStatus()" style="background:#003366">Check Status</button>
-  <div id="statusResult"></div>
-</div>
-
+<div class="header"><h1>🇬🇲 Gambia Remita</h1><p>Pay GRA • NAWEC • UTG • Police • 2% Service Fee</p></div>
+<div class="body">
+<label>Full Name</label><input id="name" placeholder="Ousman Tunkara">
+<label>Phone Number</label><input id="phone" placeholder="3501234">
+<label>Service Type</label><select id="service"><option>GRA Tax</option><option>NAWEC Bill</option><option>UTG Fees</option><option>Police Clearance</option><option>Immigration</option><option>GPA / Customs</option></select>
+<label>Amount (D)</label><input id="amount" type="number" placeholder="5000" oninput="calc()">
+<div class="fee"><div><small style="color:#64748b">Fee 2%</small><br><b id="fee">D0.00</b></div><div style="text-align:right"><small style="color:#64748b">Total to Pay</small><br><b id="total" style="color:#00a652;font-size:18px">D0.00</b></div></div>
+<div class="wave"><div style="font-size:11px;letter-spacing:2px;opacity:0.7">PAY TO WAVE</div><div class="num">872 713 918 <button class="pill" onclick="copyT('872713918')">COPY</button></div><div style="font-size:16px;font-weight:600">Name: Gambia Remita</div><div style="font-size:12px;margin-top:6px;background:rgba(255,255,255,0.15);padding:6px 10px;border-radius:20px;display:inline-block">Use Order ID as Reference</div></div>
+<button class="btn" onclick="submitOrder()">Get Order ID →</button><div id="result"></div>
+</div></div>
+<div class="card"><div class="body"><h3 style="margin:0 0 10px 0">🔍 Check Status</h3><input id="checkId" placeholder="ORD-123456-ABC"><button class="btn" style="background:#0a2e65" onclick="checkStatus()">Check Status</button><div id="statusResult"></div></div></div>
 <script>
-function calc(){
-  let amt = parseFloat(document.getElementById('amount').value) || 0;
-  let fee = amt * 0.02;
-  let total = amt + fee;
-  document.getElementById('fee').innerText = 'D' + fee.toFixed(2);
-  document.getElementById('total').innerText = 'D' + total.toFixed(2);
-  return {amt, fee, total};
-}
-
-function copyText(text){
-  navigator.clipboard.writeText(text);
-  alert('Copied: ' + text);
-}
-
-function submitOrder(){
-  const {amt, fee, total} = calc();
-  const name = document.getElementById('name').value;
-  const phone = document.getElementById('phone').value;
-  const service = document.getElementById('service').value;
-  if(!name || !phone || amt==0){alert('Fill all fields');return;}
-  const orderId = 'ORD-' + Date.now().toString().slice(-6) + '-' + Math.random().toString(36).substring(2,5).toUpperCase();
-  const orderData = {orderId, name, phone, service, amount:amt, fee, total, status:'PENDING_PAYMENT', rrr:null, date:new Date().toISOString()};
-  let orders = JSON.parse(localStorage.getItem('gambia_orders') || '[]');
-  orders.push(orderData);
-  localStorage.setItem('gambia_orders', JSON.stringify(orders));
-  
-  // RESULT WITH COPY BUTTON AND CLEAR WAVE INFO
-  document.getElementById('result').innerHTML = `
-    <div class="order-box">
-      ✅ Order Created!<br>
-      <div style="margin:10px 0">
-        Order ID: <b style="font-size:20px;color:#003366">${orderId}</b>
-        <button class="copy-btn" onclick="copyText('${orderId}')">📋 COPY</button>
-      </div>
-      <div>Total to Pay: <b style="font-size:20px;color:green">D${total.toFixed(2)}</b></div>
-    </div>
-    
-    <div class="wave-box">
-      <div>PAY THIS AMOUNT TO:</div>
-      <h2>872 713 918 <button class="copy-btn" style="background:white;color:#003366" onclick="copyText('872713918')">📋 COPY NUMBER</button></h2>
-      <div style="font-size:20px"><b>Name: Gambia Remita</b></div>
-      <div style="margin-top:8px;background:white;color:#003366;padding:8px;border-radius:6px">
-        Reference: <b>${orderId}</b> <button class="copy-btn" onclick="copyText('${orderId}')">COPY</button>
-      </div>
-    </div>
-    <p style="text-align:center"><small>After paying Wave, check status below with your Order ID. RRR will appear after confirmation.</small></p>
-  `;
-}
-
-function checkStatus(){
-  const id = document.getElementById('checkId').value.trim().toUpperCase();
-  if(!id){alert('Enter Order ID');return;}
-  let orders = JSON.parse(localStorage.getItem('gambia_orders') || '[]');
-  let order = orders.find(o => o.orderId === id);
-  let box = document.getElementById('statusResult');
-  if(!order){
-    box.innerHTML = `<div style="background:#f8d7da;padding:12px;border-radius:8px">❌ Not found: ${id}</div>`;
-    return;
-  }
-  if(order.status === 'PENDING_PAYMENT'){
-    box.innerHTML = `
-      <div style="background:#fff3cd;padding:15px;border-radius:8px">
-        ⏳ <b>${order.orderId}</b> <button class="copy-btn" onclick="copyText('${order.orderId}')">COPY</button><br>
-        Status: <b style="color:orange">PENDING - Waiting Wave Payment</b><br>
-        Total: D${order.total}<br>
-        <div class="wave-box" style="margin-top:10px">
-          Pay to: <h2 style="font-size:22px">872 713 918</h2>
-          Name: Gambia Remita<br>
-          Ref: ${order.orderId}
-        </div>
-      </div>`;
-  } else {
-    box.innerHTML = `
-      <div style="background:#d4edda;padding:15px;border-radius:8px;text-align:center">
-        ✅ <b>${order.orderId}</b> - PAID<br>
-        RRR: <b style="font-size:22px;color:blue">${order.rrr}</b> <button class="copy-btn" onclick="copyText('${order.rrr}')">COPY RRR</button><br>
-        <button onclick="window.print()" style="margin-top:10px">Download Receipt</button>
-      </div>`;
-  }
-}
-</script>
-</body>
-</html>
+function calc(){let a=parseFloat(document.getElementById('amount').value)||0;let f=a*0.02;let t=a+f;document.getElementById('fee').innerText='D'+f.toFixed(2);document.getElementById('total').innerText='D'+t.toFixed(2);return{amt:a,fee:f,total:t};}
+function copyT(t){navigator.clipboard.writeText(t);alert('Copied: '+t);}
+function submitOrder(){const{amt,fee,total}=calc();const name=document.getElementById('name').value,phone=document.getElementById('phone').value,service=document.getElementById('service').value;if(!name||!phone||amt==0){alert('Fill all');return;}const orderId='ORD-'+Date.now().toString().slice(-6)+'-'+Math.random().toString(36).substring(2,5).toUpperCase();const data={orderId,name,phone,service,amount:amt,fee,total,status:'PENDING_PAYMENT',rrr:null,date:new Date().toISOString()};let orders=JSON.parse(localStorage.getItem('gambia_orders')||'[]');orders.push(data);localStorage.setItem('gambia_orders',JSON.stringify(orders));document.getElementById('result').innerHTML=`<div class="success"><div style="font-weight:700;color:#00a652">✅ ORDER CREATED</div><div style="margin:10px 0;font-size:22px;font-weight:800">${orderId} <button class="pill" style="background:#0a2e65;color:white" onclick="copyT('${orderId}')">COPY</button></div><div>Total Pay: <b style="font-size:18px">D${total.toFixed(2)}</b></div></div><div class="wave"><div>PAY NOW TO</div><div class="num" style="font-size:26px">872 713 918</div><div>Name: Gambia Remita</div><div style="margin-top:8px;background:white;color:#0a2e65;padding:8px;border-radius:20px">Ref: ${orderId} <button class="pill" style="background:#0a2e65;color:white" onclick="copyT('${orderId}')">COPY</button></div></div><p style="text-align:center;font-size:11px;color:#64748b;margin-top:10px">After Wave payment, check status below. RRR will appear after CEO confirmation.</p>`;}
+function checkStatus(){const id=document.getElementById('checkId').value.trim().toUpperCase();if(!id){alert('Enter ID');return;}let orders=JSON.parse(localStorage.getItem('gambia_orders')||'[]');let o=orders.find(x=>x.orderId===id);let box=document.getElementById('statusResult');if(!o){box.innerHTML=`<div style="background:#fef2f2;padding:12px;border-radius:8px;margin-top:10px">❌ Not found: ${id}</div>`;return;}if(o.status==='PENDING_PAYMENT'){box.innerHTML=`<div style="background:#fffbeb;border:1px solid #fde68a;padding:14px;border-radius:12px;margin-top:10px"><b>⏳ ${o.orderId}</b> <button class="pill" style="background:#0a2e65;color:white" onclick="copyT('${o.orderId}')">COPY</button><br>Status: <b style="color:#d97706">PENDING - Waiting Wave</b><br>Total: D${o.total}<div class="wave" style="padding:12px;margin-top:10px"><div class="num" style="font-size:22px">872 713 918</div><div>Name: Gambia Remita</div><div style="margin-top:6px">Ref: ${o.orderId}</div></div></div>`;}else{box.innerHTML=`<div style="background:#ecfdf5;border:1px solid #6ee7b7;padding:14px;border-radius:12px;margin-top:10px;text-align:center"><div style="color:#065f46;font-weight:700">✅ PAID & CONFIRMED</div><div style="margin:6px 0">${o.orderId}</div><div>RRR:</div><div style="font-size:22px;font-weight:800;color:#0a2e65">${o.rrr} <button class="pill" style="background:#0a2e65;color:white" onclick="copyT('${o.rrr}')">COPY RRR</button></div><button class="btn" style="background:#0a2e65;margin-top:10px" onclick="window.open('bank-slip.html?id=${o.orderId}','_blank')">🖨️ Print Bank Slip</button></div>`;}}
+</script></body></html>
