@@ -1,72 +1,35 @@
-<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gambia Remita V6 - Save</title>
-<style>
-body{margin:0;background:#f2f5f2;font-family:sans-serif}
-.header{background:#0b5d1e;color:#fff;padding:12px 16px;display:flex;justify-content:space-between}
-.card{max-width:430px;margin:14px auto;background:#fff;border-radius:14px;padding:18px;border:1px solid #ddd}
-label{font-weight:700;font-size:14px;margin-top:12px;display:block}
-input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;margin-top:4px;box-sizing:border-box}
-.yellow{background:#fff8b0;border:1px dashed #b89c00;padding:10px;border-radius:8px;text-align:center;margin:12px 0;font-weight:700}
-.green{background:#d7f8df;border:1px solid #0b8a3b;padding:10px;border-radius:8px;text-align:center;margin:12px 0}
-.btn{width:100%;background:#0b8a3b;color:#fff;padding:13px;border:none;border-radius:10px;font-weight:800;margin-top:10px}
-.btn2{width:100%;background:#fff;color:#0b5d1e;padding:11px;border:2px solid #0b5d1e;border-radius:10px;font-weight:700;margin-top:8px}
-.btnSmall{padding:9px 12px;border:none;border-radius:8px;font-weight:700;margin:4px;color:#fff}
-.approved{background:#e6ffe9;border:2px solid #0b8a3b;border-radius:12px;padding:16px;text-align:center;margin-top:12px}
-.hidden{display:none}
-canvas{display:none}
-</style></head><body>
-<div class="header"><div>🇬🇲 <b>Gambia Remita</b><br><small>UTG | GRA | Police</small></div><div>2% Fee</div></div>
-
-<div id="home" class="card">
-<label>Institution</label><select id="inst"><option>UTG University</option><option>GRA</option><option>Police</option><option>Gov Service</option></select>
-<label>Full Name</label><input id="name" placeholder="Lamin Jallow">
-<label>Phone</label><input id="phone" placeholder="3501234">
-<label>Gov Amount (GMD)</label><input id="amt" type="number" placeholder="5000" oninput="calc()">
-<div id="calcBox" class="yellow">Type gov amount above</div>
-<div class="green"><small>YOUR 2% FEE TO:</small><br><b style="font-size:18px">Wave: 87 271 3918</b><br>Mariam Tunkara</div>
-<button class="btn" onclick="gen()">Generate RRR & Pay Fee</button>
-<button class="btn2" onclick="showPage('check')">Already Paid? Check RRR Status</button>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Gambia Remita</title>
+<style>*{box-sizing:border-box}body{margin:0;font-family:sans-serif;background:#f8fafc;color:#0f172a}header{background:#fff;padding:12px 16px;display:flex;justify-content:space-between;border-bottom:1px solid #e2e8f0;position:sticky;top:0}.logoB{width:36px;height:36px;background:#16a34a;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800}main{padding:16px;max-width:500px;margin:0 auto}input,select{width:100%;padding:14px;border-radius:12px;border:1px solid #cbd5e1;margin:8px 0;font-size:15px}.btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:800;background:#16a34a;color:#fff;font-size:16px;margin-top:8px}.card{background:#fff;border-radius:16px;padding:14px;border:1px solid #e2e8f0;margin:12px 0}.boss{margin-top:40px;border-top:2px dashed #16a34a;padding-top:16px}.hidden{display:none}</style></head><body>
+<header><div style="display:flex;gap:10px;align-items:center"><div class="logoB">B</div><b>Gambia Remita<br><small style="font-weight:400;color:#64748b">Pay Government - 2% Fee</small></b></div><a href="#boss" style="color:#16a34a;font-weight:800;text-decoration:none">Boss</a></header>
+<main>
+<div id="customer">
+<h2>Generate RRR</h2>
+<input id="name" placeholder="Full Name - e.g. Lamin Jallow">
+<input id="phone" placeholder="Phone - 355XXXX">
+<select id="inst"><option>University of The Gambia (UTG)</option><option>Gambia Revenue Authority</option><option>Immigration Department</option><option>Ministry of Education</option></select>
+<input id="amount" type="number" placeholder="Gov Amount - e.g. 5000">
+<div style="background:#dcfce7;padding:10px;border-radius:10px;font-size:13px">Your Fee 2%: <b id="feeView">0 GMD</b> | Gov will receive: <b id="govView">0 GMD</b></div>
+<button class="btn" onclick="gen()">Generate RRR & Order ID</button>
+<div id="result" class="card hidden"></div>
 </div>
 
-<div id="pending" class="card hidden">
-<h3>Pay Fee to Unlock RRR</h3>
-<div class="green"><b>Wave: 87 271 3918 - Mariam Tunkara</b><br>Fee: <b id="pFee"></b></div>
-<p>Order ID: <b id="pOrder"></b></p>
-<button class="btn" onclick="copyText(document.getElementById('pOrder').innerText)">📋 Copy Order ID</button>
-<button class="btn2" onclick="showPage('check')">I Paid - Check Status</button>
-<button class="btn2" onclick="showPage('home')">Back Home</button>
+<div id="boss" class="boss">
+<h3>Boss Login - Dashboard</h3>
+<input id="bpass" type="password" placeholder="admin123"><button class="btn" onclick="bossLogin()">Unlock Dashboard</button>
+<div id="bdash" class="hidden">
+<p>Total: <b id="cTotal">0</b> | Profit: <b id="cProfit">0</b> | Gov: <b id="cGov">0</b> | Settled: <b id="cSet">0</b></p>
+<input id="search" placeholder="Search name, RRR" oninput="render()" style="border-color:#16a34a;border-width:2px">
+<div style="display:flex;gap:8px"><button class="btn" onclick="exportCSV()" style="background:#0f172a">Excel for Bank</button><button class="btn" onclick="if(confirm('Mark all as settled?')){let gov=orders.reduce((s,o)=>s+(Number(o.amount)||0),0);let set=Number(localStorage.getItem('remSet')||0)+gov;localStorage.setItem('remSet',set);localStorage.setItem('remitaOrders',JSON.stringify([]));location.reload();}" style="background:#f1f5f9;color:#000">Mark All Paid</button></div>
+<div id="blist"></div>
 </div>
-
-<div id="check" class="card">
-<h2>Check RRR Status</h2><input id="checkInput" placeholder="Phone or ORD-...">
-<button class="btn" onclick="checkStatus()">Check</button>
-<div id="checkResult" class="hidden"></div>
-<button class="btn2" onclick="showPage('home')">Back Home</button>
 </div>
-
-<canvas id="receiptCanvas" width="600" height="800"></canvas>
-
+</main>
 <script>
-let orders = JSON.parse(localStorage.getItem('remitaOrders')||'[]');
-function calc(){let a=parseFloat(document.getElementById('amt').value)||0;if(a<=0){document.getElementById('calcBox').innerText='Type gov amount above';return}let fee=Math.ceil(a*0.02);document.getElementById('calcBox').innerText=`Gov ${a} + 2% fee ${fee} = Total ${a+fee}`;}
-function gen(){let a=parseFloat(document.getElementById('amt').value);let n=document.getElementById('name').value;let ph=document.getElementById('phone').value;let inst=document.getElementById('inst').value;if(!a||!n||!ph){alert('Fill all');return}let fee=Math.ceil(a*0.02);let orderId='ORD-'+Math.floor(1000000+Math.random()*9000000);let rrr='RRR-'+Math.floor(1000000000+Math.random()*9000000000);orders.push({id:orderId,rrr:rrr,phone:ph,name:n,amount:a,fee:fee,inst:inst,status:'PENDING'});localStorage.setItem('remitaOrders',JSON.stringify(orders));document.getElementById('pFee').innerText='GMD '+fee;document.getElementById('pOrder').innerText=orderId;showPage('pending');}
-function showPage(p){['home','pending','check'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(p).classList.remove('hidden');}
-function checkStatus(){let q=document.getElementById('checkInput').value.trim();let o=orders.find(x=>x.id===q||x.phone===q);let r=document.getElementById('checkResult');r.classList.remove('hidden');if(!o){r.innerHTML=`<div style="background:#ffe0e0;padding:12px;border-radius:8px">Not Found - Check phone/order</div>`;return}if(o.status==='PENDING'){r.innerHTML=`<div style="background:#fff3cd;padding:14px;border-radius:10px;text-align:center"><b>PENDING ⏳</b><br>Order: ${o.id}<br>${o.inst} - GMD ${o.amount}<br><br>Pay GMD ${o.fee} to Wave 87 271 3918 to unlock RRR</div>`}else{r.innerHTML=`<div class="approved" id="approvedBox"><b>APPROVED ✅</b><br><br><b style="font-size:20px;color:#0b5d1e">${o.rrr}</b><br><small>RRR Number</small><br><br>Order: ${o.id}<br>Name: ${o.name}<br>${o.inst} - GMD ${o.amount}<br>Fee Paid: GMD ${o.fee}<br><br><button class="btnSmall" style="background:#0b8a3b" onclick="copyText('${o.rrr}')">📋 Copy RRR</button><button class="btnSmall" style="background:#25D366" onclick="shareText('Gambia Remita RRR: ${o.rrr}%0AOrder: ${o.id}%0AName: ${o.name}%0AAmount: GMD ${o.amount}')">↗ Share WhatsApp</button><button class="btnSmall" style="background:#0b5d1e" onclick="saveReceipt('${o.rrr}','${o.id}','${o.name}','${o.inst}','${o.amount}','${o.fee}')">💾 Save Receipt</button></div>`}}
-function copyText(t){navigator.clipboard.writeText(t);alert('Copied: '+t);}
-function shareText(t){window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');}
-function saveReceipt(rrr,order,name,inst,amt,fee){
- let c=document.getElementById('receiptCanvas');let ctx=c.getContext('2d');
- ctx.fillStyle='#fff';ctx.fillRect(0,0,600,800);
- ctx.fillStyle='#0b5d1e';ctx.fillRect(0,0,600,80);
- ctx.fillStyle='#fff';ctx.font='bold 24px sans-serif';ctx.fillText('🇬🇲 Gambia Remita Receipt',20,50);
- ctx.fillStyle='#000';ctx.font='16px sans-serif';
- ctx.fillText('Name: '+name,20,120);ctx.fillText('Institution: '+inst,20,150);ctx.fillText('Gov Amount: GMD '+amt,20,180);ctx.fillText('Fee Paid: GMD '+fee+' to Wave 87 271 3918',20,210);ctx.fillText('Order ID: '+order,20,240);
- ctx.font='bold 28px sans-serif';ctx.fillStyle='#0b5d1e';ctx.fillText('RRR: '+rrr,20,300);
- ctx.font='14px sans-serif';ctx.fillStyle='#555';ctx.fillText('Date: '+new Date().toLocaleString(),20,350);ctx.fillText('Mariam Tunkara - 87 271 3918',20,380);
- let link=document.createElement('a');link.download=rrr+'.png';link.href=c.toDataURL();link.click();
-}
-showPage('home');
-// Admin quick approve: type admin123 in check input
-let _origCheck=checkStatus;checkStatus=function(){let q=document.getElementById('checkInput').value;if(q==='admin123'){orders.forEach(o=>o.status='APPROVED');localStorage.setItem('remitaOrders',JSON.stringify(orders));alert('All Approved - now check with phone');return}_origCheck();}
+let orders=JSON.parse(localStorage.getItem('remitaOrders')||'[]');
+document.getElementById('amount').addEventListener('input',e=>{let a=Number(e.target.value)||0;let f=a*0.02;document.getElementById('feeView').innerText=f.toFixed(2)+' GMD';document.getElementById('govView').innerText=a.toFixed(2)+' GMD';});
+function gen(){let name=document.getElementById('name').value,phone=document.getElementById('phone').value,inst=document.getElementById('inst').value,amount=Number(document.getElementById('amount').value);if(!name||!phone||!amount){alert('Fill all');return}let fee=amount*0.02;let id='ORD-'+Math.floor(1000000+Math.random()*9000000);let rrr=Math.floor(100000000000+Math.random()*900000000000);let o={name,phone,inst,amount,fee,id,rrr,status:'PENDING'};orders.push(o);localStorage.setItem('remitaOrders',JSON.stringify(orders));document.getElementById('result').classList.remove('hidden');document.getElementById('result').innerHTML=`<b>Success!</b><br>Order: ${id}<br>RRR: <b style="color:green">${rrr}</b><br>Amount: GMD ${amount} + Fee GMD ${fee.toFixed(2)}<br><small>Show this RRR at bank</small>`; }
+function bossLogin(){if(document.getElementById('bpass').value!=='admin123'){alert('Wrong');return}document.getElementById('bdash').classList.remove('hidden');render();}
+function render(){let q=(document.getElementById('search').value||'').toLowerCase();let filt=orders.filter(o=>(o.name+o.phone+o.id+String(o.rrr)).toLowerCase().includes(q)).reverse();let profit=orders.reduce((s,o)=>s+(Number(o.fee)||0),0);let gov=orders.reduce((s,o)=>s+(Number(o.amount)||0),0);let sett=Number(localStorage.getItem('remSet')||0);document.getElementById('cTotal').innerText=filt.length;document.getElementById('cProfit').innerText=profit.toFixed(2)+' GMD';document.getElementById('cGov').innerText=gov.toFixed(2)+' GMD';document.getElementById('cSet').innerText=sett.toFixed(2)+' GMD';let h='';filt.forEach(o=>{h+=`<div class="card"><b>${o.name}</b> ${o.phone}<br>${o.inst}<br>GMD ${o.amount} + Fee ${o.fee.toFixed(2)}<br>ORD: ${o.id}<br>RRR: <span style="color:green;font-weight:800">${o.rrr}</span> - ${o.status} <button onclick="let oo=JSON.parse(localStorage.getItem('remitaOrders')||'[]');oo.find(x=>x.id==='${o.id}').status='APPROVED';localStorage.setItem('remitaOrders',JSON.stringify(oo));render();" style="padding:6px 10px;background:#16a34a;color:#fff;border:none;border-radius:8px">Approve</button></div>`});document.getElementById('blist').innerHTML=h||'No orders';}
+function exportCSV(){let csv='Name,Phone,Institution,GovAmount,Fee,Order,RRR,Status\n';orders.forEach(o=>{csv+=`"${o.name}",${o.phone},"${o.inst}",${o.amount},${o.fee},${o.id},${o.rrr},${o.status}\n`});let a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='Remita-Bank-'+new Date().toISOString().slice(0,10)+'.csv';a.click();}
+if(location.hash==='#boss'){document.getElementById('boss').scrollIntoView();}
 </script></body></html>
