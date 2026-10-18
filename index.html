@@ -1,120 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gambia Remita V5 History</title>
+<title>Gambia Remita - Gov Payments 2%</title>
 <style>
-*{box-sizing:border-box;font-family:system-ui,Arial}
+*{box-sizing:border-box;font-family:Inter,system-ui}
 body{margin:0;background:#f0fdf4;padding:12px}
-.card{max-width:420px;margin:auto;background:white;border-radius:16px;padding:18px;box-shadow:0 4px 20px rgba(0,0,0,.1);border:2px solid #16a34a;margin-bottom:12px}
-h1{margin:0 0 4px;text-align:center;color:#166534;font-size:20px}
-.sub{text-align:center;color:#666;font-size:12px;margin-bottom:14px}
-label{font-weight:700;font-size:13px;display:block;margin:10px 0 4px}
-input,select{width:100%;padding:12px;border:2px solid #d1d5db;border-radius:10px;font-size:15px}
-.feeBox{margin:12px 0;background:#fef9c3;border:2px dashed #ca8a04;border-radius:12px;padding:12px;text-align:center}
-.total{font-size:19px;font-weight:900;color:#166534;margin-top:6px}
-.btn{width:100%;padding:14px;background:#16a34a;color:white;border:none;border-radius:12px;font-weight:900;font-size:16px;cursor:pointer;margin-top:8px}
-.result{margin-top:14px;background:#f0fdf4;border:2px solid #16a34a;border-radius:12px;padding:14px;text-align:center;display:none}
-.tab{display:flex;gap:8px;margin-bottom:12px}
-.tab button{flex:1;padding:10px;border:none;border-radius:10px;font-weight:800;cursor:pointer}
-.tab .active{background:#16a34a;color:white}
-.tab .inactive{background:#e5e7eb;color:#333}
-.histItem{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px;margin:8px 0;font-size:12px}
-.dash{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-.dashBox{background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:10px;text-align:center}
-.dashBox b{font-size:18px;color:#166534;display:block}
+.container{max-width:420px;margin:20px auto;background:white;border-radius:20px;padding:20px;border:2px solid #16a34a}
+label{font-weight:700;font-size:13px;margin:12px 0 6px;display:block}
+select,input{width:100%;padding:12px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px}
+.tip{background:#fef9c3;border:1.5px dashed #eab308;border-radius:12px;padding:10px;text-align:center;margin:14px 0}
+.feeBox{background:#ccfbf1;border-radius:12px;padding:12px;text-align:center;margin:12px 0}
+.wave{color:#0f766e;font-size:16px;font-weight:800}
+.btn{width:100%;background:#16a34a;color:white;border:none;padding:14px;border-radius:12px;font-weight:800;font-size:15px;margin-top:12px}
+.rrrBox{display:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;margin-top:12px;text-align:center}
 </style>
 </head>
 <body>
-<div class="card">
-<div class="tab">
-<button id="btnPay" class="active" onclick="showTab('pay')">💳 Pay</button>
-<button id="btnHist" class="inactive" onclick="showTab('hist')">📊 History</button>
-</div>
-
-<div id="payTab">
-<h1>🇬🇲 Gambia Remita</h1>
-<div class="sub">V5 - Clean 2% + History</div>
+<div class="container">
 <label>Institution</label>
-<select id="inst"><option>UTG University</option><option>GRA Tax</option><option>Passport</option><option>Business Registration</option><option>Other Gov</option></select>
-<label>Full Name</label>
-<input id="name" placeholder="Lamin Jallow">
-<label>Phone</label>
-<input id="phone" type="tel" placeholder="6599013">
-<label>Gov Amount Required (GMD)</label>
-<input id="amount" type="number" placeholder="e.g 10000" oninput="calc()">
-<div class="feeBox" id="feeBox">Type gov amount above</div>
-<div style="background:#ccfbf1;padding:10px;border-radius:10px;text-align:center;margin:10px 0"><b>YOUR 2% FEE TO:</b><br><span style="font-size:18px;font-weight:900;color:#0f766e">Wave: 659 9013</span><br>Marian Tunkara</div>
-<label>Payment Method</label>
-<select id="payMethod"><option>Wave Mobile Money</option><option>QMoney</option><option>Bank Transfer</option></select>
+<select id="inst"><option>UTG University</option><option>GRA</option><option>MOBSE</option></select>
+<label>Full Name</label><input id="fullName" placeholder="Lamin Jallow">
+<label>Phone</label><input id="phone" placeholder="872713918">
+<label>Gov Amount Required (GMD)</label><input id="govAmount" type="number" placeholder="e.g 10000" oninput="calc()">
+<div class="tip" id="tipBox">Type gov amount above</div>
+<div class="feeBox">
+<div style="font-weight:800">YOUR 2% FEE TO:</div>
+<div class="wave">Wave: 87 271 3918</div>
+<div style="font-weight:700">Mariam Tunkara</div>
+<div style="font-size:12px" id="breakdown"></div>
+</div>
+<label>Payment Method</label><select><option>Wave Mobile Money</option></select>
 <button class="btn" onclick="generate()">Generate RRR</button>
-<div class="result" id="result"></div>
+<div class="rrrBox" id="rrrBox"></div>
 </div>
-
-<div id="histTab" style="display:none">
-<h1>📊 Dashboard</h1>
-<div class="dash">
-<div class="dashBox"><span>Total Gov</span><b id="tGov">0 GMD</b></div>
-<div class="dashBox"><span>Your 2% Earnings</span><b id="tFee" style="color:#dc2626">0 GMD</b></div>
-<div class="dashBox"><span>Total Collected</span><b id="tTotal">0 GMD</b></div>
-<div class="dashBox"><span>Transactions</span><b id="tCount">0</b></div>
-</div>
-<button class="btn" style="background:#0284c7" onclick="loadHistory()">🔄 Refresh</button>
-<button class="btn" style="background:#dc2626" onclick="clearHistory()">🗑️ Clear History</button>
-<div id="histList" style="margin-top:12px"></div>
-</div>
-
-<p style="font-size:11px;color:#666;text-align:center;margin-top:8px">V5 - Gov 10000 + 2% fee 200 = Total 10200. Clean, locked.</p>
-</div>
-
 <script>
-function showTab(t){
-document.getElementById('payTab').style.display=t==='pay'?'block':'none';
-document.getElementById('histTab').style.display=t==='hist'?'block':'none';
-document.getElementById('btnPay').className=t==='pay'?'active':'inactive';
-document.getElementById('btnHist').className=t==='hist'?'active':'inactive';
-if(t==='hist')loadHistory();
-}
 function calc(){
-let gov=parseFloat(document.getElementById('amount').value)||0;
-let box=document.getElementById('feeBox');
-if(gov<=0){box.innerHTML='Type gov amount above';return null;}
-let fee=gov*0.02;
-let total=gov+fee;
-box.innerHTML=`Gov Needs: <b>${gov.toFixed(2)} GMD</b><br>Fee 2% (clean): <b style="color:#dc2626">${fee.toFixed(2)} GMD</b><br>Total Customer Pays: <b>${total.toFixed(2)} GMD</b><div class="total">YOU KEEP: ${fee.toFixed(2)} GMD</div><div style="font-size:11px;background:#dcfce7;color:#166534;padding:5px 10px;border-radius:20px;display:inline-block;margin-top:6px;font-weight:800">🔒 CLEAN 2% - Cannot Avoid</div>`;
-return {gov,fee,total};
+ let gov=parseFloat(document.getElementById('govAmount').value)||0;
+ if(gov<=0)return;
+ let fee=gov*0.02; let total=gov+fee;
+ document.getElementById('tipBox').innerText=`You will pay total ${total.toFixed(2)} GMD`;
+ document.getElementById('breakdown').innerText=`Gov ${gov.toFixed(2)} + Fee ${fee.toFixed(2)} = Total ${total.toFixed(2)}`;
 }
 function generate(){
-let name=document.getElementById('name').value.trim();
-let inst=document.getElementById('inst').value;
-let phone=document.getElementById('phone').value.trim();
-let amt=document.getElementById('amount').value;
-let method=document.getElementById('payMethod').value;
-if(!name||!amt||!phone){alert('Fill Name, Phone, Amount');return;}
-let c=calc();
-let rrr='GM-'+Math.floor(10000000+Math.random()*90000000);
-let res=document.getElementById('result');
-res.style.display='block';
-res.innerHTML=`<h2 style="margin:0;color:#16a34a">✅ RRR Generated!</h2><div style="font-size:26px;font-weight:900;margin:8px 0">${rrr}</div><div><b>${name}</b><br>${inst}<br>Phone: ${phone}<br>${method}</div><div style="margin-top:8px;background:white;padding:8px;border-radius:8px">Gov: <b>${c.gov.toFixed(2)} GMD</b><br>Fee 2%: <b style="color:red">${c.fee.toFixed(2)} GMD</b> → Your Wave<br><b>Total Pay: ${c.total.toFixed(2)} GMD</b></div><button class="btn" style="background:#334155;margin-top:10px" onclick="location.reload()">New Payment</button><button class="btn" style="background:#0284c7;margin-top:8px" onclick="showTab('hist')">View History →</button>`;
-let all=JSON.parse(localStorage.getItem('gambia_payments')||'[]');
-all.unshift({rrr,name,inst,phone,gov:c.gov,fee:c.fee,total:c.total,method,date:new Date().toLocaleString()});
-localStorage.setItem('gambia_payments',JSON.stringify(all));
-}
-function loadHistory(){
-let all=JSON.parse(localStorage.getItem('gambia_payments')||'[]');
-let tGov=0,tFee=0,tTotal=0;
-all.forEach(p=>{tGov+=p.gov;tFee+=p.fee;tTotal+=p.total;});
-document.getElementById('tGov').innerText=tGov.toFixed(2)+' GMD';
-document.getElementById('tFee').innerText=tFee.toFixed(2)+' GMD';
-document.getElementById('tTotal').innerText=tTotal.toFixed(2)+' GMD';
-document.getElementById('tCount').innerText=all.length;
-let list=document.getElementById('histList');
-if(all.length==0){list.innerHTML='<p style="text-align:center;color:#666">No payments yet</p>';return;}
-list.innerHTML=all.map(p=>`<div class="histItem"><b>${p.rrr}</b> - ${p.date}<br><b>${p.name}</b> - ${p.inst}<br>Phone: ${p.phone} - ${p.method}<br>Gov: ${p.gov.toFixed(2)} | Fee: <b style="color:red">${p.fee.toFixed(2)}</b> | Total: <b>${p.total.toFixed(2)}</b></div>`).join('');
-}
-function clearHistory(){
-if(confirm('Clear all history?')){localStorage.removeItem('gambia_payments');loadHistory();}
+ let inst=document.getElementById('inst').value;
+ let name=document.getElementById('fullName').value;
+ let phone=document.getElementById('phone').value;
+ let gov=parseFloat(document.getElementById('govAmount').value);
+ if(!name||!gov){alert('Enter name and amount');return;}
+ let fee=gov*0.02; let total=gov+fee;
+ let rrr='RRR'+Math.floor(100000000+Math.random()*900000000);
+ let data=JSON.parse(localStorage.getItem('gambia_payments')||'[]');
+ data.unshift({name,inst,phone,gov,fee,total,rrr,date:new Date().toISOString()});
+ localStorage.setItem('gambia_payments',JSON.stringify(data));
+ let box=document.getElementById('rrrBox'); box.style.display='block';
+ box.innerHTML=`<b>RRR Generated!</b><br><br><b style="font-size:20px">${rrr}</b><br><br>Gov: ${gov.toFixed(2)}<br>Fee 2%: ${fee.toFixed(2)}<br><b>Total: ${total.toFixed(2)} GMD</b><br><br>Pay fee to Wave:<br><b>87 271 3918 - Mariam Tunkara</b>`;
 }
 </script>
 </body>
