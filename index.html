@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gambia Remita</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body{font-family:Arial;padding:20px;background:#f5f5f5}
+.card{background:white;padding:20px;border-radius:12px;max-width:500px;margin:auto}
+input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
+button{background:#006633;color:white;padding:14px;width:100%;border:none;border-radius:8px;font-weight:bold}
+.fee-box{background:#fff3cd;padding:12px;border-radius:8px;margin:10px 0;border:1px dashed #ffc107}
+.receipt{background:#d4edda;padding:15px;border-radius:8px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>Gambia Remita</h2>
+<p>Generate RRR for Government Payments</p>
+<label>Institution</label>
+<select id="institution"><option value="UTG">University of The Gambia - UTG</option><option value="GRA">Gambia Revenue Authority - GRA</option><option value="MOBSE">Ministry of Basic Education</option></select>
+<label>Service</label>
+<select id="service"><option value="Tuition Fees - 15000">Tuition Fees - GMD 15,000</option><option value="Application Fees - 1000">Application Fees - GMD 1,000</option><option value="Tax Payment - 5000">Tax Payment - GMD 5,000</option><option value="Business Registration - 2500">Business Registration - GMD 2,500</option></select>
+<label>Full Name</label><input id="name" placeholder="John Doe">
+<label>Phone</label><input id="phone" placeholder="3000000">
+<div class="fee-box" id="feeBox"></div>
+<button onclick="generateRRR()">Generate RRR & Pay</button>
+<div id="receipt"></div>
+</div>
+<script>
+const supabaseUrl='https://afzwszicghxwjywqkhbua.supabase.co';
+const supabaseKey='sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS';
+const supabaseClient=supabase.createClient(supabaseUrl,supabaseKey);
+const serviceEl=document.getElementById('service');
+const feeBox=document.getElementById('feeBox');
+function updateFee(){const parts=serviceEl.value.split(' - ');const amount=parseFloat(parts[1])||0;const fee=amount*0.015;const total=amount+fee;feeBox.innerHTML=`Service: GMD ${amount.toLocaleString()}<br>Your Fee (1.5%): GMD ${fee.toLocaleString()}<br><strong>Total: GMD ${total.toLocaleString()}</strong><br><small style="color:green">You earn GMD ${fee}</small>`;}
+serviceEl.addEventListener('change',updateFee);updateFee();
+async function generateRRR(){const name=document.getElementById('name').value;const phone=document.getElementById('phone').value;const institution=document.getElementById('institution').value;const serviceParts=serviceEl.value.split(' - ');const serviceName=serviceParts[0];const serviceAmount=parseFloat(serviceParts[1]);if(!name||!phone){alert('Enter name and phone');return;}const feeAmount=serviceAmount*0.015;const totalAmount=serviceAmount+feeAmount;const rrr=Math.floor(100000000000+Math.random()*900000000000).toString();const{error}=await supabaseClient.from('transactions').insert([{rrr:rrr,payer_name:name,payer_phone:phone,institution:institution,service_name:serviceName,service_amount:serviceAmount,fee_amount:feeAmount,total_amount:totalAmount,status:'pending'}]);if(error){alert('Error: '+error.message);return;}document.getElementById('receipt').innerHTML=`<div class="receipt"><h3>RRR Generated!</h3><p><strong>RRR:</strong> ${rrr}</p><p>Payer: ${name}</p><p>Institution: ${institution}</p><p>Service: ${serviceName}</p><p>Fee: GMD ${feeAmount}</p><p><strong>Total: GMD ${totalAmount}</strong></p></div>`;}
+</script>
+</body>
+</html>
