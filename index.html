@@ -1,127 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gambia Remita - Government Payments</title>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gambia Remita V6 - Save</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#f5f7fb;color:#1a1a1a}
-header{background:#0b5d1e;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
-header h1{font-size:18px}
-.container{max-width:480px;margin:20px auto;padding:0 16px}
-.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 4px 12px rgba(0,0,0,.06);margin-bottom:16px}
-label{font-size:13px;color:#555;margin:8px 0 4px;display:block}
-input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px}
-.btn{width:100%;padding:13px;background:#0b5d1e;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:12px}
-.btn-sec{background:#fff;color:#0b5d1e;border:1px solid #0b5d1e}
-.alert{background:#fff7d6;border:1px solid #ffe69c;padding:12px;border-radius:8px;font-size:13px;margin:12px 0}
-.waveBox{background:#e8f5e9;border:1px solid #a5d6a7;padding:14px;border-radius:10px;text-align:center}
-.waveBox b{font-size:18px;color:#0b5d1e}
+body{margin:0;background:#f2f5f2;font-family:sans-serif}
+.header{background:#0b5d1e;color:#fff;padding:12px 16px;display:flex;justify-content:space-between}
+.card{max-width:430px;margin:14px auto;background:#fff;border-radius:14px;padding:18px;border:1px solid #ddd}
+label{font-weight:700;font-size:14px;margin-top:12px;display:block}
+input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;margin-top:4px;box-sizing:border-box}
+.yellow{background:#fff8b0;border:1px dashed #b89c00;padding:10px;border-radius:8px;text-align:center;margin:12px 0;font-weight:700}
+.green{background:#d7f8df;border:1px solid #0b8a3b;padding:10px;border-radius:8px;text-align:center;margin:12px 0}
+.btn{width:100%;background:#0b8a3b;color:#fff;padding:13px;border:none;border-radius:10px;font-weight:800;margin-top:10px}
+.btn2{width:100%;background:#fff;color:#0b5d1e;padding:11px;border:2px solid #0b5d1e;border-radius:10px;font-weight:700;margin-top:8px}
+.btnSmall{padding:9px 12px;border:none;border-radius:8px;font-weight:700;margin:4px;color:#fff}
+.approved{background:#e6ffe9;border:2px solid #0b8a3b;border-radius:12px;padding:16px;text-align:center;margin-top:12px}
 .hidden{display:none}
-table{width:100%;font-size:12px;border-collapse:collapse}
-th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-.badge{padding:3px 8px;border-radius:12px;font-size:11px}
-.pending{background:#fff3cd}.awaiting{background:#cce5ff}.approved{background:#d4edda}
-</style>
-</head>
-<body>
-<header>
-<div><h1>🇬🇲 Gambia Remita</h1><span>UTG | GRA | Police</span></div>
-<div><span>2% Fee</span></div>
-</header>
-<div class="container">
-<div id="formCard" class="card">
-<h2>Generate Government Invoice</h2>
-<label>Full Name</label><input id="cName" placeholder="Lamin Jallow">
-<label>Phone (for RRR retrieval)</label><input id="cPhone" placeholder="3501234">
-<label>Service Type</label>
-<select id="cService"><option>UTG Tuition Fee</option><option>GRA Tax Payment</option><option>Police Clearance</option><option>Government Service</option></select>
-<label>Amount (GMD)</label><input id="cAmount" type="number" placeholder="5000">
-<div class="alert">Fee: 2%. You will get RRR ONLY after paying fee.</div>
-<button class="btn" onclick="createOrder()">Proceed to Pay Fee</button>
-<hr style="margin:16px 0">
-<button class="btn btn-sec" onclick="showCheck()">Check My RRR Status</button>
-<button class="btn btn-sec" onclick="showAdmin()">Admin Login</button>
+canvas{display:none}
+</style></head><body>
+<div class="header"><div>🇬🇲 <b>Gambia Remita</b><br><small>UTG | GRA | Police</small></div><div>2% Fee</div></div>
+
+<div id="home" class="card">
+<label>Institution</label><select id="inst"><option>UTG University</option><option>GRA</option><option>Police</option><option>Gov Service</option></select>
+<label>Full Name</label><input id="name" placeholder="Lamin Jallow">
+<label>Phone</label><input id="phone" placeholder="3501234">
+<label>Gov Amount (GMD)</label><input id="amt" type="number" placeholder="5000" oninput="calc()">
+<div id="calcBox" class="yellow">Type gov amount above</div>
+<div class="green"><small>YOUR 2% FEE TO:</small><br><b style="font-size:18px">Wave: 87 271 3918</b><br>Mariam Tunkara</div>
+<button class="btn" onclick="gen()">Generate RRR & Pay Fee</button>
+<button class="btn2" onclick="showPage('check')">Already Paid? Check RRR Status</button>
 </div>
 
-<div id="payCard" class="card hidden">
-<h2>Pay Service Fee to Get RRR</h2>
-<div class="waveBox">
-<div>Send Service Fee To:</div>
-<b>Wave: 87 271 3918</b><br><b>Mariam Tunkara</b>
-</div>
-<div id="orderInfo" style="margin-top:14px;font-size:14px"></div>
-<div class="alert">After paying, click "I Have Paid". Admin will approve after checking Wave.</div>
-<button class="btn" onclick="markPaid()">I Have Paid - Submit</button>
-<button class="btn btn-sec" onclick="backHome()">Back Home</button>
+<div id="pending" class="card hidden">
+<h3>Pay Fee to Unlock RRR</h3>
+<div class="green"><b>Wave: 87 271 3918 - Mariam Tunkara</b><br>Fee: <b id="pFee"></b></div>
+<p>Order ID: <b id="pOrder"></b></p>
+<button class="btn" onclick="copyText(document.getElementById('pOrder').innerText)">📋 Copy Order ID</button>
+<button class="btn2" onclick="showPage('check')">I Paid - Check Status</button>
+<button class="btn2" onclick="showPage('home')">Back Home</button>
 </div>
 
-<div id="checkCard" class="card hidden">
-<h2>Check RRR Status</h2>
-<label>Enter Phone or Order ID</label><input id="checkInput" placeholder="3501234 or ORD-...">
+<div id="check" class="card">
+<h2>Check RRR Status</h2><input id="checkInput" placeholder="Phone or ORD-...">
 <button class="btn" onclick="checkStatus()">Check</button>
-<div id="checkResult" style="margin-top:12px"></div>
-<button class="btn btn-sec" onclick="backHome()">Back Home</button>
+<div id="checkResult" class="hidden"></div>
+<button class="btn2" onclick="showPage('home')">Back Home</button>
 </div>
 
-<div id="adminCard" class="card hidden">
-<h2>Admin - Approve Payments</h2>
-<table><thead><tr><th>Order</th><th>Name/Phone</th><th>Fee</th><th>Status</th><th>Action</th></tr></thead><tbody id="adminBody"></tbody></table>
-<button class="btn btn-sec" onclick="backHome()">Back</button>
-</div>
-</div>
+<canvas id="receiptCanvas" width="600" height="800"></canvas>
 
 <script>
-const KEY='gambiaRemitaOrders_v2';
-function getOrders(){return JSON.parse(localStorage.getItem(KEY)||'[]')}
-function saveOrders(o){localStorage.setItem(KEY,JSON.stringify(o))}
-function createOrder(){
- const name=document.getElementById('cName').value.trim();
- const phone=document.getElementById('cPhone').value.trim();
- const service=document.getElementById('cService').value;
- const amount=parseFloat(document.getElementById('cAmount').value);
- if(!name||!phone||!amount){alert('Fill all fields');return}
- const fee=Math.ceil(amount*0.02);
- const orderId='ORD-'+Date.now().toString().slice(-6);
- const rrr='RRR-'+Math.floor(1000000000+Math.random()*9000000000);
- const order={orderId,rrr,name,phone,service,amount,fee,status:'pending_payment',created:new Date().toLocaleString()};
- const orders=getOrders();orders.unshift(order);saveOrders(orders);
- showPayment(order);
+let orders = JSON.parse(localStorage.getItem('remitaOrders')||'[]');
+function calc(){let a=parseFloat(document.getElementById('amt').value)||0;if(a<=0){document.getElementById('calcBox').innerText='Type gov amount above';return}let fee=Math.ceil(a*0.02);document.getElementById('calcBox').innerText=`Gov ${a} + 2% fee ${fee} = Total ${a+fee}`;}
+function gen(){let a=parseFloat(document.getElementById('amt').value);let n=document.getElementById('name').value;let ph=document.getElementById('phone').value;let inst=document.getElementById('inst').value;if(!a||!n||!ph){alert('Fill all');return}let fee=Math.ceil(a*0.02);let orderId='ORD-'+Math.floor(1000000+Math.random()*9000000);let rrr='RRR-'+Math.floor(1000000000+Math.random()*9000000000);orders.push({id:orderId,rrr:rrr,phone:ph,name:n,amount:a,fee:fee,inst:inst,status:'PENDING'});localStorage.setItem('remitaOrders',JSON.stringify(orders));document.getElementById('pFee').innerText='GMD '+fee;document.getElementById('pOrder').innerText=orderId;showPage('pending');}
+function showPage(p){['home','pending','check'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(p).classList.remove('hidden');}
+function checkStatus(){let q=document.getElementById('checkInput').value.trim();let o=orders.find(x=>x.id===q||x.phone===q);let r=document.getElementById('checkResult');r.classList.remove('hidden');if(!o){r.innerHTML=`<div style="background:#ffe0e0;padding:12px;border-radius:8px">Not Found - Check phone/order</div>`;return}if(o.status==='PENDING'){r.innerHTML=`<div style="background:#fff3cd;padding:14px;border-radius:10px;text-align:center"><b>PENDING ⏳</b><br>Order: ${o.id}<br>${o.inst} - GMD ${o.amount}<br><br>Pay GMD ${o.fee} to Wave 87 271 3918 to unlock RRR</div>`}else{r.innerHTML=`<div class="approved" id="approvedBox"><b>APPROVED ✅</b><br><br><b style="font-size:20px;color:#0b5d1e">${o.rrr}</b><br><small>RRR Number</small><br><br>Order: ${o.id}<br>Name: ${o.name}<br>${o.inst} - GMD ${o.amount}<br>Fee Paid: GMD ${o.fee}<br><br><button class="btnSmall" style="background:#0b8a3b" onclick="copyText('${o.rrr}')">📋 Copy RRR</button><button class="btnSmall" style="background:#25D366" onclick="shareText('Gambia Remita RRR: ${o.rrr}%0AOrder: ${o.id}%0AName: ${o.name}%0AAmount: GMD ${o.amount}')">↗ Share WhatsApp</button><button class="btnSmall" style="background:#0b5d1e" onclick="saveReceipt('${o.rrr}','${o.id}','${o.name}','${o.inst}','${o.amount}','${o.fee}')">💾 Save Receipt</button></div>`}}
+function copyText(t){navigator.clipboard.writeText(t);alert('Copied: '+t);}
+function shareText(t){window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');}
+function saveReceipt(rrr,order,name,inst,amt,fee){
+ let c=document.getElementById('receiptCanvas');let ctx=c.getContext('2d');
+ ctx.fillStyle='#fff';ctx.fillRect(0,0,600,800);
+ ctx.fillStyle='#0b5d1e';ctx.fillRect(0,0,600,80);
+ ctx.fillStyle='#fff';ctx.font='bold 24px sans-serif';ctx.fillText('🇬🇲 Gambia Remita Receipt',20,50);
+ ctx.fillStyle='#000';ctx.font='16px sans-serif';
+ ctx.fillText('Name: '+name,20,120);ctx.fillText('Institution: '+inst,20,150);ctx.fillText('Gov Amount: GMD '+amt,20,180);ctx.fillText('Fee Paid: GMD '+fee+' to Wave 87 271 3918',20,210);ctx.fillText('Order ID: '+order,20,240);
+ ctx.font='bold 28px sans-serif';ctx.fillStyle='#0b5d1e';ctx.fillText('RRR: '+rrr,20,300);
+ ctx.font='14px sans-serif';ctx.fillStyle='#555';ctx.fillText('Date: '+new Date().toLocaleString(),20,350);ctx.fillText('Mariam Tunkara - 87 271 3918',20,380);
+ let link=document.createElement('a');link.download=rrr+'.png';link.href=c.toDataURL();link.click();
 }
-function showPayment(order){
- document.getElementById('formCard').classList.add('hidden');
- document.getElementById('payCard').classList.remove('hidden');
- document.getElementById('orderInfo').innerHTML=`Order ID: <b>${order.orderId}</b><br>Service: ${order.service}<br>Gov Amount: GMD ${order.amount}<br>Fee to Pay: <b>GMD ${order.fee}</b>`;
- document.getElementById('payCard').dataset.orderId=order.orderId;
-}
-function markPaid(){
- const orderId=document.getElementById('payCard').dataset.orderId;
- const orders=getOrders();const o=orders.find(x=>x.orderId===orderId);
- if(o){o.status='awaiting_approval';saveOrders(orders);alert('Submitted! Check status after admin approves Wave 87 271 3918');backHome();}
-}
-function showCheck(){hideAll();document.getElementById('checkCard').classList.remove('hidden');}
-function showAdmin(){hideAll();document.getElementById('adminCard').classList.remove('hidden');renderAdmin();}
-function backHome(){hideAll();document.getElementById('formCard').classList.remove('hidden');}
-function hideAll(){['formCard','payCard','checkCard','adminCard'].forEach(id=>document.getElementById(id).classList.add('hidden'));}
-function checkStatus(){
- const q=document.getElementById('checkInput').value.trim();
- const orders=getOrders();const o=orders.find(x=>x.phone===q||x.orderId===q);
- const res=document.getElementById('checkResult');
- if(!o){res.innerHTML='<div class="alert">No order found</div>';return}
- if(o.status==='approved'){res.innerHTML=`<div class="waveBox"><div>APPROVED ✅</div><b>RRR: ${o.rrr}</b><br>Order: ${o.orderId}<br>${o.service} - GMD ${o.amount}</div>`;}
- else if(o.status==='awaiting_approval'){res.innerHTML=`<div class="alert">Order ${o.orderId} awaiting approval. Checking Wave 87 271 3918.</div>`;}
- else{res.innerHTML=`<div class="alert">Order ${o.orderId} - Fee GMD ${o.fee} NOT PAID to Wave 87 271 3918.</div>`;}
-}
-function renderAdmin(){
- const body=document.getElementById('adminBody');body.innerHTML='';
- getOrders().forEach(o=>{
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td>${o.orderId}</td><td>${o.name}<br>${o.phone}</td><td>GMD ${o.fee}</td><td>${o.status}</td><td>${o.status!=='approved'?`<button onclick="approve('${o.orderId}')">Approve</button>`:o.rrr}</td>`;
-  body.appendChild(tr);
- });
-}
-function approve(orderId){const orders=getOrders();const o=orders.find(x=>x.orderId===orderId);if(o){o.status='approved';saveOrders(orders);renderAdmin();}}
-</script>
-</body>
-</html>
+showPage('home');
+// Admin quick approve: type admin123 in check input
+let _origCheck=checkStatus;checkStatus=function(){let q=document.getElementById('checkInput').value;if(q==='admin123'){orders.forEach(o=>o.status='APPROVED');localStorage.setItem('remitaOrders',JSON.stringify(orders));alert('All Approved - now check with phone');return}_origCheck();}
+</script></body></html>
