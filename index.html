@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+E html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -62,8 +62,4 @@ function generate(){
  res.innerHTML=`<h2 style="margin:0;color:#16a34a">✅ RRR Generated!</h2><div style="font-size:26px;font-weight:900;margin:8px 0">${rrr}</div><div><b>${name}</b><br>${inst}<br>Phone: ${phone}<br>${method}</div><div style="margin-top:8px;background:white;padding:8px;border-radius:8px">Gov: <b>${c.gov.toFixed(2)} GMD</b><br>Fee 2%: <b style="color:red">${c.fee.toFixed(2)} GMD</b> → Your Wave<br><b>Total Pay: ${c.total.toFixed(2)} GMD</b></div><div style="margin-top:8px;font-size:12px;color:#166534;font-weight:700">🔒 Customer must pay total ${c.total.toFixed(2)}. Cannot pay only gov amount.</div><button class="btn" style="background:#334155;margin-top:10px" onclick="location.reload()">New Payment</button>`;
  let all=JSON.parse(localStorage.getItem('gambia_payments')||'[]');
  all.unshift({rrr,name,inst,phone,gov:c.gov,fee:c.fee,total:c.total,method,date:new Date().toLocaleString()});
- localStorage.setItem('gambia_payments',JSON.stringify(all));
-}
-</script>
-</body>
-</html>
+ localStorage.setItem('gambia_payments',JSON.stringify
