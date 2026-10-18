@@ -1,86 +1,13 @@
-<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gambia Remita - Boss Dashboard</title>
-<style>
-*{box-sizing:border-box} body{margin:0;background:#f8fafc;font-family:sans-serif;color:#0f172a}
-.header{background:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:10}
-.logo{display:flex;align-items:center;gap:10px} .logoB{width:38px;height:38px;background:#16a34a;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800}
-.searchBox{margin:14px;background:#fff;border:2px solid #16a34a;border-radius:14px;padding:12px;display:flex;gap:8px;align-items:center}
-.searchBox input{border:none;outline:none;width:100%;font-size:15px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px}
-.card{background:#fff;border-radius:16px;padding:14px;border:1px solid #e2e8f0;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-.card small{color:#64748b;font-size:11px;font-weight:700;letter-spacing:.5px}
-.card b.big{font-size:20px;display:block;margin-top:4px}
-.green{color:#16a34a} .orange{color:#d97706}
-.trans{margin:14px;background:#fff;border-radius:16px;padding:14px;border:1px solid #e2e8f0}
-.btn{padding:10px 16px;border:none;border-radius:12px;font-weight:800;cursor:pointer}
-.btnG{background:#16a34a;color:#fff} .btnLight{background:#f1f5f9;color:#0f172a}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;justify-content:space-around;padding:8px 0}
-.nav div{text-align:center;font-size:11px;color:#64748b} .nav .active{color:#16a34a}
-table{width:100%;font-size:12px;border-collapse:collapse} th{color:#94a3b8;font-size:10px;text-align:left;padding:8px} td{padding:10px 8px;border-top:1px solid #f1f5f9}
-.badge{padding:4px 8px;border-radius:20px;font-size:10px;font-weight:800}
-.badgeP{background:#fef9c3;color:#854d0e} .badgeA{background:#dcfce7;color:#166534}
-.login{max-width:360px;margin:90px auto;background:#fff;padding:22px;border-radius:16px;border:1px solid #e2e8f0;text-align:center}
-.hidden{display:none}
-</style></head><body>
-<div class="header"><div class="logo"><div class="logoB">B</div><div><b>Gambia Remita</b><br><small style="color:#64748b">Boss Dashboard - 2% Fee</small></div></div><div>🔔</div></div>
-
-<div id="loginBox" class="login">
-<h3>Boss Login</h3>
-<input id="pass" type="password" placeholder="Password" style="width:100%;padding:12px;border-radius:10px;border:1px solid #cbd5e1;margin:10px 0">
-<button class="btn btnG" style="width:100%" onclick="login()">Login</button>
-<small style="color:#94a3b8">Default: admin123</small>
-</div>
-
-<div id="dash" class="hidden">
-<div class="searchBox">🔍 <input id="search" placeholder="Search customers, RRR..." oninput="render()"></div>
-
-<div class="grid">
-<div class="card"><small>👥 TOTAL CUSTOMERS</small><b class="big" id="cTotal">0</b><small class="green" id="cSub">+0 total</small></div>
-<div class="card"><small>📈 YOUR PROFIT 2%</small><b class="big" id="cProfit">0.00 GMD</b><small class="green">2% locked</small></div>
-<div class="card"><small>🏛️ GOV MONEY TO SETTLE</small><b class="big" id="cGov">0.00 GMD</b><small class="orange">Pending settlement</small></div>
-<div class="card"><small>✅ SETTLED ALREADY</small><b class="big" id="cSet">0.00 GMD</b><small class="green">Bank ready</small></div>
-</div>
-
-<div class="trans">
-<div style="display:flex;justify-content:space-between;align-items:center"><b>Recent Transactions</b><a href="#" onclick="showAll()" style="color:#16a34a;text-decoration:none;font-weight:800">See all</a></div>
-<div id="recent" style="margin-top:8px;color:#64748b">No payments yet</div>
-<div style="margin-top:14px;display:flex;gap:8px">
-<button class="btn btnG" onclick="exportCSV()">📊 Excel for Bank (2%)</button>
-<button class="btn btnLight" onclick="markAllPaid()">Mark All Paid</button>
-</div>
-<div style="overflow-x:auto;margin-top:16px"><table><thead><tr><th>Customer</th><th>Amount/Fee</th><th>Order/RRR</th><th>Status</th><th>Action</th></tr></thead><tbody id="tbody"></tbody></table></div>
-</div>
-</div>
-
-<div class="nav"><div class="active">💳<br>Dashboard</div><div>🏛️<br>Transactions</div><div>📄<br>Reports</div><div>👤<br>Profile</div></div>
-
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Boss Dashboard</title>
+<style>body{margin:0;font-family:sans-serif;background:#f8fafc}header{background:#fff;padding:12px 16px;border-bottom:1px solid #e2e8f0}main{max-width:600px;margin:0 auto;padding:16px}input{width:100%;padding:14px;border-radius:12px;border:2px solid #16a34a;margin:8px 0}button{padding:10px 14px;border:none;border-radius:10px;font-weight:800} .card{background:#fff;border-radius:14px;padding:12px;border:1px solid #e2e8f0;margin:10px 0}</style></head><body>
+<header><b>🔒 Boss Dashboard</b> <small>Password: admin123</small></header>
+<main><input id="pass" type="password" placeholder="Enter Password admin123"><button onclick="login()" style="width:100%;background:#16a34a;color:#fff;padding:14px;border-radius:12px">Unlock</button><div id="dash" style="display:none"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0"><div class="card" style="margin:0"><small>TOTAL ORDERS</small><br><b id="c1" style="font-size:20px">0</b></div><div class="card" style="margin:0"><small>YOUR PROFIT 2%</small><br><b id="c2" style="font-size:18px;color:#16a34a">0 GMD</b></div><div class="card" style="margin:0"><small>GOV MONEY</small><br><b id="c3">0 GMD</b></div><div class="card" style="margin:0"><small>SETTLED</small><br><b id="c4">0 GMD</b></div></div><input id="search" placeholder="Search name, phone, RRR" oninput="render()"><div style="display:flex;gap:8px"><button onclick="exportCSV()" style="background:#0f172a;color:#fff;flex:1">Excel for Bank</button><button onclick="markSettled()" style="background:#f1f5f9;flex:1">Mark Settled</button></div><div id="list"></div></div></main>
 <script>
-let orders = JSON.parse(localStorage.getItem('remitaOrders')||'[]');
-let settled = parseFloat(localStorage.getItem('remitaSettled')||'0');
-function login(){if(document.getElementById('pass').value!=='admin123'){alert('Wrong!');return}document.getElementById('loginBox').classList.add('hidden');document.getElementById('dash').classList.remove('hidden');render();}
-function render(){
- let q=document.getElementById('search').value.toLowerCase();
- let filtered=orders.filter(o=>(o.name+o.phone+o.id+o.rrr).toLowerCase().includes(q)).reverse();
- let total=orders.length;
- let profit=orders.reduce((s,o)=>s+(Number(o.fee)||0),0);
- let gov=orders.reduce((s,o)=>s+(Number(o.amount)||0),0);
- document.getElementById('cTotal').innerText=total;
- document.getElementById('cSub').innerText='+'+total+' total';
- document.getElementById('cProfit').innerText=profit.toFixed(2)+' GMD';
- document.getElementById('cGov').innerText=gov.toFixed(2)+' GMD';
- document.getElementById('cSet').innerText=settled.toFixed(2)+' GMD';
- let tbody=document.getElementById('tbody'); tbody.innerHTML='';
- let recent=document.getElementById('recent');
- if(filtered.length===0){recent.innerText='No payments yet';}else{recent.innerHTML=filtered.slice(0,2).map(o=>`<div style="padding:8px 0;border-bottom:1px solid #f1f5f9"><b>${o.name}</b> - ${o.inst} - GMD ${o.amount} <span class="badge ${o.status==='APPROVED'?'badgeA':'badgeP'}">${o.status}</span></div>`).join('');}
- filtered.forEach(o=>{
-  tbody.innerHTML+=`<tr><td><b>${o.name}</b><br><small>${o.phone}</small></td><td><b>GMD ${o.amount}</b><br><small>Fee GMD ${o.fee}</small></td><td><small>${o.id}</small><br><small style="color:#16a34a;font-weight:800">${o.rrr}</small></td><td><span class="badge ${o.status==='APPROVED'?'badgeA':'badgeP'}">${o.status}</span></td><td>${o.status==='PENDING'?`<button class="btn btnG" style="padding:6px 10px" onclick="approveOne('${o.id}')">Approve</button>`:''}<button class="btn btnLight" style="padding:6px 10px" onclick="copyT('${o.rrr}')">Copy</button></td></tr>`;
- });
-}
-function approveOne(id){let o=orders.find(x=>x.id===id);o.status='APPROVED';save();render();}
-function markAllPaid(){if(!confirm('Mark all as settled to bank? Your profit will be saved and gov money reset.'))return;let gov=orders.reduce((s,o)=>s+(Number(o.amount)||0),0);settled+=gov;localStorage.setItem('remitaSettled',settled);orders=[];save();render();}
-function save(){localStorage.setItem('remitaOrders',JSON.stringify(orders));}
-function copyT(t){navigator.clipboard.writeText(t);alert('Copied: '+t);}
-function exportCSV(){let csv='Name,Phone,Institution,GovAmount,YourFee2%,OrderID,RRR,Status\n';orders.forEach(o=>{csv+=`${o.name},${o.phone},${o.inst},${o.amount},${o.fee},${o.id},${o.rrr},${o.status}\n`;});let a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='Gambia_Remita_Bank_'+new Date().toISOString().slice(0,10)+'.csv';a.click();}
-function showAll(){document.getElementById('search').value='';render();}
+let orders=[];function login(){if(document.getElementById('pass').value!=='admin123'){alert('Wrong! Use admin123');return}document.getElementById('dash').style.display='block';load();}
+function load(){try{orders=JSON.parse(localStorage.getItem('remitaOrders')||'[]');}catch(e){orders=[]}render();}
+function render(){let q=(document.getElementById('search').value||'').toLowerCase();let filt=orders.filter(o=>(o.name+o.phone+o.id+String(o.rrr)).toLowerCase().includes(q)).reverse();let profit=filt.reduce((s,o)=>s+(Number(o.fee)||0),0);let gov=filt.reduce((s,o)=>s+(Number(o.amount)||0),0);let sett=Number(localStorage.getItem('remSet')||0);document.getElementById('c1').innerText=filt.length;document.getElementById('c2').innerText=profit.toFixed(2)+' GMD';document.getElementById('c3').innerText=gov.toFixed(2)+' GMD';document.getElementById('c4').innerText=sett.toFixed(2)+' GMD';let h='';filt.forEach(o=>{h+=`<div class="card"><b>${o.name}</b> <small>${o.phone}</small><br><small>${o.inst} | ${o.date}</small><br>Gov: <b>GMD ${Number(o.amount).toFixed(2)}</b> Fee: <b style="color:#16a34a">GMD ${Number(o.fee).toFixed(2)}</b><br>ORD: ${o.id}<br>RRR: <b style="color:#16a34a">${o.rrr}</b> <span style="background:${o.status==='APPROVED'?'#dcfce7':'#fef9c3'};padding:2px 8px;border-radius:10px;font-size:10px">${o.status}</span><br><div style="margin-top:8px;display:flex;gap:6px"><button onclick="approve('${o.id}')" style="background:#16a34a;color:#fff">Approve</button><button onclick="navigator.clipboard.writeText('${o.rrr}')" style="background:#f1f5f9">Copy</button><button onclick="delOrder('${o.id}')" style="background:#fee2e2">Delete</button></div></div>`});document.getElementById('list').innerHTML=h||'<p>No orders</p>';}
+function approve(id){orders=orders.map(x=>{if(x.id===id)x.status='APPROVED';return x});localStorage.setItem('remitaOrders',JSON.stringify(orders));render();}
+function delOrder(id){if(!confirm('Delete?'))return;orders=orders.filter(x=>x.id!==id);localStorage.setItem('remitaOrders',JSON.stringify(orders));render();}
+function markSettled(){if(!confirm('Mark settled? Profit stays.'))return;let gov=orders.reduce((s,o)=>s+(Number(o.amount)||0),0);let set=Number(localStorage.getItem('remSet')||0)+gov;localStorage.setItem('remSet',set);localStorage.setItem('remitaOrders',JSON.stringify([]));orders=[];render();}
+function exportCSV(){let csv='Name,Phone,Inst,GovAmount,Fee,OrderID,RRR,Status,Date\n';orders.forEach(o=>{csv+=`"${o.name}",${o.phone},"${o.inst}",${o.amount},${o.fee},${o.id},${o.rrr},${o.status},${o.date}\n`});let a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='bank_'+new Date().toISOString().slice(0,10)+'.csv';a.click();}
 </script></body></html>
