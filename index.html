@@ -1,8 +1,9 @@
-lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gambia Remita 2% Fee Locked</title>
+<title>Gambia Remita V4 Clean 2%</title>
 <style>
 *{box-sizing:border-box;font-family:system-ui,Arial}
 body{margin:0;background:#f0fdf4;padding:12px}
@@ -11,11 +12,8 @@ h1{margin:0 0 4px;text-align:center;color:#166534;font-size:20px}
 .sub{text-align:center;color:#666;font-size:12px;margin-bottom:14px}
 label{font-weight:700;font-size:13px;display:block;margin:10px 0 4px}
 input,select{width:100%;padding:12px;border:2px solid #d1d5db;border-radius:10px;font-size:15px}
-input:focus{border-color:#16a34a;outline:none}
 .feeBox{margin:12px 0;background:#fef9c3;border:2px dashed #ca8a04;border-radius:12px;padding:12px;text-align:center}
 .total{font-size:19px;font-weight:900;color:#166534;margin-top:6px}
-.lock{font-size:11px;background:#dcfce7;color:#166534;padding:5px 10px;border-radius:20px;display:inline-block;margin-top:6px;font-weight:800}
-.alert{background:#e0f2fe;border:2px solid #0284c7;border-radius:10px;padding:10px;text-align:center;margin:10px 0;font-size:12px}
 .btn{width:100%;padding:14px;background:#16a34a;color:white;border:none;border-radius:12px;font-weight:900;font-size:16px;cursor:pointer;margin-top:8px}
 .result{margin-top:14px;background:#f0fdf4;border:2px solid #16a34a;border-radius:12px;padding:14px;text-align:center;display:none}
 </style>
@@ -23,32 +21,32 @@ input:focus{border-color:#16a34a;outline:none}
 <body>
 <div class="card">
 <h1>🇬🇲 Gambia Remita</h1>
-<div class="sub">V3 - 2% Fee Protected - Cannot Be Avoided</div>
+<div class="sub">V4 - Clean 2% - Fee cannot be avoided</div>
 <label>Institution</label>
 <select id="inst"><option>UTG University</option><option>GRA Tax</option><option>Passport</option><option>Business Registration</option><option>Other Gov</option></select>
 <label>Full Name</label>
 <input id="name" placeholder="Lamin Jallow">
 <label>Phone</label>
 <input id="phone" type="tel" placeholder="6599013">
-<label>Amount Customer Pays (GMD)</label>
-<input id="amount" type="number" placeholder="e.g 5000" oninput="calc()">
-<div class="feeBox" id="feeBox">Type amount above to see 2% split</div>
-<div class="alert">🔒 <b>2% FEE LOCKED:</b> If customer pays 5000, fee 100 is auto-deducted. Gov gets 4900. Customer CANNOT avoid fee!</div>
-<div style="background:#ccfbf1;padding:10px;border-radius:10px;text-align:center"><b>YOUR 2% FEE TO:</b><br><span style="font-size:18px;font-weight:900;color:#0f766e">Wave: 659 9013</span><br>Marian Tunkara</div>
+<label>Gov Amount Required (GMD) - What Gov/School Wants</label>
+<input id="amount" type="number" placeholder="e.g 10000" oninput="calc()">
+<div class="feeBox" id="feeBox">Type gov amount above</div>
+<div style="background:#ccfbf1;padding:10px;border-radius:10px;text-align:center;margin:10px 0"><b>YOUR 2% FEE TO:</b><br><span style="font-size:18px;font-weight:900;color:#0f766e">Wave: 659 9013</span><br>Marian Tunkara</div>
 <label>Payment Method</label>
 <select id="payMethod"><option>Wave Mobile Money</option><option>QMoney</option><option>Bank Transfer</option></select>
 <button class="btn" onclick="generate()">Generate RRR</button>
 <div class="result" id="result"></div>
+<p style="font-size:11px;color:#666;text-align:center;margin-top:8px">Gov 10000 + 2% fee 200 = Total 10200 to pay. Clean numbers, fee locked.</p>
 </div>
 <script>
 function calc(){
- let total=parseFloat(document.getElementById('amount').value)||0;
+ let gov=parseFloat(document.getElementById('amount').value)||0;
  let box=document.getElementById('feeBox');
- if(total<=0){box.innerHTML='Type amount above to see 2% split';return null;}
- let fee=total*0.02;
- let gov=total-fee;
- box.innerHTML=`Customer Pays: <b>${total.toFixed(2)} GMD</b><br>Fee 2% Deducted: <b style="color:#dc2626">${fee.toFixed(2)} GMD</b><br>Gov Gets: <b>${gov.toFixed(2)} GMD</b><div class="total">YOU KEEP: ${fee.toFixed(2)} GMD (2%)</div><div class="lock">🔒 2% FEE LOCKED - Cannot Avoid</div>`;
- return {total,fee,gov};
+ if(gov<=0){box.innerHTML='Type gov amount above';return null;}
+ let fee=gov*0.02;
+ let total=gov+fee;
+ box.innerHTML=`Gov Needs: <b>${gov.toFixed(2)} GMD</b><br>Fee 2% (clean): <b style="color:#dc2626">${fee.toFixed(2)} GMD</b><br>Total Customer Pays: <b>${total.toFixed(2)} GMD</b><div class="total">YOU KEEP: ${fee.toFixed(2)} GMD</div><div style="font-size:11px;background:#dcfce7;color:#166534;padding:5px 10px;border-radius:20px;display:inline-block;margin-top:6px;font-weight:800">🔒 CLEAN 2% - Cannot Avoid</div>`;
+ return {gov,fee,total};
 }
 function generate(){
  let name=document.getElementById('name').value.trim();
@@ -58,15 +56,13 @@ function generate(){
  let method=document.getElementById('payMethod').value;
  if(!name||!amt||!phone){alert('Fill Name, Phone, Amount');return;}
  let c=calc();
- if(!c) return;
  let rrr='GM-'+Math.floor(10000000+Math.random()*90000000);
  let res=document.getElementById('result');
  res.style.display='block';
- res.innerHTML=`<h2 style="margin:0;color:#16a34a">✅ RRR Generated!</h2><div style="font-size:26px;font-weight:900;margin:8px 0">${rrr}</div><div><b>${name}</b><br>${inst}<br>Phone: ${phone}<br>${method}</div><div style="margin-top:8px;background:white;padding:8px;border-radius:8px">Paid: <b>${c.total.toFixed(2)} GMD</b><br>Fee 2%: <b style="color:red">${c.fee.toFixed(2)} GMD</b> → Your Wave 659 9013<br>Gov Gets: <b>${c.gov.toFixed(2)} GMD</b></div><div style="margin-top:8px;font-size:12px;color:#166534;font-weight:700">🔒 2% Fee auto-deducted. Customer could not avoid!</div><button class="btn" style="background:#334155;margin-top:10px" onclick="location.reload()">New Payment</button>`;
+ res.innerHTML=`<h2 style="margin:0;color:#16a34a">✅ RRR Generated!</h2><div style="font-size:26px;font-weight:900;margin:8px 0">${rrr}</div><div><b>${name}</b><br>${inst}<br>Phone: ${phone}<br>${method}</div><div style="margin-top:8px;background:white;padding:8px;border-radius:8px">Gov: <b>${c.gov.toFixed(2)} GMD</b><br>Fee 2%: <b style="color:red">${c.fee.toFixed(2)} GMD</b> → Your Wave<br><b>Total Pay: ${c.total.toFixed(2)} GMD</b></div><div style="margin-top:8px;font-size:12px;color:#166534;font-weight:700">🔒 Customer must pay total ${c.total.toFixed(2)}. Cannot pay only gov amount.</div><button class="btn" style="background:#334155;margin-top:10px" onclick="location.reload()">New Payment</button>`;
  let all=JSON.parse(localStorage.getItem('gambia_payments')||'[]');
- all.unshift({rrr,name,inst,phone,total:c.total,fee:c.fee,gov:c.gov,method,date:new Date().toLocaleString()});
+ all.unshift({rrr,name,inst,phone,gov:c.gov,fee:c.fee,total:c.total,method,date:new Date().toLocaleString()});
  localStorage.setItem('gambia_payments',JSON.stringify(all));
- window.scrollTo(0,document.body.scrollHeight);
 }
 </script>
 </body>
