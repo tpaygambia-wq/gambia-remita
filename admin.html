@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gambia Remita - Ousman Tunkara CEO</title>
+<title>Ousman Tunkara - Approval Center</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
@@ -10,75 +10,76 @@
 .login{height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(800px at 50% -20%,#1e3a8a,transparent),#070e1f}
 .card-login{background:#101b36;padding:32px;border-radius:20px;width:92%;max-width:400px;border:1px solid #1e3a5f}
 input,select{width:100%;padding:13px;margin:7px 0;border-radius:12px;border:1px solid #1e3a5f;background:#0b1226;color:white;outline:none}
-.btn{padding:12px 18px;border:none;border-radius:12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
-.btn-g{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000}.btn-b{background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:white}.btn-y{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000}.btn-r{background:#ef4444;color:white}.btn-dark{background:#0b1226;border:1px solid #1e3a5f;color:white}
-.top{background:linear-gradient(135deg,#0f1a33,#101b36);border-bottom:1px solid #1e3a5f;padding:16px}
-.ceo-bar{display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
-.ceo-left{display:flex;align-items:center;gap:12px}
-.avatar{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:black;box-shadow:0 0 20px rgba(34,197,94,.5)}
-.verified{background:#3b82f6;color:white;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800;display:inline-flex;gap:3px;align-items:center;margin-left:6px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px}
-.sbox{background:linear-gradient(180deg,#101b36,#0b1226);padding:16px;border-radius:18px;border:1px solid #1e3a5f;position:relative;overflow:hidden}.sbox i{position:absolute;right:12px;top:12px;opacity:.15;font-size:26px}.sbox small{color:#94a3b8;font-size:11px}.sbox h2{margin-top:6px;font-size:20px}
-.chart-box{margin:0 14px 14px;background:#0f1a33;border:1px solid #1e3a5f;border-radius:18px;padding:14px}
-.tabs{display:flex;gap:8px;padding:10px 14px;overflow:auto}.tab{padding:9px 16px;border-radius:30px;background:#0b1226;border:1px solid #1e3a5f;cursor:pointer;white-space:nowrap;font-size:13px;font-weight:700}.tab.active{background:#22c55e;color:#000}
-.form-area{margin:0 14px 12px;background:#0f1a33;border:1px solid #1e3a5f;border-radius:18px;padding:14px}.row{display:flex;gap:10px}.row>*{flex:1}
-.tx-list{padding:0 14px 100px;display:grid;gap:10px}.tx-card{background:#0f1a33;border:1px solid #1e3a5f;border-radius:16px;padding:14px;display:flex;justify-content:space-between;gap:10px}
+.btn{padding:11px 16px;border:none;border-radius:12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.btn-g{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000}.btn-b{background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:white}.btn-y{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000}.btn-r{background:#1f2937;border:1px solid #ef4444;color:#ef4444}.btn-dark{background:#0b1226;border:1px solid #1e3a5f;color:white}
+.top{background:#0f1a33;border-bottom:1px solid #1e3a5f;padding:14px}
+.ceo-bar{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+.avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:900;color:black}
+.verified{background:#3b82f6;color:white;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800;margin-left:6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}
+.sbox{background:#101b36;padding:14px;border-radius:16px;border:1px solid #1e3a5f}.sbox small{color:#94a3b8;font-size:10px}.sbox h2{margin-top:4px;font-size:18px}
+.chart-box{margin:0 12px 12px;background:#0f1a33;border:1px solid #1e3a5f;border-radius:16px;padding:12px}
+.tabs{display:flex;gap:8px;padding:10px 12px;overflow:auto;position:sticky;top:0;z-index:5;background:#070e1f}.tab{padding:8px 16px;border-radius:30px;background:#0b1226;border:1px solid #1e3a5f;cursor:pointer;white-space:nowrap;font-size:13px;font-weight:700;position:relative}.tab.active{background:#22c55e;color:#000}.badge-count{position:absolute;top:-6px;right:-6px;background:#ef4444;color:white;font-size:10px;padding:2px 6px;border-radius:20px;font-weight:900}
+.tx-list{padding:0 12px 100px;display:grid;gap:12px}
+.approve-card{background:linear-gradient(180deg,#101b36,#0f1a33);border:1px solid #f59e0b;border-radius:20px;padding:16px;box-shadow:0 0 30px rgba(245,158,11,.15);animation:pulseBorder 2s infinite}
+@keyframes pulseBorder{0%,100%{border-color:#f59e0b}50%{border-color:#fbbf24}}
+.approve-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.order-id{background:#0b1226;border:1px dashed #3b82f6;padding:6px 12px;border-radius:10px;font-family:monospace;font-size:12px;color:#22c55e;font-weight:800}
+.cust-row{display:flex;gap:12px;margin:10px 0;background:#0b1226;padding:10px;border-radius:12px;border:1px solid #1e3a5f}
+.cust-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-weight:800;color:white;flex-shrink:0}
+.pay-to{background:rgba(59,130,246,.15);border:1px solid #3b82f6;border-radius:12px;padding:10px;display:flex;justify-content:space-between;align-items:center;margin:10px 0}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.action-row .btn{justify-content:center;padding:14px;font-size:14px}
+.tx-card{background:#0f1a33;border:1px solid #1e3a5f;border-radius:16px;padding:14px;display:flex;justify-content:space-between;gap:10px}
 .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800}.PENDING{background:#f59e0b;color:#000}.PAID{background:#22c55e;color:#000}.API{background:#3b82f6;color:white}.MANUAL{background:#334155;color:white}
+.form-area{margin:0 12px 12px;background:#0f1a33;border:1px solid #1e3a5f;border-radius:16px;padding:12px}.row{display:flex;gap:8px}.row>*{flex:1}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99;align-items:flex-end;justify-content:center}.modal.show{display:flex}.modal-box{background:#0f1a33;width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;border:1px solid #1e3a5f;padding:18px}
-.set-nav{display:flex;gap:8px;margin:12px 0;overflow:auto}.set-nav div{padding:8px 14px;border-radius:20px;background:#0b1226;border:1px solid #1e3a5f;cursor:pointer;font-size:13px;font-weight:700;white-space:nowrap}.set-nav div.active{background:white;color:black}
 </style>
 </head>
 <body>
 <div id="loginDiv" class="login">
-<div class="card-login">
-<div style="text-align:center;margin-bottom:18px"><div style="width:60px;height:60px;background:linear-gradient(135deg,#22c55e,#3b82f6);border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:30px">👑</div><h2 style="margin-top:10px">Ousman Tunkara</h2><p style="color:#94a3b8;font-size:13px">CEO Login • Gambia Remita</p></div>
-<input id="passInput" type="password" placeholder="🔐 Password"><button class="btn btn-g" style="width:100%;justify-content:center;margin-top:6px" onclick="doLogin()"><i class="fa fa-bolt"></i> Enter Empire</button><p id="loginErr" style="color:#ef4444;text-align:center;margin-top:10px;font-size:13px"></p>
-</div>
+<div class="card-login"><div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;background:linear-gradient(135deg,#22c55e,#3b82f6);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:28px">👑</div><h2 style="margin-top:8px">Ousman Tunkara</h2><p style="color:#94a3b8;font-size:12px">Approval Center</p></div><input id="passInput" type="password" placeholder="🔐 Password"><button class="btn btn-g" style="width:100%;justify-content:center;margin-top:6px" onclick="doLogin()"><i class="fa fa-bolt"></i> Enter</button><p id="loginErr" style="color:#ef4444;text-align:center;margin-top:8px;font-size:12px"></p></div>
 </div>
 
 <div id="adminDiv" style="display:none">
 <div class="top">
-<div class="ceo-bar">
-<div class="ceo-left"><div class="avatar" id="ceoAvatar">OT</div><div><div style="display:flex;align-items:center"><b id="ceoNameDisp" style="font-size:19px">Ousman Tunkara</b><span class="verified"><i class="fa fa-check-circle"></i> VERIFIED</span></div><div style="font-size:12px;color:#22c55e;font-weight:800"><i class="fa fa-crown"></i> <span id="ceoTitleDisp">CEO & Founder</span> • Gambia Remita</div><div style="font-size:11px;color:#94a3b8;margin-top:2px">Wave: <span id="waveDisp">872713918</span> • Fee: <span id="feeDisp">2</span>% • <span id="clock"></span></div></div></div>
-<div style="display:flex;gap:8px"><button class="btn btn-b" onclick="openSet('business')"><i class="fa fa-cog"></i></button><button class="btn btn-y" onclick="openSet('withdraw')"><i class="fa fa-wallet"></i></button><button class="btn btn-r" onclick="doLogout()"><i class="fa fa-sign-out"></i></button></div>
-</div>
-<div style="margin-top:12px;background:rgba(34,197,94,.1);border:1px dashed #22c55e;border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><div><small style="color:#94a3b8">BUSINESS</small><br><b id="bizName">Gambia Remita</b> <span style="background:#22c55e;color:black;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800;margin-left:6px">LIVE</span></div><button class="btn btn-dark" style="padding:6px 12px;font-size:12px" onclick="openSet('business')"><i class="fa fa-pen"></i> Edit</button></div>
+<div class="ceo-bar"><div style="display:flex;align-items:center;gap:10px"><div class="avatar" id="ceoAvatar">OT</div><div><div><b>Ousman Tunkara</b><span class="verified"><i class="fa fa-check"></i> VERIFIED</span></div><div style="font-size:11px;color:#22c55e;font-weight:700"><i class="fa fa-crown"></i> CEO & Founder • <span id="clock"></span></div></div></div><div style="display:flex;gap:6px"><button class="btn btn-dark" onclick="openSet()"><i class="fa fa-cog"></i></button><button class="btn btn-r" onclick="doLogout()"><i class="fa fa-sign-out"></i></button></div></div>
 </div>
 
 <div class="stats">
-<div class="sbox"><i class="fa fa-chart-line" style="color:#22c55e"></i><small>TOTAL VOLUME</small><h2 id="tVol">D0</h2></div>
-<div class="sbox"><i class="fa fa-coins" style="color:#f59e0b"></i><small>YOUR PROFIT</small><h2 id="tProf" style="color:#22c55e">D0</h2></div>
-<div class="sbox"><i class="fa fa-wallet" style="color:#f59e0b"></i><small>AVAILABLE</small><h2 id="tAvail" style="color:#f59e0b">D0</h2></div>
-<div class="sbox"><i class="fa fa-receipt" style="color:#3b82f6"></i><small>TRANSACTIONS</small><h2 id="tCount">0</h2><small id="tPend">0 Pending</small></div>
+<div class="sbox"><small>TOTAL VOLUME</small><h2 id="tVol">D0</h2></div>
+<div class="sbox"><small>YOUR PROFIT</small><h2 id="tProf" style="color:#22c55e">D0</h2></div>
+<div class="sbox"><small>AVAILABLE</small><h2 id="tAvail" style="color:#f59e0b">D0</h2></div>
+<div class="sbox"><small>PENDING APPROVAL</small><h2 id="tPendCount" style="color:#ef4444">0</h2><small id="tPend">0 Pending</small></div>
 </div>
 
-<div class="chart-box">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b><i class="fa fa-chart-bar"></i> Daily Usage • Last 7 Days</b><small id="chartTotal" style="color:#22c55e;font-weight:800"></small></div>
-<canvas id="dailyChart" height="120"></canvas>
-<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><span style="background:#0b1226;border:1px solid #1e3a5f;padding:4px 10px;border-radius:20px;font-size:11px"><span style="display:inline-block;width:8px;height:8px;background:#22c55e;border-radius:50%"></span> Volume</span><span style="background:#0b1226;border:1px solid #1e3a5f;padding:4px 10px;border-radius:20px;font-size:11px"><span style="display:inline-block;width:8px;height:8px;background:#3b82f6;border-radius:50%"></span> Profit</span><span style="background:#0b1226;border:1px solid #1e3a5f;padding:4px 10px;border-radius:20px;font-size:11px"><span style="display:inline-block;width:8px;height:8px;background:#f59e0b;border-radius:50%"></span> Transactions</span></div>
+<div class="chart-box"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-size:13px"><i class="fa fa-chart-bar"></i> Daily Usage • 7 Days</b><small id="chartTotal" style="color:#22c55e;font-weight:800"></small></div><canvas id="dailyChart" height="110"></canvas></div>
+
+<div class="tabs">
+<div class="tab active" id="tab-all" onclick="filterTab('all',this)">All</div>
+<div class="tab" id="tab-PENDING" onclick="filterTab('PENDING',this)">Pending <span class="badge-count" id="pendBadge" style="display:none">0</span></div>
+<div class="tab" onclick="filterTab('PAID',this)">Paid</div>
+<div class="tab" onclick="filterTab('API',this)">API Auto</div>
 </div>
-
-<div class="tabs"><div class="tab active" onclick="filterTab('all',this)">All</div><div class="tab" onclick="filterTab('PENDING',this)">Pending</div><div class="tab" onclick="filterTab('PAID',this)">Paid</div><div class="tab" onclick="filterTab('API',this)">API Auto</div></div>
-
-<div class="form-area"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><b><i class="fa fa-plus"></i> Quick Generate</b><small style="color:#94a3b8">Manual RRR</small></div><select id="mSel"></select><div class="row" style="margin-top:6px"><input id="cName" placeholder="Customer Name"><input id="cAmt" type="number" placeholder="Amount D"></div><div class="row"><input id="cServ" placeholder="Service Desc"></div><div class="row" style="margin-top:8px"><button class="btn btn-g" style="flex:2;justify-content:center" onclick="genManual()"><i class="fa fa-magic"></i> Generate RRR</button><button class="btn btn-dark" onclick="exportCSV()"><i class="fa fa-download"></i></button></div><input id="search" placeholder="🔍 Search RRR, Name..." oninput="render()" style="margin-top:10px"></div>
 
 <div class="tx-list" id="txList"></div>
 </div>
 
 <div id="setModal" class="modal" onclick="if(event.target===this)closeSet()">
 <div class="modal-box">
-<div style="display:flex;justify-content:space-between"><h3 id="setTitle">⚙️ Ousman Tunkara Profile</h3><button class="btn btn-dark" onclick="closeSet()"><i class="fa fa-times"></i></button></div>
-<div class="set-nav"><div id="nav-biz" class="active" onclick="switchSet('business')">Profile</div><div id="nav-sec" onclick="switchSet('security')">Security</div><div id="nav-with" onclick="switchSet('withdraw')">Withdraw</div><div id="nav-sys" onclick="switchSet('system')">System</div></div>
-
-<div id="pane-business">
-<label>👑 CEO Name</label><input id="setCeoName" placeholder="Ousman Tunkara">
-<label>💼 Title</label><input id="setCeoTitle" placeholder="CEO & Founder">
-<label>🏢 Business</label><input id="setBizName"><label>📱 Wave</label><input id="setWave"><label>💰 Fee %</label><input id="setFee" type="number" step="0.5"><label>Merchants</label><input id="setMerchList" placeholder="GRA,UTG,NAWEC">
-<button class="btn btn-g" style="width:100%;justify-content:center;margin-top:10px" onclick="saveBusiness()"><i class="fa fa-save"></i> Save Profile</button>
+<div style="display:flex;justify-content:space-between"><h3>⚙️ Settings - Ousman Tunkara</h3><button class="btn btn-dark" onclick="closeSet()"><i class="fa fa-times"></i></button></div>
+<div style="margin-top:12px">
+<label>Business Name</label><input id="setBizName"><label>Wave Number</label><input id="setWave"><label>Fee %</label><input id="setFee" type="number" step="0.5"><label>CEO Name</label><input id="setCeoName" value="Ousman Tunkara">
+<button class="btn btn-g" style="width:100%;justify-content:center;margin-top:10px" onclick="saveBusiness()"><i class="fa fa-save"></i> Save</button>
+<button class="btn btn-dark" style="width:100%;justify-content:center;margin-top:8px" onclick="bulkPaid()"><i class="fa fa-check-double"></i> Approve All Pending</button>
+<button class="btn btn-dark" style="width:100%;justify-content:center;margin-top:8px" onclick="exportCSV()"><i class="fa fa-download"></i> Export CSV</button>
 </div>
-<div id="pane-security" style="display:none"><label>Old Password</label><input id="oldPass" type="password"><label>New</label><input id="newPass" type="password"><label>Confirm</label><input id="newPass2" type="password"><button class="btn btn-y" style="width:100%;justify-content:center" onclick="changePass()"><i class="fa fa-key"></i> Change Password</button></div>
-<div id="pane-withdraw" style="display:none"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px"><div style="background:#0b1226;padding:12px;border-radius:12px;border:1px solid #1e3a5f"><small>Available</small><h3 id="wAvail" style="color:#22c55e">D0</h3></div><div style="background:#0b1226;padding:12px;border-radius:12px;border:1px solid #1e3a5f"><small>Withdrawn</small><h3 id="wTotal">D0</h3></div></div><label>Amount</label><input id="wAmount" type="number"><label>To</label><input id="wTo"><label>Note</label><input id="wNote"><button class="btn btn-g" style="width:100%;justify-content:center" onclick="doWithdraw()"><i class="fa fa-paper-plane"></i> Confirm</button><div id="wHistory" style="margin-top:12px"></div></div>
-<div id="pane-system" style="display:none"><button class="btn btn-dark" style="width:100%;justify-content:center" onclick="exportCSV()"><i class="fa fa-file-csv"></i> Export CSV</button><button class="btn btn-dark" style="width:100%;justify-content:center;margin-top:8px" onclick="bulkPaid()"><i class="fa fa-check-double"></i> Mark All Paid</button><button class="btn btn-r" style="width:100%;justify-content:center;margin-top:8px" onclick="clearAll()"><i class="fa fa-trash"></i> Clear All</button></div>
+</div>
+</div>
+
+<div id="detailModal" class="modal" onclick="if(event.target===this)closeDetail()">
+<div class="modal-box" style="background:#101b36">
+<div id="detailContent"></div>
 </div>
 </div>
 
@@ -92,58 +93,51 @@ function getWave(){return localStorage.getItem("ot_wave")||"872713918";}
 function getBiz(){return localStorage.getItem("ot_biz_name")||"Gambia Remita";}
 function getFee(){return parseFloat(localStorage.getItem("ot_fee")||"2");}
 function getCeoName(){return localStorage.getItem("ot_ceo_name")||"Ousman Tunkara";}
-function getCeoTitle(){return localStorage.getItem("ot_ceo_title")||"CEO & Founder";}
-function getEnabled(){let s=localStorage.getItem("ot_enabled_merch");return s?s.split(",").map(x=>x.trim().toUpperCase()).filter(Boolean):MERCHANTS;}
-function getInitials(n){let p=n.trim().split(" ");if(p.length>=2)return(p[0][0]+p[1][0]).toUpperCase();return n.substring(0,2).toUpperCase();}
 function doLogin(){if($("passInput").value===getPass()){$("loginDiv").style.display="none";$("adminDiv").style.display="block";init();setInterval(()=>{$("clock").innerText=new Date().toLocaleTimeString();},1000);}else $("loginErr").innerText="❌ Wrong Password!";}
 function doLogout(){location.reload();}
-function init(){
-$("bizName").innerText=getBiz();$("waveDisp").innerText=getWave();$("feeDisp").innerText=getFee();
-$("ceoNameDisp").innerText=getCeoName();$("ceoTitleDisp").innerText=getCeoTitle();$("ceoAvatar").innerText=getInitials(getCeoName());
-let sel=$("mSel");sel.innerHTML="";getEnabled().forEach(m=>{let o=document.createElement("option");o.value=m;o.textContent=m;sel.appendChild(o);});
-render(); renderChart();
-}
+function init(){render();renderChart();}
 function render(){
-let search=($("search").value||"").toLowerCase();
-let filtered=txs.filter(t=>{if(curFilter!=="all"&&t.status!==curFilter&&t.source!==curFilter)return false;if(search&&!(t.rrr.toLowerCase().includes(search)||t.customer.toLowerCase().includes(search)))return false;return true;});
 let vol=0,prof=0,pend=0;txs.forEach(t=>{if(t.status==="PAID"){vol+=t.amount;prof+=t.amount*getFee()/100;}else pend++;});
 let withdrawn=withdrawals.reduce((s,w)=>s+w.amount,0);let avail=prof-withdrawn;
-$("tVol").innerText="D"+vol.toLocaleString();$("tProf").innerText="D"+prof.toLocaleString();$("tAvail").innerText="D"+avail.toLocaleString();$("tCount").innerText=txs.length;$("tPend").innerText=pend+" Pending";
-let list=$("txList");list.innerHTML="";if(filtered.length===0){list.innerHTML="<div style='text-align:center;padding:40px;color:#64748b'><i class='fa fa-inbox' style='font-size:40px'></i><p>No transactions</p></div>";return;}
-filtered.forEach(t=>{let realIdx=txs.indexOf(t);let fee=Math.round(t.amount*getFee()/100);let div=document.createElement("div");div.className="tx-card";div.innerHTML=`<div><div style="display:flex;gap:6px;flex-wrap:wrap"><b style="color:#22c55e;font-size:11px">${t.rrr}</b><span class="badge ${t.status}">${t.status}</span><span class="badge ${t.source||'MANUAL'}">${t.source||'MANUAL'}</span></div><div style="margin-top:6px"><b>${t.customer}</b> • ${t.merchant}<br><small style="color:#94a3b8">${t.service} • ${t.date}</small></div></div><div style="text-align:right"><b>D${t.amount.toLocaleString()}</b><br><small style="color:#22c55e">Fee D${fee}</small><br><div style="margin-top:6px;display:flex;gap:4px;justify-content:flex-end">${t.status==="PENDING"?`<button class="btn btn-g" style="padding:6px 10px;font-size:11px" onclick="markPaid(${realIdx})"><i class='fa fa-check'></i></button>`:""}<button class="btn btn-r" style="padding:6px 10px;font-size:11px" onclick="delTx(${realIdx})"><i class='fa fa-trash'></i></button></div></div>`;list.appendChild(div);});
+$("tVol").innerText="D"+vol.toLocaleString();$("tProf").innerText="D"+prof.toLocaleString();$("tAvail").innerText="D"+avail.toLocaleString();$("tPendCount").innerText=pend;$("tPend").innerText=pend+" Pending";
+$("pendBadge").innerText=pend; $("pendBadge").style.display=pend>0?"inline-block":"none";
+let filtered=txs.filter(t=>{if(curFilter!=="all"&&t.status!==curFilter&&t.source!==curFilter)return false;return true;});
+let list=$("txList");list.innerHTML="";
+if(filtered.length===0){list.innerHTML="<div style='text-align:center;padding:50px;color:#64748b'><i class='fa fa-inbox' style='font-size:48px'></i><p style='margin-top:10px'>No "+curFilter+" transactions</p><p style='font-size:12px'>Pending approval will show here</p></div>";return;}
+filtered.forEach(t=>{
+let realIdx=txs.indexOf(t);let fee=Math.round(t.amount*getFee()/100);
+if(t.status==="PENDING"){
+let d=document.createElement("div");d.className="approve-card";
+d.innerHTML=`
+<div class="approve-header"><span class="order-id"><i class="fa fa-hashtag"></i> ${t.rrr}</span><span class="badge PENDING"><i class="fa fa-clock"></i> PENDING APPROVAL</span></div>
+<div class="cust-row"><div class="cust-avatar">${(t.customer||"C").substring(0,2).toUpperCase()}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><b>${t.customer}</b><small style="color:#94a3b8">${t.date}</small></div><small style="color:#94a3b8">Customer Name • ID: ${t.rrr.split("-").pop()}</small><br><small><i class="fa fa-phone"></i> ${t.phone||"No phone"} • <i class="fa fa-envelope"></i> ${t.email||"No email"}</small></div></div>
+<div class="pay-to"><div><small style="color:#94a3b8">PAYING TO</small><br><b style="font-size:16px"><i class="fa fa-building"></i> ${t.merchant}</b><br><small style="color:#94a3b8">${t.service}</small></div><div style="text-align:right"><small style="color:#94a3b8">AMOUNT</small><br><b style="font-size:20px;color:#22c55e">D${t.amount.toLocaleString()}</b><br><small style="color:#22c55e">Fee D${fee}</small></div></div>
+<div class="action-row"><button class="btn btn-r" onclick="rejectTx(${realIdx})"><i class="fa fa-times"></i> Reject</button><button class="btn btn-g" onclick="approveTx(${realIdx})"><i class="fa fa-check"></i> Approve & Pay</button></div>
+<div style="text-align:center;margin-top:10px"><small style="color:#94a3b8;cursor:pointer" onclick="viewDetail(${realIdx})"><i class="fa fa-eye"></i> View Full Details</small></div>
+`;list.appendChild(d);
+}else{
+let div=document.createElement("div");div.className="tx-card";div.innerHTML=`<div><b style="color:#22c55e;font-size:11px">${t.rrr}</b> <span class="badge ${t.status}">${t.status}</span><br><b>${t.customer}</b> • ${t.merchant}<br><small style="color:#94a3b8">${t.service} • ${t.date}</small></div><div style="text-align:right"><b>D${t.amount.toLocaleString()}</b><br><small style="color:#22c55e">Fee D${fee}</small><br><button class="btn btn-dark" style="padding:4px 8px;font-size:10px;margin-top:4px" onclick="viewDetail(${realIdx})"><i class="fa fa-eye"></i></button></div>`;list.appendChild(div);
 }
-function renderChart(){
-let days=[]; let volMap={}; let countMap={};
-for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toLocaleDateString();days.push({key,label:d.toLocaleDateString('en',{weekday:'short'})}); volMap[key]=0; countMap[key]=0;}
-txs.forEach(t=>{let key=new Date(t.date).toLocaleDateString(); if(volMap.hasOwnProperty(key)){volMap[key]+=t.amount; countMap[key]+=1;}});
-let labels=days.map(d=>d.label);
-let volumes=days.map(d=>volMap[d.key]||0);
-let profits=volumes.map(v=>Math.round(v*getFee()/100));
-let counts=days.map(d=>countMap[d.key]||0);
-let total7=volumes.reduce((a,b)=>a+b,0);
-$("chartTotal").innerText="7d: D"+total7.toLocaleString();
-let ctx=$("dailyChart").getContext("2d");
-if(chartInstance) chartInstance.destroy();
-chartInstance=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Volume',data:volumes,backgroundColor:'rgba(34,197,94,0.8)',borderRadius:6},{label:'Profit',data:profits,backgroundColor:'rgba(59,130,246,0.8)',borderRadius:6},{label:'Tx Count',data:counts,backgroundColor:'rgba(245,158,11,0.8)',borderRadius:6,type:'line',yAxisID:'y1'}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false,color:'#1e3a5f'},ticks:{color:'#94a3b8'}},y:{grid:{color:'rgba(30,58,95,0.3)'},ticks:{color:'#94a3b8'}},y1:{display:false}}}});
+});
 }
-function genManual(){let m=$("mSel").value;let n=$("cName").value||"Guest";let s=$("cServ").value||"Payment";let a=parseFloat($("cAmt").value);if(!a){alert("Enter amount");return;}let rrr=`${m}-GM-${new Date().getFullYear()}-${1000+txs.length+1}-${Math.floor(Math.random()*9000+1000)}`;txs.unshift({rrr,merchant:m,customer:n,service:s,amount:a,status:"PENDING",date:new Date().toLocaleString(),source:"MANUAL"});localStorage.setItem("ot_txs_full",JSON.stringify(txs));$("cName").value="";$("cAmt").value="";$("cServ").value="";render();renderChart();}
-function markPaid(i){txs[i].status="PAID";localStorage.setItem("ot_txs_full",JSON.stringify(txs));render();renderChart();}
-function delTx(i){if(confirm("Delete?")){txs.splice(i,1);localStorage.setItem("ot_txs_full",JSON.stringify(txs));render();renderChart();}}
+function approveTx(i){if(confirm("✅ Approve this payment?\n\n"+txs[i].customer+" → "+txs[i].merchant+"\nD"+txs[i].amount)){txs[i].status="PAID";localStorage.setItem("ot_txs_full",JSON.stringify(txs));render();renderChart(); if(navigator.vibrate) navigator.vibrate(100);}}
+function rejectTx(i){if(confirm("❌ Reject & Delete?\n"+txs[i].rrr)){txs.splice(i,1);localStorage.setItem("ot_txs_full",JSON.stringify(txs));render();renderChart();}}
+function viewDetail(i){let t=txs[i];let fee=Math.round(t.amount*getFee()/100);$("detailContent").innerHTML=`
+<div style="display:flex;justify-content:space-between"><h3><i class="fa fa-receipt"></i> Order Details</h3><button class="btn btn-dark" onclick="closeDetail()"><i class="fa fa-times"></i></button></div>
+<div style="background:#0b1226;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #1e3a5f"><small style="color:#94a3b8">ORDER ID / RRR</small><br><b style="font-size:18px;color:#22c55e;font-family:monospace">${t.rrr}</b><br><small style="color:#94a3b8">Status: <span class="badge ${t.status}">${t.status}</span> • Source: ${t.source||"MANUAL"}</small></div>
+<div style="background:#0b1226;padding:14px;border-radius:12px;border:1px solid #1e3a5f"><small style="color:#94a3b8">CUSTOMER INFORMATION</small><br><b>${t.customer}</b><br><small><i class="fa fa-phone"></i> ${t.phone||"Not provided"}<br><i class="fa fa-envelope"></i> ${t.email||"Not provided"}<br><i class="fa fa-clock"></i> ${t.date}<br><i class="fa fa-globe"></i> IP: ${t.ip||"N/A"}</small></div>
+<div style="background:rgba(59,130,246,.15);padding:14px;border-radius:12px;border:1px solid #3b82f6;margin-top:10px"><small style="color:#94a3b8">PAYMENT DESTINATION</small><br><b style="font-size:18px"><i class="fa fa-building"></i> ${t.merchant}</b><br><small>${t.service}</small><br><div style="margin-top:8px;display:flex;justify-content:space-between"><div><small>Amount</small><br><b style="font-size:20px">D${t.amount.toLocaleString()}</b></div><div style="text-align:right"><small>Your Fee (${getFee()}%)</small><br><b style="color:#22c55e">D${fee}</b></div></div></div>
+${t.status==="PENDING"?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px"><button class="btn btn-r" style="justify-content:center;padding:14px" onclick="rejectTx(${i});closeDetail()"><i class="fa fa-times"></i> Reject</button><button class="btn btn-g" style="justify-content:center;padding:14px" onclick="approveTx(${i});closeDetail()"><i class="fa fa-check"></i> Approve Payment</button></div>`:`<div style="text-align:center;margin-top:14px;padding:10px;background:rgba(34,197,94,.15);border-radius:10px;border:1px solid #22c55e"><i class="fa fa-check-circle"></i> This order is <b>${t.status}</b> • Paid on ${t.date}</div>`}
+`; $("detailModal").classList.add("show");
+}
+function closeDetail(){$("detailModal").classList.remove("show");}
+function renderChart(){let days=[];let volMap={};let countMap={};for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let key=d.toLocaleDateString();days.push({key,label:d.toLocaleDateString('en',{weekday:'short'})});volMap[key]=0;countMap[key]=0;}txs.forEach(t=>{let key=new Date(t.date).toLocaleDateString();if(volMap.hasOwnProperty(key)){volMap[key]+=t.amount;countMap[key]+=1;}});let labels=days.map(d=>d.label);let volumes=days.map(d=>volMap[d.key]||0);let profits=volumes.map(v=>Math.round(v*getFee()/100));let counts=days.map(d=>countMap[d.key]||0);let total7=volumes.reduce((a,b)=>a+b,0);if($("chartTotal"))$("chartTotal").innerText="7d: D"+total7.toLocaleString();let ctx=$("dailyChart").getContext("2d");if(chartInstance)chartInstance.destroy();chartInstance=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Volume',data:volumes,backgroundColor:'#22c55e',borderRadius:6},{label:'Profit',data:profits,backgroundColor:'#3b82f6',borderRadius:6},{label:'Count',data:counts,type:'line',borderColor:'#f59e0b',backgroundColor:'#f59e0b',tension:.4,yAxisID:'y1'}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#64748b'}},y1:{beginAtZero:true,position:'right',display:false},x:{grid:{display:false},ticks:{color:'#64748b'}}}}});}
 function filterTab(f,el){curFilter=f;document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));el.classList.add("active");render();}
-function exportCSV(){let csv="RRR,Merchant,Customer,Service,Amount,Fee,Status,Source,Date\n";txs.forEach(t=>{let fee=Math.round(t.amount*getFee()/100);csv+=`"${t.rrr}","${t.merchant}","${t.customer}","${t.service}",${t.amount},${fee},${t.status},${t.source||"MANUAL"},"${t.date}"\n`;});let blob=new Blob([csv],{type:"text/csv"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="remita.csv";a.click();}
-function openSet(which){$("setModal").classList.add("show");switchSet(which);}
+function openSet(){$("setModal").classList.add("show");$("setBizName").value=getBiz();$("setWave").value=getWave();$("setFee").value=getFee();$("setCeoName").value=getCeoName();}
 function closeSet(){$("setModal").classList.remove("show");}
-function switchSet(which){
-["business","security","withdraw","system"].forEach(k=>{$(`pane-${k}`).style.display=k===which?"block":"none";$(`nav-${k==="business"?"biz":k==="security"?"sec":k==="withdraw"?"with":"sys"}`).classList.toggle("active",k===which);});
-$("setCeoName").value=getCeoName();$("setCeoTitle").value=getCeoTitle();$("setBizName").value=getBiz();$("setWave").value=getWave();$("setFee").value=getFee();$("setMerchList").value=localStorage.getItem("ot_enabled_merch")||"";
-if(which==="withdraw")refreshWithdraw();
-}
-function saveBusiness(){let cn=$("setCeoName").value.trim();let ct=$("setCeoTitle").value.trim();let b=$("setBizName").value.trim();let w=$("setWave").value.trim();let f=$("setFee").value;let ml=$("setMerchList").value.trim();if(cn)localStorage.setItem("ot_ceo_name",cn);if(ct)localStorage.setItem("ot_ceo_title",ct);if(b)localStorage.setItem("ot_biz_name",b);if(w)localStorage.setItem("ot_wave",w);if(f)localStorage.setItem("ot_fee",f);if(ml)localStorage.setItem("ot_enabled_merch",ml.toUpperCase());else localStorage.removeItem("ot_enabled_merch");alert("✅ Saved as "+(cn||getCeoName()));closeSet();init();}
-function changePass(){let oldP=$("oldPass").value;let newP=$("newPass").value;let newP2=$("newPass2").value;if(oldP!==getPass()){alert("❌ Old wrong");return;}if(newP.length<6){alert("Too short");return;}if(newP!==newP2){alert("Not match");return;}localStorage.setItem("ot_admin_pass",newP);alert("✅ New Password: "+newP);$("oldPass").value="";$("newPass").value="";$("newPass2").value="";}
-function refreshWithdraw(){let prof=0;txs.forEach(t=>{if(t.status==="PAID")prof+=t.amount*getFee()/100;});let withdrawn=withdrawals.reduce((s,w)=>s+w.amount,0);let avail=prof-withdrawn;$("wAvail").innerText="D"+avail.toLocaleString();$("wTotal").innerText="D"+withdrawn.toLocaleString();let h=$("wHistory");h.innerHTML="";if(withdrawals.length===0)h.innerHTML="<small style='color:#64748b'>No withdrawals</small>";else withdrawals.slice().reverse().forEach(w=>{let d=document.createElement("div");d.style.cssText="background:#0b1226;padding:10px;border-radius:10px;margin:6px 0;border:1px solid #1e3a5f;font-size:12px";d.innerHTML=`<div style='display:flex;justify-content:space-between'><b>D${w.amount}</b><small>${w.date}</small></div><div style='color:#94a3b8'>To: ${w.to} • ${w.note}</div>`;h.appendChild(d);});}
-function doWithdraw(){let amt=parseFloat($("wAmount").value);let to=$("wTo").value||getWave();let note=$("wNote").value||"Profit";let prof=0;txs.forEach(t=>{if(t.status==="PAID")prof+=t.amount*getFee()/100;});let withdrawn=withdrawals.reduce((s,w)=>s+w.amount,0);let avail=prof-withdrawn;if(!amt||amt<=0){alert("Enter amount");return;}if(amt>avail){alert("Only D"+avail+" available");return;}withdrawals.push({amount:amt,to,note,date:new Date().toLocaleString()});localStorage.setItem("ot_withdrawals",JSON.stringify(withdrawals));$("wAmount").value="";$("wTo").value="";$("wNote").value="";refreshWithdraw();render();alert("✅ Withdrawal D"+amt+" to "+to);}
-function clearAll(){if(confirm("Clear ALL?")){txs=[];localStorage.setItem("ot_txs_full","[]");render();renderChart();}}
-function bulkPaid(){if(confirm("Mark ALL pending as PAID?")){txs.forEach(t=>{if(t.status==="PENDING")t.status="PAID";});localStorage.setItem("ot_txs_full",JSON.stringify(txs));render();renderChart();alert("✅ All PAID");}}
+function saveBusiness(){let b=$("setBizName").value.trim();let w=$("setWave").value.trim();let f=$("setFee").value;let cn=$("setCeoName").value.trim();if(b)localStorage.setItem("ot_biz_name",b);if(w)localStorage.setItem("ot_wave",w);if(f)localStorage.setItem("ot_fee",f);if(cn)localStorage.setItem("ot_ceo_name",cn);alert("✅ Saved");closeSet();render();}
+function exportCSV(){let csv="RRR,Merchant,Customer,Service,Amount,Fee,Status,Date\n";txs.forEach(t=>{let fee=Math.round(t.amount*getFee()/100);csv+=`"${t.rrr}","${t.merchant}","${t.customer}","${t.service}",${t.amount},${fee},${t.status},"${t.date}"\n`;});let blob=new Blob([csv],{type:"text/csv"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="approval-report.csv";a.click();}
+function bulkPaid(){if(confirm("Approve ALL pending?")){txs.forEach(t=>{if(t.status==="PENDING")t.status="PAID";});localStorage.setItem("ot_txs_full",JSON.stringify(txs));render();renderChart();alert("✅ All Approved!");}}
 </script>
 </body>
 </html>
