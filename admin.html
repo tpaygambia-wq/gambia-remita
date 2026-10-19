@@ -2,59 +2,193 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>V8.4 Emergency No Login</title>
+<title>Ousman Tunkara - Pro Admin V9.0</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,Arial;background:#0a0e1e;color:#e2e8f0;min-height:100vh}
-.top{background:#101b36;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}
-.avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:900;color:black}
-.order-card{background:#f8fafc;color:#111827;border-radius:18px;margin:10px 14px;border-left:6px solid #f59e0b;padding:14px}
-.btn{padding:10px 14px;border:none;border-radius:10px;font-weight:800;cursor:pointer}
-.btn-black{background:#111827;color:white}.btn-red{background:rgba(239,68,68,.15);color:#f87171}.btn-g{background:#22c55e;color:black}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,system-ui;background:#070c1c;color:#e2e8f0;min-height:100vh}
+.login{height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(circle at top,#12204a,#070c1c)}
+.card-login{background:rgba(16,27,54,.9);backdrop-filter:blur(20px);padding:28px;border-radius:24px;width:100%;max-width:380px;border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+input,select{width:100%;padding:13px 14px;margin:6px 0;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:#0b1226;color:white;outline:none}
+.btn{padding:11px 16px;border:none;border-radius:12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn-g{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000}.btn-dark{background:rgba(255,255,255,.08);color:white;border:1px solid rgba(255,255,255,.1)}.btn-black{background:#111827;color:white}.btn-red{background:rgba(239,68,68,.15);color:#ff8a8a}
+.top{position:sticky;top:0;z-index:20;background:rgba(16,27,54,.9);backdrop-filter:blur(12px);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.06)}
+.avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:900;color:black}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;padding:12px}
+.stat{background:#111a32;border-radius:16px;padding:12px;border:1px solid rgba(255,255,255,.06)} .stat small{color:#94a3b8;font-size:11px;font-weight:700;text-transform:uppercase} .stat b{font-size:18px;display:block;margin-top:4px}
+.order-card{background:#f8fafc;color:#111827;border-radius:20px;margin:10px 14px;padding:14px;box-shadow:0 8px 24px rgba(0,0,0,.2);border-left:6px solid #f59e0b;transition:.2s}
+.order-card.approved{border-left-color:#22c55e}
+.chip{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:900;display:inline-block}
+.chip-p{background:#fef3c7;color:#92400e}.chip-a{background:#dcfce7;color:#166534}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center;padding:16px}.modal.show{display:flex}
+.modal-box{background:#101b36;width:100%;max-width:480px;border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,.1);max-height:90vh;overflow:auto}
+.filter{padding:8px 14px;border-radius:20px;background:rgba(255,255,255,.06);cursor:pointer;font-weight:700;font-size:13px;border:1px solid transparent}.filter.active{background:white;color:black}
 </style>
 </head>
 <body>
-<div class="top"><div style="display:flex;gap:10px;align-items:center"><div class="avatar">OT</div><div><b>Ousman Tunkara - EMERGENCY ADMIN</b><div style="font-size:11px;color:#22c55e" id="clock">Live</div><div style="font-size:11px" id="stat">Connecting...</div></div></div><button class="btn btn-g" onclick="loadCloud()">Sync Cloud</button></div>
-<div style="margin:12px;background:#111a32;border-radius:18px;padding:14px"><small style="color:#94a3b8">Daily Usage - Last 7 Days</small> <small id="chartTot" style="color:#22c55e;float:right"></small><canvas id="chart" height="90"></canvas></div>
-<div style="padding:10px 14px;display:flex;gap:10px"><input id="search" placeholder="Search ORD, Name, Phone..." oninput="render()" style="flex:1;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:white"><span id="pCount" style="background:#ef4444;color:white;padding:8px 12px;border-radius:20px;font-weight:900">Pending 0</span></div>
-<div id="list" style="padding-bottom:80px"></div>
+<div id="loginDiv" class="login">
+<div class="card-login">
+<div style="text-align:center"><div style="width:64px;height:64px;background:linear-gradient(135deg,#22c55e,#3b82f6);border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;margin:auto;font-weight:900;color:black">OT</div><h2 style="margin-top:12px">Ousman Tunkara</h2><p style="color:#94a3b8;font-size:12px;margin-top:4px">Professional Admin V9.0 • Cloud Control</p><p id="loginCloud" style="color:#22c55e;font-size:10px;margin-top:6px;font-weight:800">● afzwszicghxwjyqkhbua • New Key Ready</p></div>
+<input id="pass" type="password" placeholder="Admin Password" style="margin-top:16px">
+<button class="btn btn-g" style="width:100%;margin-top:10px;padding:14px" onclick="login()"><i class="fa fa-crown"></i> Enter Empire</button>
+<p id="err" style="color:#ff8a8a;text-align:center;margin-top:10px;font-size:12px;min-height:16px"></p>
+<button class="btn btn-dark" style="width:100%;margin-top:10px;font-size:12px" onclick="resetPass()"><i class="fa fa-undo"></i> Reset to OT2026CEO</button>
+<div style="margin-top:14px;background:rgba(255,255,255,.05);border-radius:12px;padding:10px;font-size:11px;color:#94a3b8"><b style="color:white">Default:</b> OT2026CEO • Change it in Settings after login</div>
+</div>
+</div>
+
+<div id="adminDiv" style="display:none">
+<div class="top">
+<div style="display:flex;gap:10px;align-items:center"><div class="avatar">OT</div><div><b id="ceoNameTop">Ousman Tunkara</b><div style="font-size:11px;color:#22c55e" id="clock"></div><div style="font-size:10px" id="statTxt">Syncing...</div></div></div>
+<div style="display:flex;gap:8px"><button class="btn btn-dark" onclick="openSettings()"><i class="fa fa-cog"></i></button><button class="btn btn-dark" onclick="location.reload()"><i class="fa fa-sign-out-alt"></i></button></div>
+</div>
+
+<div class="stats">
+<div class="stat"><small>Orders</small><b id="sTotal">0</b></div>
+<div class="stat"><small>Pending</small><b id="sPend" style="color:#f59e0b">0</b></div>
+<div class="stat"><small>Volume</small><b id="sVol">D0</b></div>
+<div class="stat"><small>Profit (Fee)</small><b id="sProfit" style="color:#22c55e">D0</b></div>
+</div>
+
+<div style="margin:0 12px;background:#111a32;border-radius:18px;padding:14px;border:1px solid rgba(255,255,255,.06)">
+<div style="display:flex;justify-content:space-between;align-items:center"><small style="color:#94a3b8;font-weight:800;text-transform:uppercase">Daily Usage • Last 7 Days</small><small id="chartTot" style="color:#22c55e;font-weight:900"></small></div>
+<canvas id="chart" height="90" style="margin-top:10px"></canvas>
+</div>
+
+<div style="display:flex;gap:8px;padding:12px 14px;overflow:auto">
+<div class="filter active" onclick="setFilter('all',this)">All</div>
+<div class="filter" onclick="setFilter('pending',this)">Pending <span id="pCount">0</span></div>
+<div class="filter" onclick="setFilter('approved',this)">Approved</div>
+<div class="filter" onclick="setFilter('today',this)">Today</div>
+</div>
+
+<div style="padding:0 14px 10px;display:flex;gap:8px">
+<input id="search" placeholder="Search ORD, Name, Phone, RRR..." oninput="render()" style="flex:1">
+<button class="btn btn-dark" onclick="loadCloud()"><i class="fa fa-sync"></i> Sync</button>
+<button class="btn btn-dark" onclick="exportCSV()"><i class="fa fa-file-csv"></i> Export</button>
+</div>
+
+<div id="list" style="padding-bottom:100px"></div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal"><div class="modal-box">
+<h3><i class="fa fa-cog" style="color:#22c55e"></i> Professional Settings</h3>
+
+<label style="margin-top:14px;color:#94a3b8;font-size:12px;font-weight:800">CHANGE ADMIN PASSWORD</label>
+<input id="newPass" placeholder="New Password e.g MyEmpire2026">
+<input id="confirmPass" placeholder="Confirm New Password" type="password">
+<button class="btn btn-g" style="width:100%;margin-top:8px" onclick="changePass()"><i class="fa fa-key"></i> Update Password</button>
+
+<label style="margin-top:16px;color:#94a3b8;font-size:12px;font-weight:800">FEE PERCENTAGE %</label>
+<input id="feeInput" type="number" placeholder="2">
+<button class="btn btn-dark" style="width:100%;margin-top:6px" onclick="changeFee()">Update Fee %</button>
+
+<label style="margin-top:16px;color:#94a3b8;font-size:12px;font-weight:800">WAVE NUMBER</label>
+<input id="waveInput" placeholder="872713918">
+<button class="btn btn-dark" style="width:100%;margin-top:6px" onclick="changeWave()">Update Wave</button>
+
+<label style="margin-top:16px;color:#94a3b8;font-size:12px;font-weight:800">CEO DISPLAY NAME</label>
+<input id="ceoInput" placeholder="Ousman Tunkara">
+<button class="btn btn-dark" style="width:100%;margin-top:6px" onclick="changeCEO()">Update Name</button>
+
+<div style="margin-top:18px;border-top:1px solid rgba(255,255,255,.1);padding-top:12px;display:grid;gap:8px">
+<button class="btn btn-dark" onclick="exportCSV()"><i class="fa fa-download"></i> Export All to CSV</button>
+<button class="btn btn-red" onclick="clearAll()"><i class="fa fa-trash"></i> Clear All Transactions (Danger)</button>
+<button class="btn btn-black" style="width:100%" onclick="closeSettings()">Close Settings</button>
+</div>
+<div style="margin-top:10px;font-size:10px;color:#64748b;text-align:center">V9.0 Pro • Supabase: afzwszicghxwjyqkhbua • Key: sb_publishable_lEgI... • Cloud Secure</div>
+</div></div>
+
+<!-- RECEIPT MODAL -->
+<div id="receiptModal" class="modal"><div class="modal-box" style="background:white;color:black">
+<div id="receiptContent"></div>
+<button class="btn btn-black" style="width:100%;margin-top:12px" onclick="closeReceipt()">Close</button>
+<button class="btn btn-g" style="width:100%;margin-top:8px" onclick="window.print()"><i class="fa fa-print"></i> Print Receipt</button>
+</div></div>
 
 <script>
 const supabaseUrl = "https://afzwszicghxwjyqkhbua.supabase.co";
 const supabaseKey = "sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS";
 const sb = supabase.createClient(supabaseUrl, supabaseKey);
-let txs=[];let chartI=null;
+let txs=[],filter='all',chartI=null;
 const $=id=>document.getElementById(id);
+function getPass(){return localStorage.getItem("ot_admin_pass")||"OT2026CEO";}
+function getFee(){return parseFloat(localStorage.getItem("ot_fee")||"2");}
+function getWave(){return localStorage.getItem("ot_wave")||"872713918";}
+function getCEO(){return localStorage.getItem("ot_ceo")||"Ousman Tunkara";}
+function resetPass(){localStorage.setItem("ot_admin_pass","OT2026CEO");alert("Reset to OT2026CEO");location.reload();}
 function genRRR(){return "GRR-"+Math.floor(100000000000+Math.random()*900000000000);}
-async function loadCloud(){
- $("stat").innerText="● Syncing Cloud with new key...";$("stat").style.color="#f59e0b";
- let {data,error}=await sb.from("transactions").select("*").order("created_at",{ascending:false});
- if(error){$("stat").innerText="● Error: "+error.message;$("stat").style.color="#ef4444";return;}
- txs=data||[];
- $("stat").innerText="● Cloud Connected • "+txs.length+" orders • ORD-6774091 should appear";
- $("stat").style.color="#22c55e";
- render();renderChart();
+function login(){
+ let p=$("pass").value.trim();let real=getPass();
+ if(p!==real){$("err").innerText="Wrong password! Real is: "+real;return;}
+ $("loginDiv").style.display="none";$("adminDiv").style.display="block";
+ $("feeInput").value=getFee();$("waveInput").value=getWave();$("ceoInput").value=getCEO();$("ceoNameTop").innerText=getCEO();
+ setInterval(()=>{$("clock").innerText=new Date().toLocaleString()+" • Live";},1000);
+ loadCloud();
 }
+async function loadCloud(){
+ $("statTxt").innerText="● Syncing cloud...";$("statTxt").style.color="#f59e0b";
+ let {data,error}=await sb.from("transactions").select("*").order("created_at",{ascending:false});
+ if(error){$("statTxt").innerText="● Error: "+error.message;$("statTxt").style.color="#ef4444";return;}
+ txs=data||[];
+ $("statTxt").innerText="● Cloud Connected • "+txs.length+" orders • Wave "+getWave()+" • Fee "+getFee()+"%";
+ $("statTxt").style.color="#22c55e";
+ updateStats();render();renderChart();
+}
+function updateStats(){
+ let total=txs.length;let pend=txs.filter(t=>(t.status||"").toUpperCase()==="PENDING").length;
+ let vol=txs.reduce((a,b)=>a+Number(b.total||0),0);let profit=txs.reduce((a,b)=>a+Number(b.fee||0),0);
+ $("sTotal").innerText=total;$("sPend").innerText=pend;$("pCount").innerText=pend;$("sVol").innerText="D"+vol.toLocaleString();$("sProfit").innerText="D"+profit.toLocaleString();
+}
+function setFilter(f,el){filter=f;document.querySelectorAll(".filter").forEach(e=>e.classList.remove("active"));el.classList.add("active");render();}
 function render(){
  let q=($("search").value||"").toLowerCase();
- let filt=txs.filter(t=>{if(!q)return true;let hay=((t.ord||"")+(t.customer||"")+(t.phone||"")+(t.rrr||"")).toLowerCase();return hay.includes(q);});
- $("pCount").innerText="Pending "+txs.filter(t=>(t.status||"").toUpperCase()==="PENDING").length;
+ let filtered=txs.filter(t=>{
+  let hay=((t.ord||"")+(t.customer||"")+(t.phone||"")+(t.rrr||"")).toLowerCase();
+  if(q&&!hay.includes(q))return false;
+  if(filter==="pending")return (t.status||"").toUpperCase()==="PENDING";
+  if(filter==="approved")return (t.status||"").toUpperCase()==="APPROVED";
+  if(filter==="today"){let today=new Date().toLocaleDateString();return new Date(t.date).toLocaleDateString()===today;}
+  return true;
+ });
  let list=$("list");list.innerHTML="";
- if(filt.length===0){list.innerHTML="<div style='text-align:center;padding:60px;color:#94a3b8'><div style='font-size:50px'>🗃️</div><b>No orders</b><br>Cloud has "+txs.length+" rows<br><button class='btn btn-g' style='margin-top:10px' onclick='loadCloud()'>Sync Now</button><br><small style='font-size:10px;margin-top:10px;display:block'>If 0 rows, submit customer again</small></div>";return;}
- filt.forEach(t=>{
-  let st=(t.status||"").toUpperCase();
-  let div=document.createElement("div");div.className="order-card";
-  div.innerHTML=`<div style="display:flex;justify-content:space-between"><b style="font-size:18px">${t.ord}</b><span style="background:${st==="PENDING"?"#fef3c7":"#dcfce7"};color:${st==="PENDING"?"#92400e":"#166534"};padding:4px 10px;border-radius:20px;font-size:11px;font-weight:900">${st} • ${t.rrr}</span></div><div style="margin-top:10px;line-height:1.6;font-size:14px">Name: <b>${t.customer}</b> • ${t.phone}<br>${t.merchant} - ${t.service}<br>Gov D${Number(t.amount).toFixed(0)} + Fee D${Number(t.fee).toFixed(0)} = <b>D${Number(t.total).toFixed(0)}</b><br>ORD: <b style="color:#f59e0b">${t.ord}</b> • RRR: <b style="color:#16a34a">${t.rrr}</b><br>Wave: ${t.payref||t.payRef||""} • ${t.date}</div><div style="display:flex;gap:8px;margin-top:12px">${st==="PENDING"?`<button class="btn btn-black" style="flex:1;padding:14px" onclick="approve('${t.id}')">✅ Approve & Generate RRR</button>`:`<div style="flex:1;background:#dcfce7;color:#166534;padding:14px;border-radius:10px;text-align:center;font-weight:900">APPROVED ${t.rrr}</div>`}<button class="btn btn-red" onclick="delTx('${t.id}')">🗑️</button></div>`;
+ if(filtered.length===0){list.innerHTML="<div style='text-align:center;padding:50px;color:#94a3b8'><i class='fa fa-inbox' style='font-size:40px'></i><br><b>No orders in "+filter+"</b><br>Try Sync</div>";return;}
+ filtered.forEach(t=>{
+  let st=(t.status||"").toUpperCase();let approved=st==="APPROVED";
+  let div=document.createElement("div");div.className="order-card "+(approved?"approved":"");
+  div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:start"><div><b style="font-size:18px;letter-spacing:.5px">${t.ord}</b><br><small style="color:#64748b">${t.date}</small></div><span class="chip ${approved?'chip-a':'chip-p'}">${st} • ${t.rrr}</span></div>
+  <div style="margin-top:10px;line-height:1.6;font-size:14px">
+  Name: <b>${t.customer}</b> • <i class="fa fa-phone"></i> ${t.phone}<br>
+  <i class="fa fa-building"></i> ${t.merchant} - ${t.service}<br>
+  Gov D${Number(t.amount).toLocaleString()} + Fee D${Number(t.fee).toFixed(0)} = <b style="font-size:16px">D${Number(t.total).toLocaleString()}</b><br>
+  ORD: <b style="color:#d97706">${t.ord}</b> • RRR: <b style="color:#16a34a">${t.rrr}</b><br>
+  <i class="fab fa-whatsapp" style="color:#22c55e"></i> Wave: ${t.payref||t.payRef||""} → ${getWave()}
+  </div>
+  <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+  ${!approved?`<button class="btn btn-black" style="flex:1;padding:13px" onclick="approve('${t.id}')"><i class="fa fa-check"></i> Approve & RRR</button>`:`<div style="flex:1;background:#dcfce7;color:#166534;padding:13px;border-radius:12px;text-align:center;font-weight:900"><i class="fa fa-check-circle"></i> ${t.rrr}</div>`}
+  <button class="btn btn-dark" onclick="showReceipt('${t.id}')"><i class="fa fa-receipt"></i></button>
+  <button class="btn btn-dark" onclick="copyRRR('${t.rrr}','${t.ord}')"><i class="fa fa-copy"></i></button>
+  <button class="btn btn-red" onclick="delTx('${t.id}')"><i class="fa fa-trash"></i></button>
+  </div>`;
   list.appendChild(div);
  });
 }
-async function approve(id){let t=txs.find(x=>x.id===id);let newRRR=genRRR();if(!confirm("Approve "+t.customer+" "+t.ord+" ?\nGenerate "+newRRR+" ?"))return;let {error}=await sb.from("transactions").update({status:"APPROVED",rrr:newRRR}).eq("id",id);if(error){alert(error.message);return;}alert("✅ APPROVED!\n"+t.ord+"\nRRR: "+newRRR+"\nCustomer can track now!");await loadCloud();}
-async function delTx(id){if(!confirm("Delete this order?"))return;await sb.from("transactions").delete().eq("id",id);await loadCloud();}
-function renderChart(){let map={};for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let k=d.toLocaleDateString();map[k]={v:0,l:d.toLocaleDateString('en',{weekday:'short'})};}txs.forEach(t=>{let k=new Date(t.date).toLocaleDateString();if(map[k])map[k].v+=Number(t.amount);});let labs=Object.values(map).map(m=>m.l);let vals=Object.values(map).map(m=>m.v);let tot=vals.reduce((a,b)=>a+b,0);$("chartTot").innerText="7d D"+tot.toLocaleString();let ctx=$("chart").getContext("2d");if(chartI)chartI.destroy();chartI=new Chart(ctx,{type:'bar',data:{labels:labs,datasets:[{data:vals,backgroundColor:"#22c55e",borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{y:{display:false},x:{grid:{display:false},ticks:{color:"#94a3b8"}}}}});}
-setInterval(()=>{$("clock").innerText=new Date().toLocaleTimeString()+" • Live • No Password Needed";},1000);
-loadCloud();
+async function approve(id){let t=txs.find(x=>x.id===id);let newRRR=genRRR();if(!confirm("Approve "+t.customer+" "+t.ord+" ? Generate "+newRRR+" ?"))return;let {error}=await sb.from("transactions").update({status:"APPROVED",rrr:newRRR}).eq("id",id);if(error){alert(error.message);return;}alert("✅ APPROVED "+t.ord+" → "+newRRR);await loadCloud();}
+async function delTx(id){if(!confirm("Delete this order forever?"))return;let {error}=await sb.from("transactions").delete().eq("id",id);if(error){alert(error.message);return;}await loadCloud();}
+function copyRRR(rrr,ord){navigator.clipboard.writeText(`ORD: ${ord} RRR: ${rrr} Wave: ${getWave()} Fee: ${getFee()}% - ${getCEO()}`);alert("Copied "+ord+" "+rrr);}
+function showReceipt(id){let t=txs.find(x=>x.id===id);$("receiptContent").innerHTML=`<div style="text-align:center"><h2>🇬🇲 Gambia Remita</h2><p style="font-size:12px;color:#64748b">${getCEO()} • Wave ${getWave()}</p><hr style="margin:10px 0"></div><div style="line-height:1.8;font-size:14px"><b>ORD:</b> ${t.ord}<br><b>RRR:</b> <b style="color:#16a34a">${t.rrr}</b><br><b>Status:</b> ${t.status}<br><b>Name:</b> ${t.customer}<br><b>Phone:</b> ${t.phone}<br><b>Service:</b> ${t.merchant} - ${t.service}<br><b>Gov:</b> D${t.amount}<br><b>Fee (${getFee()}%):</b> D${t.fee}<br><b>Total:</b> D${t.total}<br><b>Wave Ref:</b> ${t.payref||t.payRef}<br><b>Date:</b> ${t.date}</div><hr style="margin:10px 0"><p style="text-align:center;font-size:11px;color:#64748b">Thank you for using Gambia Remita • Track at remita.vercel.app</p>`;$("receiptModal").classList.add("show");}
+function closeReceipt(){$("receiptModal").classList.remove("show");}
+function openSettings(){$("settingsModal").classList.add("show");}
+function closeSettings(){$("settingsModal").classList.remove("show");}
+function changePass(){let n=$("newPass").value.trim(),c=$("confirmPass").value.trim();if(!n||n.length<4){alert("Password too short");return;}if(c&&n!==c){alert("Confirm not match");return;}localStorage.setItem("ot_admin_pass",n);alert("✅ Password changed to: "+n+"\nUse it next login!");$("newPass").value="";$("confirmPass").value="";}
+function changeFee(){let f=parseFloat($("feeInput").value);if(isNaN(f)){alert("Invalid");return;}localStorage.setItem("ot_fee",f);alert("✅ Fee updated to "+f+"%");loadCloud();}
+function changeWave(){let w=$("waveInput").value.trim();if(!w){alert("Enter wave");return;}localStorage.setItem("ot_wave",w);alert("✅ Wave updated to "+w);loadCloud();}
+function changeCEO(){let c=$("ceoInput").value.trim();if(!c){alert("Enter name");return;}localStorage.setItem("ot_ceo",c);$("ceoNameTop").innerText=c;alert("✅ CEO name updated to "+c);}
+function exportCSV(){if(txs.length===0){alert("No data");return;}let header="ord,rrr,customer,phone,merchant,service,amount,fee,total,payref,status,date\n";let rows=txs.map(t=>`"${t.ord}","${t.rrr}","${t.customer}","${t.phone}","${t.merchant}","${t.service}",${t.amount},${t.fee},${t.total},"${t.payref||t.payRef}","${t.status}","${t.date}"`).join("\n");let blob=new Blob([header+rows],{type:"text/csv"});let url=URL.createObjectURL(blob);let a=document.createElement("a");a.href=url;a.download="remita_"+new Date().toISOString().slice(0,10)+".csv";a.click();}
+async function clearAll(){if(!confirm("DANGER: Delete ALL "+txs.length+" orders forever?"))return;if(!confirm("Really? Type YES to confirm? This cannot be undone!"))return;let {error}=await sb.from("transactions").delete().neq("id","00000000-0000-0000-0000-000000000000");if(error){alert(error.message);return;}alert("All cleared");await loadCloud();}
+function renderChart(){let map={};for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let k=d.toLocaleDateString();map[k]={v:0,l:d.toLocaleDateString('en',{weekday:'short'})};}txs.forEach(t=>{let k=new Date(t.date).toLocaleDateString();if(map[k])map[k].v+=Number(t.amount);});let labs=Object.values(map).map(m=>m.l);let vals=Object.values(map).map(m=>m.v);let tot=vals.reduce((a,b)=>a+b,0);$("chartTot").innerText="7d D"+tot.toLocaleString();let ctx=$("chart").getContext("2d");if(chartI)chartI.destroy();chartI=new Chart(ctx,{type:'bar',data:{labels:labs,[STRIPPED]
 </script>
 </body>
 </html>
