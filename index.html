@@ -12,7 +12,8 @@ label{font-size:12px;color:#94a3b8;font-weight:700;margin-top:10px;display:block
 .btn{width:100%;padding:14px;border:none;border-radius:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s}.btn-g{background:linear-gradient(135deg,#22c55e,#16a34a);color:black;box-shadow:0 8px 24px rgba(34,197,94,.4)}.btn-dark{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:white}
 .track-box{background:linear-gradient(145deg,#fef3c7,#fde68a);color:#111827;border-radius:16px;padding:16px;text-align:center;border:2px dashed #f59e0b;margin-top:12px}
 .rrr-box{background:linear-gradient(145deg,#dcfce7,#bbf7d0);color:#111827;border-radius:16px;padding:16px;text-align:center;border:2px dashed #16a34a;margin-top:12px}
-.wave-box{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.3);border-radius:16px;padding:14px;margin-top:12px}
+.wave-box{background:linear-gradient(145deg,rgba(59,130,246,.18),rgba(37,99,235,.18));border:1.5px solid rgba(59,130,246,.5);border-radius:16px;padding:16px;margin-top:12px;position:relative;overflow:hidden}
+.fee-box{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:14px;padding:14px;margin-top:10px}
 .whatsapp{position:fixed;bottom:20px;right:16px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 24px rgba(37,211,102,.4);z-index:30;color:white;text-decoration:none}
 </style>
 </head>
@@ -25,9 +26,33 @@ label{font-size:12px;color:#94a3b8;font-weight:700;margin-top:10px;display:block
 <label>Description *</label><input id="service" placeholder="e.g. UTG Tuition Fee 2026">
 <label>Full Name *</label><input id="cName" placeholder="Ali Tunkara">
 <label>Phone *</label><input id="cPhone" placeholder="3501234">
-<label>Amount GMD *</label><input id="amount" type="number" placeholder="5000">
+<label>Amount GMD *</label><input id="amount" type="number" placeholder="5000" oninput="calcFee()">
+
+<!-- NEW 1: AUTO FEE CALCULATION -->
+<div id="feePreview" class="fee-box" style="display:none">
+<div style="display:flex;justify-content:space-between;font-size:13px;color:#e2e8f0"><span>Government Amount:</span><b id="feeGov">D0</b></div>
+<div style="display:flex;justify-content:space-between;font-size:13px;color:#94a3b8;margin-top:6px"><span>Our Fee (2%):</span><b id="feeFee" style="color:#f59e0b">D0</b></div>
+<div style="height:1px;background:rgba(255,255,255,.1);margin:8px 0"></div>
+<div style="display:flex;justify-content:space-between;font-size:14px"><span style="font-weight:900;color:white">TOTAL TO PAY to Wave:</span><b id="feeTotal" style="color:#22c55e;font-size:18px">D0</b></div>
+<small style="color:#94a3b8;font-size:11px;margin-top:4px;display:block">You pay this total to Wave 872713918. Gov gets D<span id="feeGov2">0</span>, we keep D<span id="feeFee2">0</span> as service fee.</small>
+</div>
+
 <label>Wave TxID (After paying to 872713918) *</label><input id="payRef" placeholder="Enter Wave Transaction ID">
-<div class="wave-box"><b style="color:#3b82f6"><i class="fa fa-wallet"></i> Pay FIRST to Wave: 872713918</b><br><small style="color:#94a3b8">Ousman Tunkara • After paying, enter TxID above</small></div>
+
+<!-- NEW 2: CLEAR WAVE NUMBER BOX -->
+<div class="wave-box">
+<div style="display:flex;align-items:center;gap:8px"><i class="fa fa-wallet" style="color:#3b82f6;font-size:20px"></i><b style="color:#3b82f6;font-size:13px">Pay FIRST to this Wave Number:</b></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;background:rgba(5,10,20,.7);padding:12px;border-radius:12px;border:1px solid rgba(59,130,246,.3)">
+<div><div style="font-size:11px;color:#94a3b8">WAVE NUMBER</div><div style="font-size:22px;font-weight:900;color:white;letter-spacing:1px;font-family:monospace">872713918</div><div style="font-size:11px;color:#94a3b8">Name: <b style="color:white">Ousman Tunkara</b> • Gambia Remita</div></div>
+<button class="btn-dark" style="width:auto;padding:10px 14px" onclick="copyWave()"><i class="fa fa-copy"></i> Copy</button>
+</div>
+<div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button class="btn-dark" style="padding:10px;font-size:12px" onclick="copyWave()"><i class="fa fa-copy"></i> Copy Number</button>
+<a href="https://wa.me/220872713918?text=Hello%20I%20want%20to%20pay%20Gambia%20Remita" target="_blank" class="btn-dark" style="padding:10px;font-size:12px;text-decoration:none"><i class="fa-brands fa-whatsapp"></i> Chat CEO</a>
+</div>
+<small style="color:#94a3b8;font-size:11px;margin-top:8px;display:block">After paying <b id="waveTotalText" style="color:#22c55e">total amount</b> to Wave, copy Wave TxID and paste above, then submit.</small>
+</div>
+
 <button class="btn btn-g" style="margin-top:14px" onclick="submitRequest()"><i class="fa fa-paper-plane"></i> Submit & Get Tracking Code</button>
 </div>
 
@@ -48,27 +73,98 @@ function getTxs(){return JSON.parse(localStorage.getItem("ot_txs_full")||"[]");}
 function saveTxs(t){localStorage.setItem("ot_txs_full",JSON.stringify(t));}
 function getFee(){return parseFloat(localStorage.getItem("ot_fee")||"2");}
 const $=id=>document.getElementById(id);
+
+function copyWave(){navigator.clipboard.writeText("872713918");alert("✅ Wave Copied: 872713918\nOusman Tunkara\nNow send money to this number!");}
+
+function calcFee(){
+let a=parseFloat($("amount").value);
+let box=$("feePreview");
+if(!a||a<=0){box.style.display="none";return;}
+box.style.display="block";
+let feeRate=getFee();
+let fee=Math.round(a*feeRate/100);
+let total=a+fee;
+$("feeGov").innerText="D"+a.toLocaleString();
+$("feeFee").innerText="D"+fee.toLocaleString();
+$("feeTotal").innerText="D"+total.toLocaleString();
+$("feeGov2").innerText=a.toLocaleString();
+$("feeFee2").innerText=fee.toLocaleString();
+$("waveTotalText").innerText="D"+total.toLocaleString()+" (D"+a.toLocaleString()+" + D"+fee.toLocaleString()+" fee)";
+}
+
 function submitRequest(){
 let m=$("merchant").value,s=$("service").value.trim(),n=$("cName").value.trim(),p=$("cPhone").value.trim(),a=parseFloat($("amount").value),r=$("payRef").value.trim();
-if(!m||!s||!n||!p||!a||!r){alert("Fill ALL fields including Wave TxID");return;}
+if(!m||!s||!n||!p||!a||!r){alert("Fill ALL fields including Wave TxID\n\nDid you pay to Wave 872713918 first?");return;}
 let txs=getTxs();let ord=genORD();
-let o={rrr:"AWAITING-APPROVAL",ord,merchant:m,service:s,customer:n,phone:p,amount:a,payRef:r,status:"PENDING",source:"REQUEST",date:new Date().toLocaleString(),rrrReady:false};
+let fee=Math.round(a*getFee()/100);
+let total=a+fee;
+let o={rrr:"AWAITING-APPROVAL",ord,merchant:m,service:s,customer:n,phone:p,amount:a,fee:fee,total:total,payRef:r,status:"PENDING",source:"REQUEST",date:new Date().toLocaleString(),rrrReady:false};
 txs.unshift(o);saveTxs(txs);
-$("trackResult").innerHTML=`<div class="track-box"><div style="font-weight:900;color:#92400e;font-size:12px">✅ REQUEST SAVED! THIS IS YOUR TRACKING CODE!</div><div style="font-size:11px;color:#78350f;margin-top:4px">Use this code to check if PENDING or DONE</div><div style="font-size:26px;font-weight:900;margin-top:10px;font-family:monospace;letter-spacing:1px">${ord}</div><div style="margin-top:10px;background:white;padding:10px;border-radius:10px;text-align:left;font-size:12px;color:#111827">Name: <b>${n}</b><br>Service: ${m}<br>Amount: D${a}<br>Status: <b style="background:#f59e0b;color:black;padding:2px 8px;border-radius:10px">PENDING • WAITING APPROVAL</b></div><div style="margin-top:8px;font-size:11px">CEO will verify Wave payment ${r}<br>After approval, same code will show RRR!</div><div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn btn-dark" style="color:#111827;background:white" onclick="navigator.clipboard.writeText('${ord}');alert('Tracking Code Copied!')">Copy Code</button><button class="btn btn-dark" style="color:#111827;background:white" onclick="$('trackInput').value='${ord}';trackOrder()">Check Status</button></div></div>`;
-["merchant","service","cName","cPhone","amount","payRef"].forEach(id=>{let e=$(id);if(e)e.value="";});window.scrollTo(0,document.body.scrollHeight);
+$("trackResult").innerHTML=`
+<div class="track-box">
+<div style="font-weight:900;color:#92400e;font-size:12px">✅ REQUEST SAVED! COPY YOUR TRACKING ID!</div>
+<div style="font-size:11px;color:#78350f;margin-top:4px">Use this ID to track — PENDING now, RRR after CEO approves</div>
+<div style="font-size:26px;font-weight:900;margin-top:10px;font-family:monospace;letter-spacing:1px">${ord}</div>
+<div style="margin-top:10px;background:white;padding:10px;border-radius:10px;text-align:left;font-size:12px;color:#111827">
+Name: <b>${n}</b> • ${p}<br>
+Service: ${m} - ${s}<br>
+Gov: D${a.toLocaleString()} + Fee D${fee.toLocaleString()} = <b>Total D${total.toLocaleString()}</b> paid to Wave 872713918<br>
+Status: <b style="background:#f59e0b;color:black;padding:2px 8px;border-radius:10px">PENDING • WAITING APPROVAL</b><br>
+Wave Ref: ${r}
+</div>
+<div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button class="btn btn-dark" style="color:#111827;background:white" onclick="navigator.clipboard.writeText('${ord}');alert('Tracking ID Copied: ${ord}')"><i class="fa fa-copy"></i> Copy Tracking ID</button>
+<button class="btn btn-dark" style="color:#111827;background:white" onclick="$('trackInput').value='${ord}';trackOrder()"><i class="fa fa-search"></i> Check Status</button>
+</div>
+</div>`;
+["merchant","service","cName","cPhone","amount","payRef"].forEach(id=>{let e=$(id);if(e)e.value="";});$("feePreview").style.display="none";window.scrollTo(0,document.body.scrollHeight);
 }
+
 function trackOrder(){
-let q=($("trackInput").value||"").toLowerCase().trim();if(!q){alert("Enter tracking code");return;}
+let q=($("trackInput").value||"").toLowerCase().trim();if(!q){alert("Enter tracking code ORD-XXXXXXX");return;}
 let txs=getTxs();let found=txs.filter(t=> (t.ord&&t.ord.toLowerCase().includes(q))||(t.phone&&t.phone.toLowerCase().includes(q))||(t.rrr&&t.rrr.toLowerCase().includes(q)));
 let res=$("trackResult");res.innerHTML="";if(found.length===0){res.innerHTML="<div style='background:#fee2e2;padding:12px;border-radius:12px;color:#111827'>❌ No order for "+q+"</div>";return;}
 found.forEach(t=>{
-let fee=Math.round(t.amount*getFee()/100),total=t.amount+fee;
+let fee=t.fee||Math.round(t.amount*getFee()/100);let total=t.total||(t.amount+fee);
 if(t.status==="PENDING"||!t.rrrReady){
-res.innerHTML+=`<div class="track-box" style="margin-bottom:10px"><div style="font-weight:900">📋 ${t.ord}</div><div style="margin-top:6px;background:#f59e0b;color:black;padding:4px 12px;border-radius:20px;display:inline-block;font-weight:900;font-size:11px">STATUS: PENDING • NOT APPROVED YET</div><div style="margin-top:10px;background:white;padding:10px;border-radius:10px;text-align:left;font-size:12px;color:#111827">Name: <b>${t.customer}</b><br>Service: ${t.merchant} - ${t.service}<br>Amount: D${t.amount}<br>Date: ${t.date}<br>Wave Ref: ${t.payRef}</div><div style="margin-top:8px;font-size:11px">CEO verifying payment. After approval, RRR will appear here when you track again.</div></div>`;
+res.innerHTML+=`
+<div class="track-box" style="margin-bottom:10px">
+<div style="font-weight:900">📋 Tracking ID: ${t.ord}</div>
+<div style="margin-top:6px;background:#f59e0b;color:black;padding:4px 12px;border-radius:20px;display:inline-block;font-weight:900;font-size:11px">STATUS: PENDING • WAITING FOR CEO</div>
+<div style="margin-top:10px;background:white;padding:10px;border-radius:10px;text-align:left;font-size:12px;color:#111827">
+Name: <b>${t.customer}</b><br>Service: ${t.merchant} - ${t.service}<br>Gov D${t.amount.toLocaleString()} + Fee D${fee.toLocaleString()} = Total D${total.toLocaleString()}<br>Date: ${t.date}<br>Wave Ref: ${t.payRef}
+</div>
+<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button class="btn btn-dark" style="color:#111827;background:white" onclick="navigator.clipboard.writeText('${t.ord}');alert('Tracking ID Copied!')"><i class="fa fa-copy"></i> Copy ID</button>
+<button class="btn btn-dark" style="color:#111827;background:white" onclick="alert('CEO Ousman Tunkara is verifying your Wave payment to 872713918. After approval you will see RRR here.')"><i class="fa fa-clock"></i> Pending</button>
+</div>
+</div>`;
 }else{
-res.innerHTML+=`<div class="rrr-box" style="margin-bottom:10px"><div style="font-weight:900;color:#166534;font-size:12px">✅ DONE • APPROVED • RRR READY!</div><div style="font-size:11px;color:#4b5563">Tracking Code: ${t.ord}</div><div style="font-size:24px;font-weight:900;color:#16a34a;font-family:monospace;margin-top:8px;letter-spacing:1px">${t.rrr}</div><div style="margin-top:8px;background:white;padding:10px;border-radius:10px;text-align:left;font-size:12px;color:#111827">Name: <b>${t.customer}</b><br>Final: GRA - ${t.merchant}<br>Gov ${t.amount.toFixed(2)} + Fee ${fee.toFixed(2)} = ${total.toFixed(2)} GMD<br>Date: ${t.date}<br>Status: <b style="color:#16a34a">APPROVED • BANKED</b></div><div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn btn-dark" style="color:#111827;background:white" onclick="navigator.clipboard.writeText('${t.rrr}');alert('RRR Copied!')">Copy RRR</button><button class="btn btn-dark" style="color:#111827;background:white" onclick="window.open('https://wa.me/?text=Gambia Remita RRR: ${t.rrr} - ${t.customer}')">Share</button></div></div>`;
+res.innerHTML+=`
+<div class="rrr-box" style="margin-bottom:10px">
+<div style="font-weight:900;color:#166534;font-size:12px">✅ DONE • APPROVED • RRR READY!</div>
+<div style="font-size:11px;color:#4b5563">Tracking ID: ${t.ord}</div>
+<div style="font-size:24px;font-weight:900;color:#16a34a;font-family:monospace;margin-top:8px;letter-spacing:1px">${t.rrr}</div>
+<div style="margin-top:8px;background:white;padding:10px;border-radius:10px;text-align:left;font-size:12px;color:#111827">
+Name: <b>${t.customer}</b><br>Final: GRA - ${t.merchant}<br>Gov ${t.amount.toFixed(2)} + Fee ${fee.toFixed(2)} = ${total.toFixed(2)} GMD<br>Date: ${t.date}<br>Status: <b style="color:#16a34a">APPROVED • BANKED</b>
+</div>
+<div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+<button class="btn btn-dark" style="color:#111827;background:white;padding:10px;font-size:11px" onclick="navigator.clipboard.writeText('${t.rrr}');alert('RRR Copied: ${t.rrr}')"><i class="fa fa-copy"></i> Copy RRR</button>
+<button class="btn btn-dark" style="color:#111827;background:white;padding:10px;font-size:11px" onclick="shareRRR('${t.rrr}','${t.customer}','${t.merchant}','${t.amount}','${t.ord}')"><i class="fa fa-share"></i> Share</button>
+<button class="btn btn-dark" style="color:#111827;background:#22c55e;color:black;padding:10px;font-size:11px" onclick="downloadRRR('${t.rrr}','${t.customer}','${t.merchant}',${t.amount},${fee},${total},'${t.ord}','${t.date}')"><i class="fa fa-download"></i> Download</button>
+</div>
+</div>`;
 }
 });
+}
+function shareRRR(rrr,cust,merch,amt,ord){
+let text=`Gambia Remita - APPROVED!\n\nTracking ID: ${ord}\nRRR: ${rrr}\nName: ${cust}\nService: ${merch}\nAmount: D${amt}\n\nCEO Ousman Tunkara Verified\nWave: 872713918`;
+if(navigator.share){navigator.share({title:"Gambia Remita RRR",text});}else{navigator.clipboard.writeText(text);alert("Copied! Share to WhatsApp:\n\n"+text);window.open("https://wa.me/?text="+encodeURIComponent(text));}
+}
+function downloadRRR(rrr,cust,merch,amt,fee,total,ord,date){
+let content=`GAMBIA REMITA - OFFICIAL RECEIPT\nCEO: Ousman Tunkara\nWave: 872713918\n----------------------------\nTracking ID: ${ord}\nRRR: ${rrr}\nName: ${cust}\nService: ${merch}\nGov Amount: D${amt}\nFee 2%: D${fee}\nTotal Paid: D${total}\nDate: ${date}\nStatus: APPROVED • BANKED\n----------------------------\nVerified by Gambia Remita`;
+let blob=new Blob([content],{type:"text/plain"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`RRR-${rrr}-${ord}.txt`;a.click();
+alert("✅ Receipt Downloaded!\nRRR: "+rrr);
 }
 </script>
 </body>
