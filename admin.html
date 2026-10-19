@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>V8.1 - Cloud Fix</title>
+<title>V8.2 - Ousman Tunkara - New Key Cloud</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -35,9 +35,9 @@ input{width:100%;padding:12px 14px;margin:6px 0;border-radius:12px;border:1px so
 </style>
 </head>
 <body>
-<div id="loginDiv" class="login"><div class="card-login"><div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;background:linear-gradient(135deg,#22c55e,#3b82f6);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:26px;margin:auto">👑</div><h3 style="margin-top:10px">Ousman Tunkara</h3><p style="color:#94a3b8;font-size:11px">V8.1 CLOUD FIX • Debug</p><p id="cloudStat" style="color:#22c55e;font-size:10px;margin-top:4px;font-weight:800">● Ready</p></div><input id="pass" type="password" placeholder="OT2026CEO"><button class="btn btn-g" style="width:100%;justify-content:center;margin-top:8px;padding:13px" onclick="login()">Enter Empire</button><p id="err" style="color:#f87171;text-align:center;margin-top:8px;font-size:12px"></p></div></div>
+<div id="loginDiv" class="login"><div class="card-login"><div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;background:linear-gradient(135deg,#22c55e,#3b82f6);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:26px;margin:auto">👑</div><h3 style="margin-top:10px">Ousman Tunkara</h3><p style="color:#94a3b8;font-size:11px">V8.2 NEW KEY • afzwszicghxwjyqkhbua</p><p id="cloudStat" style="color:#22c55e;font-size:10px;margin-top:4px;font-weight:800">● Ready New Key</p></div><input id="pass" type="password" placeholder="OT2026CEO"><button class="btn btn-g" style="width:100%;justify-content:center;margin-top:8px;padding:13px" onclick="login()">Enter Empire</button><p id="err" style="color:#f87171;text-align:center;margin-top:8px;font-size:12px"></p></div></div>
 <div id="adminDiv" style="display:none">
-<div class="top"><div style="display:flex;gap:10px;align-items:center"><div class="avatar">OT</div><div><div style="display:flex;gap:8px;align-items:center"><b style="font-size:16px">Ousman Tunkara</b><span class="badge-verified"><i class="fa fa-check-circle"></i> VERIFIED CEO</span></div><div style="font-size:12px;color:#22c55e;font-weight:700"><i class="fa fa-crown"></i> Founder • Gambia Remita • Wave 872713918</div><div style="font-size:11px;color:#64748b" id="clock"></div><div style="font-size:10px;color:#f59e0b" id="debugTxt"></div></div></div><div style="display:flex;gap:8px"><button class="btn btn-gray" onclick="openSet()"><i class="fa fa-cog"></i></button><button class="btn btn-gray" onclick="location.reload()"><i class="fa fa-sign-out"></i></button></div></div>
+<div class="top"><div style="display:flex;gap:10px;align-items:center"><div class="avatar">OT</div><div><div style="display:flex;gap:8px;align-items:center"><b style="font-size:16px">Ousman Tunkara</b><span class="badge-verified"><i class="fa fa-check-circle"></i> VERIFIED CEO</span></div><div style="font-size:12px;color:#22c55e;font-weight:700"><i class="fa fa-crown"></i> Founder • Gambia Remita • Wave 872713918</div><div style="font-size:11px;color:#64748b" id="clock"></div><div style="font-size:10px;color:#22c55e" id="debugTxt">New Publishable Key Active</div></div></div><div style="display:flex;gap:8px"><button class="btn btn-gray" onclick="openSet()"><i class="fa fa-cog"></i></button><button class="btn btn-gray" onclick="location.reload()"><i class="fa fa-sign-out"></i></button></div></div>
 <div class="chart-box"><div style="display:flex;justify-content:space-between"><small style="color:#94a3b8;font-weight:800">Daily Usage - Last 7 Days</small><small id="chartTot" style="color:#22c55e;font-weight:900"></small></div><canvas id="chart" height="100"></canvas></div>
 <div class="main-tabs"><div class="mtab active" onclick="switchMain('orders',this)"><i class="fa fa-receipt"></i> Orders</div><div class="mtab" onclick="switchMain('daily',this)"><i class="fa fa-calendar"></i> Daily</div><div class="mtab" onclick="switchMain('bank',this)"><i class="fa fa-image"></i> Bank Slip</div></div>
 <div id="pane-orders"><div class="search-row"><input id="search" placeholder="🔍 Search RRR, ORD, Name, Phone..." oninput="render()"><button class="btn btn-gray" onclick="loadCloud()"><i class="fa fa-sync"></i></button></div><div class="sub-tabs"><div class="stab active" onclick="filterSt('all',this)">All</div><div class="stab" onclick="filterSt('PENDING',this)">Pending <span id="pCount" style="background:#ef4444;color:white;padding:1px 6px;border-radius:10px;font-size:11px">0</span></div><div class="stab" onclick="filterSt('APPROVED',this)">Approved</div><div class="stab">API</div></div><div id="list" style="padding-bottom:80px"></div></div>
@@ -48,7 +48,7 @@ input{width:100%;padding:12px 14px;margin:6px 0;border-radius:12px;border:1px so
 <div id="setM" class="modal" onclick="if(event.target===this)closeS()"><div class="modal-box"><h3>Settings</h3><input id="feeInp" type="number"><button class="btn btn-g" style="width:100%;margin-top:10px" onclick="saveFee()">Save</button><button class="btn btn-black" style="width:100%;margin-top:8px" onclick="bulk()">Approve All</button></div></div>
 <script>
 const supabaseUrl = "https://afzwszicghxwjyqkhbua.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmendzemljZ2h4d2p5cWtoYnVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEwODQzNjAsImV4cCI6MjA3NjY2MDM2MH0.mhFGh-C4017N6N_3CC1Yl-AvA2YindhZ5Br0o5pQvD2o";
+const supabaseKey = "sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS";
 const sb = supabase.createClient(supabaseUrl, supabaseKey);
 let txs=[]; let curF="all"; let chartI=null;
 const $=id=>document.getElementById(id);
@@ -58,21 +58,21 @@ function genRRR(){return "GRR-"+Math.floor(100000000000+Math.random()*9000000000
 async function login(){
  if($("pass").value!==getPass()){$("err").innerText="Wrong";return;}
  $("loginDiv").style.display="none";$("adminDiv").style.display="block";
- setInterval(()=>{$("clock").innerText=new Date().toLocaleTimeString();},1000);
+ setInterval(()=>{$("clock").innerText=new Date().toLocaleTimeString()+" • New Key Live";},1000);
  await loadCloud();
 }
 async function loadCloud(){
- $("cloudStat").innerText="● Syncing...";$("debugTxt").innerText="Loading from Supabase...";
+ $("cloudStat").innerText="● Syncing Cloud...";$("debugTxt").innerText="Connecting with new publishable key...";
  let {data,error}=await sb.from("transactions").select("*").order("created_at",{ascending:false});
  if(error){$("cloudStat").innerText="● Error: "+error.message;$("debugTxt").innerText=error.message;return;}
  txs=data||[];
  $("cloudStat").innerText="● Cloud Connected • "+txs.length+" orders";
- $("debugTxt").innerText="Loaded: "+txs.length+" rows | Sample: "+(txs[0]?JSON.stringify(txs[0]).substring(0,80):"empty");
+ $("debugTxt").innerText="Loaded: "+txs.length+" rows • New Key OK • ORD-7603529 should appear";
  render();renderChart();
 }
 function switchMain(id,el){["orders","daily","bank"].forEach(t=>{$("pane-"+t).style.display=t===id?"block":"none";});document.querySelectorAll(".mtab").forEach(x=>x.classList.remove("active"));el.classList.add("active");}
 function filterSt(s,el){curF=s;document.querySelectorAll(".stab").forEach(x=>x.classList.remove("active"));el.classList.add("active");render();}
-function isPending(t){let st=(t.status||"").toString().toUpperCase();return st==="PENDING";}
+function isPending(t){return (t.status||"").toString().toUpperCase()==="PENDING";}
 function render(){
  let q=($("search").value||"").toLowerCase().trim();
  let filt=txs.filter(t=>{
@@ -85,8 +85,8 @@ function render(){
  let pend=txs.filter(t=>isPending(t)).length; $("pCount").innerText=pend;
  let list=$("list"); list.innerHTML="";
  if(filt.length===0){
-  let msg=txs.length===0?"Cloud EMPTY! Go submit customer order again!":"No match for filter "+curF+" search '"+q+"' • Cloud has "+txs.length;
-  list.innerHTML="<div style='text-align:center;padding:60px 20px;color:#64748b'><div style='font-size:54px'>🗃️</div><div style='margin-top:12px;font-weight:800'>No orders</div><div style='font-size:13px'>"+msg+"</div><button class='btn btn-gray' style='margin-top:14px' onclick='loadCloud()'>Sync Cloud Now</button><div style='margin-top:10px;font-size:10px;color:#f59e0b'>Debug: "+txs.length+" total rows in cloud</div></div>";return;
+  let msg=txs.length===0?"Cloud EMPTY! Submit order again!":"No match filter "+curF+" search '"+q+"' • Total "+txs.length;
+  list.innerHTML="<div style='text-align:center;padding:60px 20px;color:#64748b'><div style='font-size:54px'>🗃️</div><div style='margin-top:12px;font-weight:800'>No orders</div><div style='font-size:13px'>"+msg+"</div><button class='btn btn-gray' style='margin-top:14px' onclick='loadCloud()'>Sync Cloud Now</button><div style='margin-top:10px;font-size:10px;color:#22c55e'>"+txs.length+" total • New Key Active</div></div>";return;
  }
  filt.forEach(t=>{
   let st=(t.status||"PENDING").toString().toUpperCase();
@@ -101,7 +101,7 @@ async function delTx(id){if(!confirm("Delete?"))return;await sb.from("transactio
 function view(id){let t=txs.find(x=>x.id===id);$("detailC").innerHTML=`<div style="display:flex;justify-content:space-between"><h3>Order</h3><button class="btn btn-gray" onclick="closeD()">X</button></div><div style="margin-top:10px;background:rgba(255,255,255,.06);padding:12px;border-radius:12px"><b>${t.customer}</b><br>${t.phone}<br>ORD: <b style="color:#f59e0b">${t.ord}</b><br>RRR: <b style="color:#22c55e">${t.rrr}</b><br>Wave: ${t.payref||t.payRef}<br>${t.date}</div><div style="margin-top:10px;background:rgba(34,197,94,.1);padding:12px;border-radius:12px">${t.merchant} - ${t.service}<br>D${t.amount}+D${t.fee}=D${t.total}</div>${(t.status||"").toUpperCase()==="PENDING"?`<button class="btn btn-g" style="width:100%;margin-top:12px" onclick="approve('${t.id}');closeD()">Approve Now</button>`:`<div style="margin-top:12px;background:#dcfce7;color:#166534;padding:10px;border-radius:10px;text-align:center;font-weight:900">${t.rrr}</div>`}`;$("detailM").classList.add("show");}
 function closeD(){$("detailM").classList.remove("show");}function openSet(){$("setM").classList.add("show");$("feeInp").value=getFee();}function closeS(){$("setM").classList.remove("show");}function saveFee(){localStorage.setItem("ot_fee",$("feeInp").value);alert("Saved");closeS();render();}
 async function bulk(){if(!confirm("Approve all?"))return;for(let t of txs.filter(x=>isPending(x))){await sb.from("transactions").update({status:"APPROVED",rrr:genRRR()}).eq("id",t.id);}await loadCloud();}
-function renderChart(){let map={};for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let k=d.toLocaleDateString();map[k]={v:0,l:d.toLocaleDateString('en',{weekday:'short'})};}txs.forEach(t=>{let k=new Date(t.date).toLocaleDateString();if(map[k])map[k].v+=Number(t.amount);});let labs=Object.values(map).map(m=>m.l);let vals=Object.values(map).map(m=>m.v);let tot=vals.reduce((a,b)=>a+b,0);$("chartTot").innerText="7d: D"+tot.toLocaleString();let ctx=$("chart").getContext("2d");if(chartI)chartI.destroy();chartI=new Chart(ctx,{type:'bar',data:{labels:labs,datasets:[{data:vals,backgroundColor:"#22c55e",borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{y:{grid:{color:"rgba(255,255,255,.05)"},ticks:{color:"#64748b"}},x:{grid:{display:false},ticks:{color:"#64748b"}}}}});}
+function renderChart(){let map={};for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let k=d.toLocaleDateString();map[k]={v:0,l:d.toLocaleDateString('en',{weekday:'short'})};}txs.forEach(t=>{let k=new Date(t.date).toLocaleDateString();if(map[k])map[k].v+=Number(t.amount);});let labs=Object.values(map).map(m=>m.l);let vals=Object.values(map).map(m=>m.v);let tot=vals.reduce((a,b)=>a+b,0);$("chartTot").innerText="7d: D"+tot.toLocaleString();let ctx=$("chart").getContext("2d");if(chartI)chartI.destroy();chartI=new Chart(ctx,{type:'bar',data:{labels:labs,[STRIPPED]
 </script>
 </body>
 </html>
