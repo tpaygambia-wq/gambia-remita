@@ -1,47 +1,210 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gambia Remita - V9 Cloud</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.0/dist/umd/supabase.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gambia Remita - Government Payment - Wave 872713918</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-body{background:#0f172a;color:#e2e8f0;font-family:Inter,system-ui;padding:14px;margin:0}
-.card{background:#1e293b;border-radius:18px;padding:16px;margin-bottom:14px;border:1px solid #334155}
-h2{margin:0 0 8px;color:#22c55e}
-input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #334155;background:#0f172a;color:white;margin-top:6px;box-sizing:border-box}
-label{font-size:12px;color:#94a3b8;margin-top:10px;display:block;font-weight:700}
-.btn{width:100%;padding:13px;border-radius:12px;border:0;font-weight:900;cursor:pointer;margin-top:10px}
-.btn-green{background:#22c55e;color:#000}
-.btn-dark{background:#1e293b;color:white;border:1px solid #334155}
-.fee-box{background:#0f172a;border:1px dashed #22c55e;border-radius:12px;padding:12px;margin-top:10px;display:none}
-.track-box{background:#0f172a;border-left:4px solid #f59e0b;border-radius:12px;padding:12px;margin-top:10px}
-.rrr-box{background:#dcfce7;border-left:4px solid #22c55e;border-radius:12px;padding:12px;margin-top:10px;color:#052e16}
-.wave-bar{background:#22c55e;color:#000;border-radius:12px;padding:10px;text-align:center;font-weight:900;margin-top:8px}
-</style></head><body>
-<div class="card">
-<h2>👑 Gambia Remita V9 Cloud</h2>
-<small style="color:#94a3b8">CEO Ousman Tunkara • Wave 872713918 • Cloud Secure</small>
-<div class="wave-bar"><i class="fa fa-wave-square"></i> Wave: 872713918 <button onclick="copyWave()" style="margin-left:10px;padding:4px 8px;border-radius:8px;border:0;font-weight:900">Copy</button></div>
-<label>1. Merchant / Service</label><select id="merchant"><option value="">Select</option><option>GRA Tax</option><option>NAWEC</option><option>Gamtel</option><option>University</option><option>Other Bill</option></select>
-<label>2. Service Description</label><input id="service" placeholder="e.g GRA Tax for Shop">
-<label>3. Customer Full Name</label><input id="cName" placeholder="e.g Lamin Ceesay">
-<label>4. Customer Phone</label><input id="cPhone" placeholder="e.g 3xxxxxx">
-<label>5. Government Amount D</label><input id="amount" type="number" placeholder="e.g 5000" oninput="calcFee()">
-<div class="fee-box" id="feePreview"><div style="display:flex;justify-content:space-between"><span>Gov Amount</span><b id="feeGov"></b></div><div style="display:flex;justify-content:space-between"><span>Fee 2%</span><b id="feeFee"></b></div><div style="display:flex;justify-content:space-between;border-top:1px solid #334155;margin-top:6px;padding-top:6px"><span>Total to Wave</span><b id="feeTotal" style="color:#22c55e"></b></div><small>Pay total to Wave 872713918</small></div>
-<label>6. Wave Receipt Photo</label><input type="file" id="receiptFile" accept="image/*" onchange="previewReceipt(this)"><div id="receiptPreview" style="display:none;margin-top:8px"><img id="previewImg" style="width:100%;border-radius:12px;max-height:220px;object-fit:cover"><small style="color:#22c55e">✅ Photo attached</small></div>
-<label>7. Wave Transaction ID (or paste if no photo)</label><input id="payRef" placeholder="e.g TxID or leave if photo uploaded">
-<button class="btn btn-green" onclick="submitRequest()"><i class="fa fa-cloud-arrow-up"></i> Submit to Cloud Secure</button>
-<label style="margin-top:18px">Track Your RRR — Enter ORD / Phone / RRR</label><div style="display:flex;gap:8px"><input id="trackInput" placeholder="ORD-xxxx or Phone"><button class="btn btn-dark" style="width:90px;margin-top:6px" onclick="trackOrder()">Track</button></div>
-<div id="trackResult" style="margin-top:10px"></div>
-<div style="text-align:center;margin-top:12px"><small>Wave Total Pay: <b id="waveTotalText">D0</b> → 872713918</small></div>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,Arial;background:#0a0e1e;color:#e2e8f0;min-height:100vh;padding:12px}
+.container{max-width:480px;margin:auto}
+.header{text-align:center;padding:16px;background:linear-gradient(135deg,#101b36,#0a0e1e);border-radius:20px;border:1px solid rgba(255,255,255,.06);margin-bottom:12px}
+.logo{width:56px;height:56px;background:linear-gradient(135deg,#22c55e,#3b82f6);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:black}
+.card{background:#111a32;border-radius:20px;padding:16px;border:1px solid rgba(255,255,255,.06);margin-bottom:12px}
+label{font-size:12px;font-weight:800;color:#94a3b8;display:block;margin:12px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+input,select{width:100%;padding:14px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:#0b1226;color:white;outline:none;font-size:14px}
+input::placeholder{color:#475569}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px}
+.btn-g{background:linear-gradient(135deg,#22c55e,#16a34a);color:black}
+.btn-gray{background:rgba(255,255,255,.08);color:#e2e8f0;border:1px solid rgba(255,255,255,.1)}
+.fee-box{background:rgba(34,197,94,.08);border:1px dashed #22c55e;border-radius:12px;padding:12px;margin-top:12px;font-size:13px}
+.wave-box{background:linear-gradient(135deg,#1e3a8a,#1e40af);border-radius:14px;padding:12px;text-align:center;margin-top:12px;font-weight:800}
+.success{background:#f8fafc;color:#111827;border-radius:18px;padding:16px;margin-top:14px;border-left:6px solid #f59e0b;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.track-card{background:#0b1226;border-radius:16px;padding:14px;margin-top:12px;border:1px solid rgba(255,255,255,.06)}
+.badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:900}.badge-p{background:#fef3c7;color:#92400e}.badge-a{background:#dcfce7;color:#166534}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<div class="logo">🇬🇲</div>
+<h2 style="margin-top:8px">Gambia Remita</h2>
+<p style="color:#94a3b8;font-size:12px;margin-top:4px">Government Services Payment Gateway</p>
+<p style="color:#22c55e;font-weight:900;margin-top:6px;font-size:13px"><i class="fa fa-wave-square"></i> Wave: 872713918 • CEO Ousman Tunkara</p>
+<p id="cloudStatus" style="color:#22c55e;font-size:10px;margin-top:4px;font-weight:800">● Cloud Ready • New Key Active</p>
 </div>
+
+<div class="card">
+<h3><i class="fa fa-receipt" style="color:#22c55e"></i> Submit Government Payment</h3>
+
+<label>1. Customer Name</label>
+<input id="cName" placeholder="e.g Aisha Tunkara">
+
+<label>2. Merchant</label>
+<select id="merchant">
+<option value="GRA">GRA - Gambia Revenue Authority</option>
+<option value="GPA">GPA - Gambia Ports</option>
+<option value="NAWEC">NAWEC</option>
+<option value="Police">Gambia Police - Clearance</option>
+<option value="Immigration">Immigration</option>
+<option value="Other">Other Government</option>
+</select>
+
+<label>3. Service Type</label>
+<select id="service">
+<option value="Tax">Tax Payment</option>
+<option value="License">License / Permit</option>
+<option value="Clearance">Clearance Certificate</option>
+<option value="Fine">Fine / Penalty</option>
+<option value="Duty">Custom Duty</option>
+<option value="Other">Other Service</option>
+</select>
+
+<label>4. Customer Phone</label>
+<input id="cPhone" placeholder="e.g 3xxxxxxx" type="tel">
+
+<label>5. Government Amount D</label>
+<input id="govAmount" placeholder="e.g 5000" type="number" oninput="calcFee()">
+
+<label>6. Wave Receipt Photo</label>
+<input id="receiptFile" type="file" accept="image/*">
+
+<label>7. Wave Transaction ID (or paste if no photo)</label>
+<input id="waveTx" placeholder="e.g TxID or leave if photo uploaded">
+
+<div class="fee-box" id="feeBox" style="display:none">
+<div style="display:flex;justify-content:space-between"><span>Government:</span><b id="fGov">D0</b></div>
+<div style="display:flex;justify-content:space-between"><span>Fee 2%:</span><b id="fFee">D0</b></div>
+<div style="display:flex;justify-content:space-between;border-top:1px dashed rgba(0,0,0,.2);margin-top:6px;padding-top:6px"><span>Total to Wave:</span><b id="fTotal" style="color:#16a34a">D0</b></div>
+</div>
+
+<div class="wave-box">Wave Total Pay: <span id="waveTotal">D0</span> → 872713918</div>
+
+<button class="btn btn-g" style="margin-top:14px" onclick="submitToCloud()"><i class="fa fa-cloud-upload-alt"></i> Submit to Cloud Secure</button>
+<p id="msg" style="text-align:center;margin-top:10px;font-size:12px;color:#94a3b8"></p>
+
+<div id="successBox" style="display:none"></div>
+
+<div class="track-card">
+<b style="font-size:13px">Track Your RRR — Enter ORD / Phone / RRR</b>
+<div style="display:flex;gap:8px;margin-top:10px">
+<input id="trackInput" placeholder="ORD-xxxx or Phone" style="flex:1">
+<button class="btn btn-gray" style="width:90px" onclick="trackOrder()">Track</button>
+</div>
+<div id="trackResult" style="margin-top:10px"></div>
+</div>
+</div>
+</div>
+
 <script>
-const SUPABASE_URL="https://afzwszicghxwjyqkhbua.supabase.co";
-const SUPABASE_KEY="sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let receiptBase64="";function genORD(){return "ORD-"+Math.floor(1000000+Math.random()*9000000);}
-const $=id=>document.getElementById(id);
-function copyWave(){navigator.clipboard.writeText("872713918");alert("✅ Wave Copied: 872713918");}
-function calcFee(){let a=parseFloat($("amount").value);let box=$("feePreview");if(!a){box.style.display="none";$("waveTotalText").innerText="D0";return;}box.style.display="block";let fee=Math.round(a*0.02);let total=a+fee;$("feeGov").innerText="D"+a.toLocaleString();$("feeFee").innerText="D"+fee.toLocaleString();$("feeTotal").innerText="D"+total.toLocaleString();$("waveTotalText").innerText="D"+total.toLocaleString();}
-function previewReceipt(input){if(input.files&&input.files[0]){let r=new FileReader();r.onload=e=>{receiptBase64=e.target.result;$("previewImg").src=receiptBase64;$("receiptPreview").style.display="block";};r.readAsDataURL(input.files[0]);}}
-async function submitRequest(){let m=$("merchant").value,s=$("service").value.trim(),n=$("cName").value.trim(),p=$("cPhone").value.trim(),a=parseFloat($("amount").value),r=$("payRef").value.trim();if(!m||!s||!n||!p||!a){alert("Fill 1 to 5!");return;}if(!r&&!receiptBase64){alert("Upload Wave receipt photo OR paste TxID!");return;}let ord=genORD();let fee=Math.round(a*0.02);let total=a+fee;$("trackResult").innerHTML="<div style='padding:20px;text-align:center'>⏳ Saving to cloud...</div>";let {error}=await supabaseClient.from("transactions").insert([{ord,rrr:"AWAITING-APPROVAL",merchant:m,service:s,customer:n,phone:p,amount:a,fee:fee,total:total,payRef:r||"PHOTO-UPLOADED",receiptImg:receiptBase64,status:"PENDING",date:new Date().toLocaleString()}]);if(error){alert("Error: "+error.message);return;}$("trackResult").innerHTML=`<div class="track-box"><div style="font-weight:900">✅ SAVED TO CLOUD! COPY ID!</div><div style="font-size:26px;font-weight:900;margin-top:10px;font-family:monospace">${ord}</div><div style="margin-top:8px"><b>${n}</b> - ${m}<br>Total D${total.toLocaleString()} to Wave 872713918<br>Status: PENDING</div><button class="btn btn-dark" style="margin-top:10px" onclick="navigator.clipboard.writeText('${ord}');alert('Copied!')"><i class="fa fa-copy"></i> Copy Tracking ID</button></div>`;["merchant","service","cName","cPhone","amount","payRef"].forEach(id=>{let e=$(id);if(e)e.value="";});$("receiptFile").value="";$("receiptPreview").style.display="none";receiptBase64="";$("feePreview").style.display="none";}
-async function trackOrder(){let q=($("trackInput").value||"").trim();if(!q){alert("Enter ORD");return;}$("trackResult").innerHTML="⏳ Checking cloud...";let {data,error}=await supabaseClient.from("transactions").select("*").or(`ord.ilike.%${q}%,phone.ilike.%${q}%,rrr.ilike.%${q}%`).limit(5);if(error||!data||data.length===0){$("trackResult").innerHTML="<div style='background:#fee2e2;padding:12px;border-radius:12px;color:#111827'>❌ Not found for "+q+"</div>";return;}let html="";data.forEach(t=>{if(t.status==="PENDING"){html+=`<div class="track-box"><b>${t.ord}</b> - <span style="background:#f59e0b;padding:2px 8px;border-radius:10px;font-size:11px">PENDING</span><br>${t.customer} - ${t.merchant} D${t.total}<br><small>${t.date}</small></div>`;}else{html+=`<div class="rrr-box"><b>✅ DONE</b><br><b style="font-size:20px;font-family:monospace">${t.rrr}</b><br>Tracking: ${t.ord}<br>${t.customer} - D${t.total}<br><div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:6px"><button class="btn btn-dark" onclick="navigator.clipboard.writeText('${t.rrr}')">Copy RRR</button></div></div>`;}});$("trackResult").innerHTML=html;}
-</script></body></html>
+const supabaseUrl = "https://afzwszicghxwjyqkhbua.supabase.co";
+const supabaseKey = "sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS";
+const sb = supabase.createClient(supabaseUrl, supabaseKey);
+
+function getFeePct(){return parseFloat(localStorage.getItem("ot_fee")||"2");}
+function calcFee(){
+ let gov=parseFloat(document.getElementById("govAmount").value||"0");
+ let pct=getFeePct();
+ let fee=gov*pct/100;
+ let total=gov+fee;
+ if(gov>0){
+  document.getElementById("feeBox").style.display="block";
+  document.getElementById("fGov").innerText="D"+gov.toLocaleString();
+  document.getElementById("fFee").innerText="D"+fee.toFixed(0);
+  document.getElementById("fTotal").innerText="D"+total.toFixed(0);
+  document.getElementById("waveTotal").innerText="D"+total.toFixed(0);
+ }else{
+  document.getElementById("feeBox").style.display="none";
+  document.getElementById("waveTotal").innerText="D0";
+ }
+ return {gov,fee,total};
+}
+function genORD(){return "ORD-"+Math.floor(1000000+Math.random()*9000000);}
+function genRRRPlaceholder(){return "PENDING-"+Math.floor(1000+Math.random()*9000);}
+
+async function submitToCloud(){
+ let cName=document.getElementById("cName").value.trim();
+ let cPhone=document.getElementById("cPhone").value.trim();
+ let merchant=document.getElementById("merchant").value;
+ let service=document.getElementById("service").value;
+ let waveTx=document.getElementById("waveTx").value.trim()||"WAVE-"+Date.now();
+ let {gov,fee,total}=calcFee();
+
+ if(!cName||!cPhone||!gov){document.getElementById("msg").innerText="❌ Fill Name, Phone, Amount";return;}
+
+ document.getElementById("msg").innerText="⏳ Saving to cloud...";
+ document.getElementById("cloudStatus").innerText="● Saving...";
+ document.getElementById("cloudStatus").style.color="#f59e0b";
+
+ let ord=genORD();
+ let rrr=genRRRPlaceholder();
+ let now=new Date().toLocaleString();
+
+ // BOTH payref and payRef to kill error forever
+ let payload={
+  ord:ord,
+  rrr:rrr,
+  customer:cName,
+  phone:cPhone,
+  merchant:merchant,
+  service:service,
+  amount:gov,
+  fee:fee,
+  total:total,
+  payref:waveTx,
+  payRef:waveTx,
+  status:"PENDING",
+  date:now
+ };
+
+ let {data,error}=await sb.from("transactions").insert([payload]).select();
+ if(error){
+  document.getElementById("msg").innerText="❌ "+error.message;
+  document.getElementById("cloudStatus").innerText="● Error: "+error.message;
+  document.getElementById("cloudStatus").style.color="#ef4444";
+  console.log(error);
+  return;
+ }
+
+ document.getElementById("cloudStatus").innerText="● Cloud Connected • Saved!";
+ document.getElementById("cloudStatus").style.color="#22c55e";
+ document.getElementById("msg").innerText="✅ SUCCESS "+ord+" saved!";
+ document.getElementById("successBox").style.display="block";
+ document.getElementById("successBox").innerHTML=`
+ <div class="success">
+ <div style="font-weight:900;color:#15803d"><i class="fa fa-check-circle"></i> SAVED TO CLOUD! COPY ID!</div>
+ <div style="font-size:28px;font-weight:900;margin-top:8px;letter-spacing:1px">${ord}</div>
+ <div style="margin-top:8px;font-size:14px"><b>${cName}</b> - ${merchant} ${service}<br>Total D${total.toFixed(0)} to Wave 872713918<br>Status: PENDING</div>
+ <button class="btn btn-gray" style="margin-top:12px" onclick="navigator.clipboard.writeText('${ord}');alert('Copied '+ '${ord}')"><i class="fa fa-copy"></i> Copy Tracking ID</button>
+ </div>
+ <div class="wave-box" style="margin-top:10px">Wave Total Pay: <b>D${total.toFixed(0)} → 872713918</b></div>
+ `;
+ // clear
+ document.getElementById("cName").value="";document.getElementById("cPhone").value="";document.getElementById("govAmount").value="";document.getElementById("waveTx").value="";
+ calcFee();
+}
+
+async function trackOrder(){
+ let q=document.getElementById("trackInput").value.trim();
+ if(!q){return;}
+ document.getElementById("trackResult").innerHTML="⏳ Searching cloud...";
+ let {data,error}=await sb.from("transactions").select("*").or(`ord.eq.${q},phone.eq.${q},rrr.eq.${q},ord.ilike.%${q}%,phone.ilike.%${q}%`).limit(5);
+ if(error){document.getElementById("trackResult").innerHTML="❌ "+error.message;return;}
+ if(!data||data.length===0){document.getElementById("trackResult").innerHTML="<div style='color:#94a3b8;font-size:13px'>Not found in cloud. Check ORD or Phone.</div>";return;}
+ let t=data[0];
+ let badge=t.status.toUpperCase()==="PENDING"?`<span class="badge badge-p">PENDING</span>`:`<span class="badge badge-a">APPROVED</span>`;
+ document.getElementById("trackResult").innerHTML=`
+ <div style="background:#f8fafc;color:#111827;border-radius:12px;padding:12px;font-size:13px;line-height:1.5">
+ <div style="display:flex;justify-content:space-between"><b>${t.ord}</b>${badge}</div>
+ Name: <b>${t.customer}</b> • ${t.phone}<br>
+ ${t.merchant} - ${t.service}<br>
+ D${Number(t.amount).toFixed(0)} + D${Number(t.fee).toFixed(0)} = D${Number(t.total).toFixed(0)}<br>
+ RRR: <b style="color:#16a34a">${t.rrr}</b><br>
+ Wave Ref: ${t.payref||t.payRef||""}<br>
+ <small>${t.date}</small>
+ </div>
+ `;
+}
+</script>
+</body>
+</html>
