@@ -1,30 +1,45 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Remita Admin - Government Payments</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
-<style>body{background:#0a0e1a;color:#e2e8f0;font-family:sans-serif;margin:0;padding:12px}.card{max-width:1000px;margin:10px auto;background:#111827;border:1px solid #1f2937;border-radius:16px;padding:16px}input,button{width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff}button{background:#10b981;border:none;font-weight:700}table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}th,td{border:1px solid #1f2937;padding:8px;text-align:left}th{background:#0f172a;color:#94a3b8}.top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px} .box{background:#0f172a;padding:12px;border-radius:12px;text-align:center}</style>
-</head><body>
-<div class="card" id="login">
-<h2>👑 Gambia Remita Admin</h2>
-<input id="email" value="tpaygambia@gmail.com"><input id="pass" type="password" value="Banta123Jareh@">
-<button onclick="login()">Login</button><p id="msg" style="color:#f87171"></p>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Remita Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body{background:#0a0e1a;color:#fff;font-family:sans-serif;padding:12px}
+.card{max-width:900px;margin:auto;background:#111827;border-radius:16px;padding:16px;border:1px solid #222}
+.box{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.b{background:#0f172a;padding:12px;border-radius:10px;text-align:center}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+th,td{border:1px solid #222;padding:8px} th{background:#0f172a}
+button{background:#10b981;border:0;padding:10px 16px;border-radius:8px;color:#fff;font-weight:700}
+</style>
+</head>
+<body>
+<div class="card">
+<h3>Remita Admin - GRA Sales</h3>
+<div class="box">
+<div class="b"><small>Total Sales</small><h2 id="c1">...</h2></div>
+<div class="b"><small>Total Amount</small><h2 id="c2">...</h2></div>
+<div class="b"><small>Live</small><h2>OK</h2></div>
 </div>
-<div class="card" id="dash" style="display:none">
-<h3>👑 Dashboard - REMITA Government Payments</h3>
-<div class="top"><div class="box"><small>Total Sales</small><h2 id="s1">0</h2></div><div class="box"><small>Volume</small><h2 id="s2">D0</h2></div><div class="box"><small>Last Sale</small><h2 id="s3" style="font-size:12px">-</h2></div></div>
-<button onclick="load()" style="width:auto;padding:6px 12px;margin-top:10px">🔄 Refresh</button>
-<button onclick="logout()" style="width:auto;padding:6px 12px;background:#ef4444;margin-left:6px">Logout</button>
-<h4>💰 Government Payments (GRA Tax)</h4>
-<div style="overflow-x:auto">
-<table><thead><tr><th>Date</th><th>Customer</th><th>Phone</th><th>Merchant</th><th>Service</th><th>Amount</th><th>Wave TxID</th><th>Status</th></tr></thead><tbody id="tb"></tbody></table>
-</div>
-<p id="err" style="color:#f87171"></p>
+<button onclick="loadData()" style="margin-top:12px">Refresh</button>
+<p id="err" style="color:#f88"></p>
+<table><thead><tr><th>Date</th><th>Customer</th><th>Phone</th><th>Service</th><th>Amount</th><th>Wave ID</th></tr></thead><tbody id="tb"><tr><td colspan=6>Loading...</td></tr></tbody></table>
 </div>
 <script>
-const sb=supabase.createClient("https://afzwszicghxwjyqkhbua.supabase.co","sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS");
-async function login(){try{const e=email.value,p=pass.value;const {error}=await sb.auth.signInWithPassword({email:e,password:p});if(error) throw error;loginDiv();}catch(err){msg.textContent=err.message}}
-function loginDiv(){document.getElementById('login').style.display='none';document.getElementById('dash').style.display='block';load();}
-async function load(){try{const {data,error}=await sb.from('transactions').select('*').order('created_at',{ascending:false}).limit(100);if(error) throw error;document.getElementById('s1').textContent=data.length;let vol=data.reduce((s,x)=>s+(Number(x.amount)||0),0);document.getElementById('s2').textContent='D'+vol.toLocaleString();document.getElementById('s3').textContent=data[0]? new Date(data[0].created_at).toLocaleString(): '-';document.getElementById('tb').innerHTML=data.map(r=>`<tr><td>${r.created_at?new Date(r.created_at).toLocaleDateString():''}</td><td>${r.customer_name||r.customer||''}</td><td>${r.customer_phone||r.phone||''}</td><td>${r.merchant||'GRA'}</td><td>${r.service_type||r.service||''}</td><td><b>D${r.amount||r.government_amount||0}</b></td><td style="font-size:10px">${r.wave_transaction_id||r.wave_receipt||''}</td><td>${r.status||'pending'}</td></tr>`).join('')||'<tr><td colspan=8 style="text-align:center;color:#94a3b8">No sales yet</td></tr>';}catch(e){document.getElementById('err').textContent='Error: '+e.message}}
-async function logout(){await sb.auth.signOut();location.reload()}
-sb.auth.getSession().then(({data})=>{if(data.session) loginDiv()});
-</script></body></html>
+const supabaseClient = supabase.createClient("https://afzwszicghxwjyqkhbua.supabase.co","sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS");
+async function loadData(){
+ try{
+  const {data,error} = await supabaseClient.from('transactions').select('*').order('created_at',{ascending:false}).limit(100);
+  if(error) throw error;
+  document.getElementById('c1').textContent = data.length;
+  let tot = 0; data.forEach(r=>{tot += Number(r.amount||r.government_amount||0)});
+  document.getElementById('c2').textContent = 'D'+tot.toLocaleString();
+  document.getElementById('tb').innerHTML = data.length ? data.map(r=>`<tr><td>${r.created_at?new Date(r.created_at).toLocaleDateString():''}</td><td>${r.customer_name||''}</td><td>${r.customer_phone||''}</td><td>${r.service_type||r.service||''}</td><td>D${r.amount||r.government_amount||0}</td><td style="font-size:10px">${r.wave_transaction_id||''}</td></tr>`).join('') : '<tr><td colspan=6>No sales yet</td></tr>';
+ }catch(e){document.getElementById('err').textContent=e.message}
+}
+loadData();
+</script>
+</body>
+</html>
