@@ -1,17 +1,125 @@
 <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin - CEO Ousman Tunkara V9 Cloud</title>
+<title>V7 Admin Control - CEO Ousman Tunkara</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.0/dist/umd/supabase.min.js"></script>
-<style>body{background:#0f172a;color:#e2e8f0;font-family:Inter;padding:12px} .card{background:#1e293b;border-radius:16px;padding:12px;margin-bottom:10px;border:1px solid #334155} input{width:100%;padding:10px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:white} .btn{padding:9px 12px;border-radius:10px;border:0;font-weight:900;cursor:pointer} .btn-green{background:#22c55e;color:#000} .btn-red{background:#ef4444;color:white} .btn-dark{background:#0f172a;color:white;border:1px solid #334155} img{border-radius:12px}</style></head><body>
-<div id="login" class="card" style="max-width:400px;margin:60px auto;text-align:center"><h2>👑 Gambia Remita — CEO Dashboard V9 Cloud</h2><p style="font-size:12px;color:#94a3b8">Ousman Tunkara Only • Wave 872713918 • Cloud Secure</p><input id="pass" type="password" placeholder="Admin Password"><button class="btn btn-green" style="width:100%;margin-top:10px" onclick="doLogin()">Login</button><small>Default: CEO123</small></div>
-<div id="main" style="display:none"><div class="card"><h2 style="margin:0;color:#22c55e">CEO Ousman Tunkara — Cloud Orders</h2><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><div class="card" style="flex:1;margin:0">Profit<br><b id="totalProfit">D0</b></div><div class="card" style="flex:1;margin:0">Pending<br><b id="pendingCount">0</b></div><div class="card" style="flex:1;margin:0">Done<br><b id="doneCount">0</b></div></div><div style="display:flex;gap:8px;margin-top:10px"><input id="search" placeholder="Search ORD/Phone/RRR/Customer" oninput="render()"><button class="btn btn-dark" onclick="exportCSV()">Export CSV</button><button class="btn btn-dark" onclick="location.reload()">Refresh Cloud</button></div></div><div id="orders"></div><div style="text-align:center;margin-top:10px"><small>Wave 872713918 • CEO Ousman Tunkara • V9 Cloud Secure • https://afzwszicghxwjyqkhbua.supabase.co</small></div></div>
+<style>
+body{margin:0;background:#0b1220;color:#e2e8f0;font-family:Inter,system-ui;padding:10px}
+.top{background:linear-gradient(135deg,#16a34a,#22c55e);color:#000;padding:14px;border-radius:16px;font-weight:900;display:flex;justify-content:space-between;align-items:center}
+.card{background:#151f35;border:1px solid #1e2d50;border-radius:16px;padding:12px;margin-top:10px}
+.stat{display:flex;gap:8px;margin-top:10px}
+.stat>div{flex:1;background:#0f1a33;border:1px solid #1e2d50;border-radius:14px;padding:10px;text-align:center}
+.stat b{font-size:18px;display:block;color:#22c55e}
+input,select{width:100%;padding:11px;border-radius:12px;border:1px solid #243356;background:#0f1a33;color:white;box-sizing:border-box}
+.btn{padding:10px 14px;border-radius:12px;border:0;font-weight:900;cursor:pointer}
+.btn-g{background:#22c55e;color:#000}.btn-d{background:#1e293b;color:white;border:1px solid #334155}.btn-r{background:#ef4444;color:white}
+.order{border-left:4px solid #f59e0b;background:#151f35;border-radius:14px;padding:12px;margin-top:10px;border:1px solid #1e2d50}
+.order.done{border-left-color:#22c55e}
+.mono{font-family:monospace;font-weight:900}
+img.receipt{width:100%;max-height:280px;object-fit:contain;background:#000;border-radius:12px;margin-top:8px}
+</style></head><body>
+
+<div id="loginBox" class="card" style="max-width:380px;margin:80px auto;text-align:center">
+<h2 style="color:#22c55e;margin:0">👑 V7 Admin Control</h2><small style="color:#94a3b8">CEO Ousman Tunkara Only • Wave 872713918</small>
+<input id="pass" type="password" placeholder="Admin Password" style="margin-top:12px">
+<button class="btn btn-g" style="width:100%;margin-top:10px" onclick="login()">Unlock V7 Control</button>
+<small style="display:block;margin-top:8px;color:#64748b">Default: CEO123</small>
+</div>
+
+<div id="dash" style="display:none">
+<div class="top"><span><i class="fa fa-crown"></i> GAMBIA REMITA V7 CONTROL</span><span style="font-size:12px">CEO OUSMAN</span></div>
+
+<div class="stat">
+<div><small>Profit 2%</small><b id="profit">D0</b></div>
+<div><small>Pending</small><b id="pending">0</b></div>
+<div><small>Done</small><b id="done">0</b></div>
+</div>
+
+<div class="card">
+<div style="display:flex;gap:8px">
+<input id="searchBox" placeholder="Search ORD / RRR / Phone / Customer" oninput="render()">
+<button class="btn btn-d" onclick="loadCloud()"><i class="fa fa-rotate"></i></button>
+</div>
+<div style="display:flex;gap:8px;margin-top:8px">
+<button class="btn btn-d" style="flex:1" onclick="exportCSV()"><i class="fa fa-file-csv"></i> Export CSV</button>
+<button class="btn btn-d" style="flex:1" onclick="clearSearch()">Clear</button>
+</div>
+<small style="color:#64748b;display:block;margin-top:6px">Cloud: https://afzwszicghxwjyqkhbua.supabase.co • Wave 872713918</small>
+</div>
+
+<div id="list"></div>
+</div>
+
 <script>
-const SUPABASE_URL="https://afzwszicghxwjyqkhbua.supabase.co";const SUPABASE_KEY="sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS";const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const ADMIN_PASS="CEO123";let allTx=[];const $=id=>document.getElementById(id);
-function doLogin(){let p=$("pass").value;if(p!==ADMIN_PASS)return alert("Wrong Password!");if(prompt("Secret Wave Code:")!=="872713918")return alert("Wrong Wave Code!");$("login").style.display="none";$("main").style.display="block";loadCloud();}
-async function loadCloud(){$("orders").innerHTML="⏳ Loading from cloud...";let {data,error}=await supabaseClient.from("transactions").select("*").order("created_at",{ascending:false}).limit(200);if(error){$("orders").innerHTML="Error: "+error.message;return;}allTx=data;render();}
-function render(){let q=($("search").value||"").toLowerCase();let filtered=allTx.filter(t=>(t.ord+t.rrr+t.customer+t.phone+t.merchant).toLowerCase().includes(q));let profit=0,pend=0,done=0;filtered.forEach(t=>{if(t.status==="DONE")profit+=Number(t.fee||0);if(t.status==="PENDING")pend++;else done++;});$("totalProfit").innerText="D"+profit.toLocaleString();$("pendingCount").innerText=pend;$("doneCount").innerText=done;let html="";filtered.forEach(t=>{let isPending=t.status==="PENDING";html+=`<div class="card" style="border-left:4px solid ${isPending?"#f59e0b":"#22c55e"}"><div style="display:flex;justify-content:space-between"><b style="font-family:monospace">${t.ord}</b><span style="background:${isPending?"#f59e0b":"#22c55e"};color:black;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:900">${t.status}</span></div><div style="margin-top:6px"><b>${t.customer}</b> - ${t.phone}<br>${t.merchant} - ${t.service}<br>Gov D${t.amount} + Fee D${t.fee} = <b style="color:#22c55e">D${t.total}</b> → Wave 872713918<br><small>${t.date} • Ref: ${t.payRef}</small><br><small>RRR: <b style="font-family:monospace">${t.rrr}</b></small></div>${t.receiptImg?`<div style="margin-top:8px"><img src="${t.receiptImg}" style="width:100%;max-height:260px;object-fit:contain;background:#000"><br><a href="${t.receiptImg}" target="_blank" style="color:#22c55e;font-size:12px">Open Full Receipt</a></div>`:""}<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">${isPending?`<input id="rrr-${t.ord}" placeholder="Enter RRR e.g RRR-123" style="flex:1"><button class="btn btn-green" onclick="approve('${t.ord}')">✅ Approve + Save RRR</button>`:`<button class="btn btn-dark" onclick="navigator.clipboard.writeText('${t.rrr}')">Copy RRR</button><button class="btn btn-red" onclick="deleteTx('${t.id}')">Delete</button>`}</div></div>`;});$("orders").innerHTML=html||="<div class='card'>No orders in cloud yet</div>";}
-async function approve(ord){let input=$("rrr-"+ord);let rrr=(input.value||"").trim();if(!rrr){alert("Enter RRR!");return;}let {error}=await supabaseClient.from("transactions").update({rrr,status:"DONE"}).eq("ord",ord);if(error){alert(error.message);return;}alert("✅ Approved Cloud: "+ord+" → "+rrr);loadCloud();}
-async function deleteTx(id){if(!confirm("Delete this order from cloud?"))return;let {error}=await supabaseClient.from("transactions").delete().eq("id",id);if(error){alert(error.message);return;}loadCloud();}
-function exportCSV(){let csv="ORD,RRR,Merchant,Service,Customer,Phone,Amount,Fee,Total,PayRef,Status,Date\n"+allTx.map(t=>`"${t.ord}","${t.rrr}","${t.merchant}","${t.service}","${t.customer}","${t.phone}",${t.amount},${t.fee},${t.total},"${t.payRef}","${t.status}","${t.date}"`).join("\n");let blob=new Blob([csv],{type:"text/csv"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="gambia-remita-cloud.csv";a.click();}
+const SUPABASE_URL="https://afzwszicghxwjyqkhbua.supabase.co";
+const SUPABASE_KEY="sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS";
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const ADMIN_PASS="CEO123";
+let all=[];
+const $=id=>document.getElementById(id);
+
+function login(){
+if($("pass").value!==ADMIN_PASS) return alert("Wrong Password Boss!");
+if(prompt("Secret Wave Code:")!=="872713918") return alert("Wrong Wave Code!");
+$("loginBox").style.display="none";$("dash").style.display="block";loadCloud();
+}
+
+async function loadCloud(){
+$("list").innerHTML="<div class='card'>⏳ Loading V7 Cloud...</div>";
+let {data,error}=await supabaseClient.from("transactions").select("*").order("created_at",{ascending:false}).limit(300);
+if(error){$("list").innerHTML="<div class='card' style='color:#f87171'>❌ "+error.message+"<br><br>RUN SQL FIX:<br><small>alter table transactions disable row level security;</small></div>";return;}
+all=data;render();
+}
+
+function render(){
+let q=($("searchBox").value||"").toLowerCase();
+let f=all.filter(t=>(t.ord+" "+t.rrr+" "+t.customer+" "+t.phone+" "+t.merchant).toLowerCase().includes(q));
+let profit=0,pend=0,done=0;
+f.forEach(t=>{if(t.status==="DONE")profit+=Number(t.fee||0);if(t.status==="PENDING")pend++;else done++;});
+$("profit").innerText="D"+profit.toLocaleString();$("pending").innerText=pend;$("done").innerText=done;
+if(!f.length){$("list").innerHTML="<div class='card'>No orders yet</div>";return;}
+$("list").innerHTML=f.map(t=>{
+let isP=t.status==="PENDING";
+return `<div class="order ${isP?"":"done"}">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span class="mono" style="font-size:15px">${t.ord}</span>
+<span style="background:${isP?"#f59e0b":"#22c55e"};color:#000;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:900">${t.status}</span>
+</div>
+<div style="margin-top:6px;line-height:1.5">
+<b>${t.customer}</b> • ${t.phone}<br>
+${t.merchant} - ${t.service}<br>
+Gov <b>D${Number(t.amount).toLocaleString()}</b> + Fee <b style="color:#22c55e">D${Number(t.fee).toLocaleString()}</b> = <b>D${Number(t.total).toLocaleString()}</b><br>
+<small style="color:#94a3b8">Date: ${t.date} • Ref: ${t.payRef}</small><br>
+<small>RRR: <span class="mono" style="color:#22c55e;font-size:14px">${t.rrr}</span></small>
+</div>
+${t.receiptImg?`<img class="receipt" src="${t.receiptImg}"><div style="margin-top:4px"><a href="${t.receiptImg}" target="_blank" style="color:#22c55e;font-size:12px">View Full Receipt</a> • <a href="${t.receiptImg}" download="${t.ord}.jpg" style="color:#94a3b8;font-size:12px">Download</a></div>`:""}
+<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+${isP?`<input id="rrr-${t.ord}" placeholder="Paste RRR e.g RRR-xxx" style="flex:1"><button class="btn btn-g" onclick="approve('${t.ord}')"><i class="fa fa-check"></i> Approve</button>`:`
+<button class="btn btn-d" onclick="navigator.clipboard.writeText('${t.rrr}');alert('RRR Copied!')"><i class="fa fa-copy"></i> Copy RRR</button>
+<button class="btn btn-d" onclick="navigator.clipboard.writeText('Dear ${t.customer}, your RRR is ${t.rrr}. Amount D${t.total}. Thanks - Gambia Remita');alert('WhatsApp Msg Copied!')">WhatsApp</button>
+<button class="btn btn-r" onclick="del('${t.id}')"><i class="fa fa-trash"></i></button>
+`}
+</div>
+</div>`;
+}).join("");
+}
+
+async function approve(ord){
+let rrr=($("rrr-"+ord).value||"").trim();
+if(!rrr) return alert("Enter RRR Boss!");
+let {error}=await supabaseClient.from("transactions").update({rrr,status:"DONE"}).eq("ord",ord);
+if(error) return alert(error.message);
+alert("✅ DONE Boss! "+ord+" → "+rrr);
+loadCloud();
+}
+async function del(id){
+if(!confirm("Delete this cloud order Boss?"))return;
+let {error}=await supabaseClient.from("transactions").delete().eq("id",id);
+if(error) return alert(error.message);
+loadCloud();
+}
+function clearSearch(){$("searchBox").value="";render();}
+function exportCSV(){
+let csv="ORD,RRR,Merchant,Service,Customer,Phone,Amount,Fee,Total,PayRef,Status,Date\n"+all.map(t=>`"${t.ord}","${t.rrr}","${t.merchant}","${t.service}","${t.customer}","${t.phone}",${t.amount},${t.fee},${t.total},"${t.payRef}","${t.status}","${t.date}"`).join("\n");
+let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="V7-admin-control.csv";a.click();
+}
 </script></body></html>
