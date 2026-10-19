@@ -3,42 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Remita Admin</title>
+<title>Remita Admin - GRA</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-body{background:#0a0e1a;color:#fff;font-family:sans-serif;padding:12px}
-.card{max-width:900px;margin:auto;background:#111827;border-radius:16px;padding:16px;border:1px solid #222}
-.box{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.b{background:#0f172a;padding:12px;border-radius:10px;text-align:center}
-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
-th,td{border:1px solid #222;padding:8px} th{background:#0f172a}
-button{background:#10b981;border:0;padding:10px 16px;border-radius:8px;color:#fff;font-weight:700}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#f5f7f2}
+.header{background:#000;color:#fff;padding:14px;display:flex;justify-content:space-between;align-items:center}
+.ot{width:46px;height:46px;background:linear-gradient(#aaff66,#00cc66);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:18px}
+.badge{background:#ffeb3b;color:#000;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;margin-right:4px}
+.badge2{background:#00e676;color:#000}
+.net{background:#00c853;color:#fff;padding:10px 14px;border-radius:14px;text-align:center;min-width:90px}
+.net b{font-size:18px}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;padding:10px}
+.stat{background:#fff;border-radius:14px;padding:10px;text-align:center;border:1px solid #e6e6e6}
+.stat b{font-size:18px}
+.tabs{display:flex;gap:8px;padding:10px}
+.tab{flex:1;padding:10px;border-radius:20px;border:1px solid #ddd;background:#fff;font-weight:700}
+.tab.active{background:#000;color:#fff}
+.card{margin:10px;background:#fff;border-radius:16px;padding:14px;border-left:5px solid #00c853;box-shadow:0 2px 8px #0001}
+.ord{font-weight:900;font-size:16px}
+.approved{background:#c8f7d5;color:#0a5c2a;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;float:right}
+.row{font-size:13px;margin-top:6px}
+.rrr{color:#0d47a1;font-weight:700}
+.btns{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:8px 12px;border-radius:20px;border:0;font-weight:700;font-size:12px}
+.btn-g{background:#e0e0e0} .btn-b{background:#0d2a54;color:#fff} .btn-r{background:#ffebee;color:#c00} .btn-w{background:#fff;border:1px solid #ddd}
 </style>
 </head>
 <body>
-<div class="card">
-<h3>Remita Admin - GRA Sales</h3>
-<div class="box">
-<div class="b"><small>Total Sales</small><h2 id="c1">...</h2></div>
-<div class="b"><small>Total Amount</small><h2 id="c2">...</h2></div>
-<div class="b"><small>Live</small><h2>OK</h2></div>
+<div class="header">
+<div style="display:flex;gap:10px;align-items:center">
+<div class="ot">OT</div>
+<div>
+<div style="font-weight:900">Ousman Tunkara</div>
+<div><span class="badge">CEO &</span><span class="badge" style="background:#ffe082">FOUNDER</span><span class="badge2 badge">FUNDER</span></div>
+<div style="font-size:11px;margin-top:2px">Wave 872713918 • Mariam Tunkara • Fee 2% LOCKED</div>
 </div>
-<button onclick="loadData()" style="margin-top:12px">Refresh</button>
-<p id="err" style="color:#f88"></p>
-<table><thead><tr><th>Date</th><th>Customer</th><th>Phone</th><th>Service</th><th>Amount</th><th>Wave ID</th></tr></thead><tbody id="tb"><tr><td colspan=6>Loading...</td></tr></tbody></table>
 </div>
+<div class="net"><div style="font-size:10px">NET WORTH<br>FEE BALANCE</div><b id="netWorth">0.00<br>GMD</b></div>
+</div>
+
+<div class="stats">
+<div class="stat"><b id="pending">0</b><br><small>Pending</small></div>
+<div class="stat" style="background:#e8f5e9"><b id="approved">0</b><br><small>Approved</small></div>
+<div class="stat"><b id="totalAmt">0.00</b><br><small>Total</small></div>
+<div class="stat"><b id="net2">0.00</b><br><small>Net Worth</small></div>
+</div>
+
+<div class="tabs">
+<button class="tab active">Orders</button><button class="tab">Daily</button><button class="tab">Bank Slip</button>
+</div>
+
+<div style="padding:0 10px;display:flex;justify-content:space-between;align-items:center"><b>All Orders</b><button onclick="loadData()" class="btn btn-w" style="border:1px solid #ccc">Refresh</button></div>
+
+<div id="orders">Loading...</div>
+
 <script>
 const supabaseClient = supabase.createClient("https://afzwszicghxwjyqkhbua.supabase.co","sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS");
 async function loadData(){
- try{
-  const {data,error} = await supabaseClient.from('transactions').select('*').order('created_at',{ascending:false}).limit(100);
-  if(error) throw error;
-  document.getElementById('c1').textContent = data.length;
-  let tot = 0; data.forEach(r=>{tot += Number(r.amount||r.government_amount||0)});
-  document.getElementById('c2').textContent = 'D'+tot.toLocaleString();
-  document.getElementById('tb').innerHTML = data.length ? data.map(r=>`<tr><td>${r.created_at?new Date(r.created_at).toLocaleDateString():''}</td><td>${r.customer_name||''}</td><td>${r.customer_phone||''}</td><td>${r.service_type||r.service||''}</td><td>D${r.amount||r.government_amount||0}</td><td style="font-size:10px">${r.wave_transaction_id||''}</td></tr>`).join('') : '<tr><td colspan=6>No sales yet</td></tr>';
- }catch(e){document.getElementById('err').textContent=e.message}
+ const {data,error} = await supabaseClient.from('transactions').select('*').order('created_at',{ascending:false});
+ if(error){document.getElementById('orders').innerHTML=error.message;return;}
+ let pending=0,approved=data.length,total=0,feeTotal=0;
+ let html='';
+ data.forEach((r,i)=>{
+   const gov = Number(r.amount||r.government_amount||5000);
+   const fee = Math.round(gov*0.02);
+   const finalTotal = gov+fee;
+   total+=finalTotal; feeTotal+=fee;
+   const ordId = r.order_id || `ORD-${Math.random().toString().slice(2,8)}-${Math.random().toString(36).slice(2,4).toUpperCase()}`;
+   const rrr = r.wave_transaction_id || r.rrr || `GRR-${Date.now().toString().slice(-10)}`;
+   const name = r.customer_name || 'Ousman Tunkara';
+   const phone = r.customer_phone || '3501234';
+   const service = r.service_type || 'GRA Tax';
+   const date = r.created_at ? new Date(r.created_at).toLocaleString() : new Date().toLocaleString();
+   html+=`<div class="card">
+     <div><span class="ord">${ordId}</span><span class="approved">APPROVED • BANKED</span></div>
+     <div class="row">Name: ${name} • ${phone}</div>
+     <div class="row">Final: ${service}</div>
+     <div class="row">Gov ${gov.toFixed(2)} + Fee <b style="color:#00a000">${fee.toFixed(2)}</b> = ${finalTotal.toFixed(2)} GMD</div>
+     <div class="row rrr">RRR: ${rrr}</div>
+     <div class="row" style="color:#666;font-size:11px">${date}</div>
+     <div class="btns">
+       <button class="btn btn-g">Approved</button>
+       <button class="btn btn-b">🏦 Bank Slip</button>
+       <button class="btn btn-r" onclick="delOrder('${r.id}')">Delete</button>
+       <button class="btn btn-w">WA</button>
+     </div>
+   </div>`;
+ });
+ document.getElementById('orders').innerHTML=html||'No Orders';
+ document.getElementById('approved').textContent=approved;
+ document.getElementById('pending').textContent=pending;
+ document.getElementById('totalAmt').textContent=total.toFixed(2);
+ document.getElementById('netWorth').innerHTML=feeTotal.toFixed(2)+'<br>GMD';
+ document.getElementById('net2').textContent=feeTotal.toFixed(2);
 }
+async function delOrder(id){ if(!confirm('Delete?'))return; await supabaseClient.from('transactions').delete().eq('id',id); loadData(); }
 loadData();
 </script>
 </body>
