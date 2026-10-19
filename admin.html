@@ -3,140 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Remita GRA • Executive Console</title>
+<title>GRA Remita - Professional Admin Console | Ousman Tunkara</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fcfcf9;--card:#fff;--line:#eae9e3;--ink:#111110;--muted:#6b6b67;--green:#0a7a42;--green-bg:#e6f4ec}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--ink)}
-.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
-.side{background:#0f0f0e;color:#fff;padding:20px;display:flex;flex-direction:column;justify-content:space-between}
-.side-logo{display:flex;gap:10px;align-items:center}
-.side-logo div:first-child{width:38px;height:38px;background:#fff;color:#000;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800}
-.nav{margin-top:32px;display:flex;flex-direction:column;gap:6px}
-.nav button{text-align:left;padding:10px 12px;border-radius:10px;border:0;background:transparent;color:#a1a1a0;font-weight:500;font-size:13px;cursor:pointer}
-.nav button.active{background:#1d1d1b;color:#fff}
-.main{padding:0}
-.top{padding:18px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:5}
-.kpis{padding:18px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
-.kpi label{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);font-weight:700}
-.kpi b{font-size:24px;font-weight:600;letter-spacing:-.5px}
-.content{padding:0 24px 24px}
-.toolbar{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
-.input{padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;min-width:260px;font-size:13px}
-.btn{padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:600;font-size:12px;cursor:pointer}
-.btn-black{background:#111110;color:#fff;border-color:#111110}
-.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
-.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;display:grid;grid-template-columns:1.2fr .8fr auto;gap:12px;align-items:center}
-.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
-.badge{padding:4px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.5px}
-.badge-ok{background:var(--green-bg);color:var(--green);border:1px solid #c8e6d3}
-.table{width:100%;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.row{display:grid;grid-template-columns:110px 60px 1fr 110px;gap:10px;padding:14px 16px;border-bottom:1px solid #f5f4ef;font-size:13px}
-.row-head{background:#faf9f5;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
-.setting-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin:12px 0}
-.view{display:none} .view.active{display:block}
-.slider{width:100%;accent-color:#111110}
-.withdraw-box{background:#111110;color:#fff;border-radius:18px;padding:20px;margin-top:12px}
-@media(max-width:900px){.shell{grid-template-columns:1fr}.side{display:none}.kpis{grid-template-columns:1fr 1fr}.card{grid-template-columns:1fr}}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui}
+body{background:#f8fafc;color:#0f172a}
+.topbar{background:#0b1220;color:#fff;padding:10px 18px;display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.3px}
+.topbar span{opacity:.7}
+.header{background:#ffffff;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:44px;height:44px;background:#000;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.badge{padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.4px}
+.badge-ceo{background:#fef08a;color:#422006}.badge-founder{background:#ffedd5;color:#7c2d12}.badge-funder{background:#bbf7d0;color:#052e16}
+.net{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;padding:10px 16px;border-radius:12px;min-width:140px;text-align:right;box-shadow:0 4px 12px #16a34a30;cursor:pointer}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px}
+.kpi-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px}
+.kpi-card b{font-size:22px} .kpi-card small{color:#64748b;text-transform:uppercase;font-size:10px;letter-spacing:.6px;font-weight:700}
+.tabs{margin:0 16px;background:#fff;border:1px solid #e2e8f0;border-radius:999px;padding:4px;display:flex;gap:4px;width:fit-content;flex-wrap:wrap}
+.tab{padding:9px 18px;border-radius:999px;border:0;background:transparent;font-weight:700;font-size:13px;cursor:pointer}
+.tab.active{background:#0f172a;color:#fff}
+.toolbar{margin:12px 16px;display:flex;gap:8px;flex-wrap:wrap}
+.input{padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;background:#fff;min-width:220px}
+.btn{padding:10px 14px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;font-weight:700;font-size:12px;cursor:pointer}
+.btn-dark{background:#0f172a;color:#fff;border-color:#0f172a}
+.btn-green{background:#16a34a;color:#fff;border-color:#16a34a}
+.view{display:none;padding:0 16px 20px} .view.active{display:block}
+.order-card{background:#fff;border:1px solid #e2e8f0;border-left:4px solid #16a34a;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 1px 2px #00000008}
+.order-top{display:flex;justify-content:space-between;align-items:center}
+.ord-id{font-weight:800;letter-spacing:.3px}
+.status{padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.meta{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px;color:#334155}
+.meta b{color:#0f172a}
+.rrr{font-family:monospace;background:#eff6ff;color:#1e40af;padding:4px 8px;border-radius:6px;border:1px solid #dbeafe;display:inline-block;margin-top:6px}
+.actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.daily-table,.bank-slip,.settings-card{width:100%;background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden}
+.daily-row{display:grid;grid-template-columns:1.2fr .6fr 1fr .8fr;gap:10px;padding:14px;border-bottom:1px solid #f1f5f9;font-size:13px}
+.daily-head{background:#f8fafc;font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.5px;color:#64748b}
+.slip-inner{padding:18px}
+.slip-header{border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:10px;display:flex;justify-content:space-between}
+.qr{width:70px;height:70px;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:10px}
+.settings-card{padding:20px;margin:12px 0}
+@media(max-width:700px){.kpi{grid-template-columns:1fr 1fr}.daily-row{grid-template-columns:1fr 1fr}.meta{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="shell">
-<div class="side">
+<div class="topbar"><div>GAMBIA REVENUE AUTHORITY • REMITA PAYMENT GATEWAY • SECURE CONSOLE</div><span>PROFESSIONAL EDITION v2.1 • FEE CONTROL ACTIVE • AUDIT MODE ON</span></div>
+<div class="header">
+<div class="brand">
+<div class="logo">OT</div>
 <div>
-<div class="side-logo"><div>OT</div><div><div style="font-weight:700;font-size:14px">REMTA • GRA</div><div style="font-size:11px;color:#a1a1a0">Executive Console</div></div></div>
-<div class="nav">
-<button class="active" onclick="tab('orders',this)">Orders</button>
-<button onclick="tab('daily',this)">Daily Reconciliation</button>
-<button onclick="tab('bank',this)">Bank Slips</button>
-<button onclick="tab('settings',this)">⚙️ Settings • Fee & Withdraw</button>
+<div style="font-weight:800;font-size:15px">Ousman Tunkara <span style="font-weight:400;color:#64748b">• CEO</span></div>
+<div style="margin-top:4px;display:flex;gap:4px"><span class="badge badge-ceo">CEO & FOUNDER</span><span class="badge badge-founder">FOUNDER</span><span id="feeBadge" class="badge badge-funder">FUNDER • Fee 2% LOCKED</span></div>
+<div style="font-size:11px;color:#64748b;margin-top:3px">Wave: 872713918 • Agent: Mariam Tunkara • GRA Partner ID: GRR-REM-2026 • <span id="feeText">Fee 2%</span></div>
 </div>
 </div>
-<div style="font-size:11px;color:#6b6b67">Ousman Tunkara<br>CEO & Founder • Wave 872713918<br><span id="feeLabel">Fee 2% LOCKED</span><br><br><span id="sideNet" style="color:#fff;font-weight:700">0.00 GMD</span></div>
+<div class="net" onclick="switchTab('settingsView',document.getElementById('settingsTabBtn'))"><div style="font-size:10px;opacity:.8;letter-spacing:.6px">NET FEE BALANCE</div><div id="netWorth" style="font-size:20px;font-weight:800">0.00 GMD</div><div style="font-size:10px;opacity:.8">Click to Withdraw ▼</div></div>
 </div>
 
-<div class="main">
-<div class="top">
-<div><div style="font-weight:700;font-size:16px">Payment Operations</div><div style="font-size:12px;color:var(--muted)">Professional Edition • Fee Control Active</div></div>
-<div style="display:flex;gap:8px"><input id="search" class="input" placeholder="Search order, RRR, name" oninput="render()"><button class="btn btn-black" onclick="load()">↻ Refresh</button></div>
+<div class="kpi">
+<div class="kpi-card"><small>Pending Verification</small><br><b id="pending">0</b><div style="font-size:11px;color:#f59e0b">Requires action</div></div>
+<div class="kpi-card" style="border-color:#bbf7d0"><small>Approved & Banked</small><br><b id="approved">0</b><div style="font-size:11px;color:#16a34a">● Live settlement</div></div>
+<div class="kpi-card"><small>Total Collection (Incl. Fee)</small><br><b id="totalAmt">0.00 GMD</b><div style="font-size:11px;color:#64748b">Gov + Service Fee</div></div>
+<div class="kpi-card"><small>Your Net Worth (<span id="netFeeLabel">2%</span>)</small><br><b id="net2">0.00 GMD</b><div style="font-size:11px;color:#16a34a">Commission Earned</div></div>
 </div>
 
-<div class="kpis">
-<div class="kpi"><label>Pending</label><b id="pending">0</b></div>
-<div class="kpi"><label>Approved & Banked</label><b id="approved">0</b></div>
-<div class="kpi"><label>Total Volume</label><b id="total">0.00 GMD</b></div>
-<div class="kpi" style="background:#111110;color:#fff"><label style="color:#a1a1a0">Net Commission</label><b id="net" style="color:#fff">0.00 GMD</b><small id="netSmall" style="color:#a1a1a0">Fee 2%</small></div>
+<div class="tabs">
+<button class="tab active" onclick="switchTab('ordersView',this)">Orders</button>
+<button class="tab" onclick="switchTab('dailyView',this)">Daily Reconciliation</button>
+<button class="tab" onclick="switchTab('bankView',this)">Bank Slips (GRA)</button>
+<button id="settingsTabBtn" class="tab" onclick="switchTab('settingsView',this)">⚙️ Settings & Withdraw</button>
 </div>
 
-<div class="content">
-<div id="orders" class="view active"><div id="ordersList"></div></div>
-<div id="daily" class="view"><div class="table"><div class="row row-head"><div>Date</div><div>Count</div><div>Volume</div><div>Your Fee</div></div><div id="dailyList"></div></div></div>
-<div id="bank" class="view"><div id="bankList"></div></div>
+<div class="toolbar">
+<input id="search" class="input" placeholder="Search Name, Phone, ORD, RRR..." oninput="render()">
+<button class="btn" onclick="exportCSV()">⬇ Export CSV (Bank)</button>
+<button class="btn btn-dark" onclick="loadData()">↻ Refresh Live</button>
+</div>
 
-<div id="settings" class="view">
-<div class="setting-card">
-<h3 style="font-size:16px">Fee Control • Increase Anytime</h3>
-<p style="font-size:12px;color:var(--muted);margin-top:4px">You are CEO - You can change service fee anytime. Customers will pay new fee instantly.</p>
+<div id="ordersView" class="view active"><div id="orders">Loading secure transactions...</div></div>
+<div id="dailyView" class="view"><div class="daily-table"><div class="daily-row daily-head"><div>Date</div><div>Orders</div><div>Total Collected</div><div>Your Fee</div></div><div id="dailyList"></div></div></div>
+<div id="bankView" class="view"><div id="bankList"></div></div>
+
+<div id="settingsView" class="view">
+<div class="settings-card">
+<h3 style="font-weight:800">⚙️ Fee Control - Increase Anytime (CEO Only)</h3>
+<p style="font-size:12px;color:#64748b;margin-top:6px">You are CEO. Change fee anytime. New customers automatically pay new fee. Professional audit logged.</p>
 <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
 <div>
-<label style="font-size:11px;font-weight:700;text-transform:uppercase">Current Fee Percentage</label>
-<div style="display:flex;gap:8px;align-items:center;margin-top:8px">
-<input type="range" id="feeSlider" class="slider" min="0" max="20" step="0.5" value="2" oninput="updateFee(this.value)">
-<div style="font-weight:800;font-size:20px"><span id="feeValue">2</span>%</div>
-</div>
-<div style="margin-top:8px;display:flex;gap:6px">
-<button class="btn" onclick="setFee(2)">2%</button><button class="btn" onclick="setFee(5)">5%</button><button class="btn" onclick="setFee(10)">10%</button><button class="btn btn-black" onclick="setFee(15)">15%</button>
-</div>
+<label style="font-size:11px;font-weight:700">FEE PERCENTAGE</label>
+<div style="display:flex;align-items:center;gap:12px;margin-top:8px"><input id="feeSlider" type="range" min="0" max="20" step="0.5" value="2" style="flex:1;accent-color:#0f172a" oninput="updateFee(this.value)"><b style="font-size:22px"><span id="feeValue">2</span>%</b></div>
+<div style="display:flex;gap:6px;margin-top:10px"><button class="btn" onclick="setFee(2)">2%</button><button class="btn" onclick="setFee(5)">5%</button><button class="btn" onclick="setFee(10)">10%</button><button class="btn btn-dark" onclick="setFee(15)">15%</button></div>
 </div>
 <div>
-<label style="font-size:11px;font-weight:700;text-transform:uppercase">Fee Status</label>
-<div style="margin-top:8px"><select id="feeStatus" class="input" style="width:100%" onchange="saveSettings()"><option value="LOCKED">LOCKED - Customers see locked fee</option><option value="UNLOCKED">UNLOCKED - Flexible fee</option></select></div>
-<button class="btn btn-black" style="margin-top:12px;width:100%" onclick="saveSettings()">💾 Save Fee Settings</button>
-<div id="feeSaved" style="font-size:11px;color:var(--green);margin-top:6px;display:none">✓ Fee saved! New customers will pay new rate.</div>
+<label style="font-size:11px;font-weight:700">FEE STATUS</label>
+<select id="feeStatus" class="input" style="width:100%;margin-top:8px" onchange="saveFee()"><option value="LOCKED">LOCKED - Show as locked</option><option value="UNLOCKED">UNLOCKED - Flexible</option></select>
+<button class="btn btn-dark" style="width:100%;margin-top:10px" onclick="saveFee()">💾 Save Fee - Apply Instantly</button>
+<div id="feeSaved" style="display:none;margin-top:8px;color:#16a34a;font-size:12px;font-weight:700">✓ Fee saved! New orders will use new fee.</div>
 </div>
 </div>
 </div>
 
-<div class="setting-card">
-<h3 style="font-size:16px">Withdrawal • Your Money</h3>
-<div class="withdraw-box">
-<div style="display:flex;justify-content:space-between"><div><div style="font-size:11px;opacity:.7;letter-spacing:.6px;text-transform:uppercase">Available Balance</div><div id="withdrawBalance" style="font-size:28px;font-weight:700;margin-top:4px">0.00 GMD</div></div><div style="text-align:right"><div style="font-size:11px;opacity:.7">Wave Account</div><div style="font-weight:700">872713918<br>Mariam Tunkara</div></div></div>
-<div style="margin-top:16px;display:grid;grid-template-columns:1fr auto;gap:8px">
-<input id="withdrawAmount" class="input" style="background:#1d1d1b;color:#fff;border-color:#333" placeholder="Amount to withdraw e.g. 1000">
-<button class="btn btn-green" onclick="withdraw()">Withdraw to Wave</button>
+<div class="settings-card" style="background:#0f172a;color:#fff;border-color:#0f172a">
+<h3 style="font-weight:800;color:#fff">💸 Withdrawal - Your Commission</h3>
+<div style="display:flex;justify-content:space-between;margin-top:14px;flex-wrap:wrap;gap:10px">
+<div><div style="font-size:10px;opacity:.6;letter-spacing:.6px">AVAILABLE BALANCE</div><div id="withdrawBal" style="font-size:28px;font-weight:800">0.00 GMD</div><div style="font-size:11px;opacity:.6">Wave 872713918 • Mariam Tunkara</div></div>
+<div style="display:flex;gap:8px;align-items:end"><input id="withdrawAmount" class="input" style="background:#1e293b;color:#fff;border-color:#334155" placeholder="Amount e.g. 1000"><button class="btn btn-green" onclick="withdraw()">Withdraw to Wave</button></div>
 </div>
-<div style="margin-top:10px;display:flex;gap:6px"><button class="btn" style="background:#1d1d1b;color:#fff;border-color:#333" onclick="withdrawAll()">Withdraw All</button><button class="btn" style="background:#1d1d1b;color:#fff;border-color:#333" onclick="clearWithdrawals()">Reset History</button></div>
-<div id="withdrawHistory" style="margin-top:14px;font-size:12px;color:#a1a1a0"></div>
-</div>
-</div>
-
-<div class="setting-card" style="border-style:dashed">
-<b style="font-size:12px">How it works:</b><br><small style="color:var(--muted)">1. Change fee slider to 5% or 10% → Save → Your next customer pays more fee. <br>2. Your fee balance grows in Net Commission. <br>3. Click Withdraw to Wave → Money moves to 872713918 → Balance reduces. Professional audit trail kept in browser.</small>
-</div>
-</div>
-
-</div>
+<div style="margin-top:12px;display:flex;gap:8px"><button class="btn" style="background:#1e293b;color:#fff;border-color:#334155" onclick="withdrawAll()">Withdraw All</button><button class="btn" style="background:#1e293b;color:#fff;border-color:#334155" onclick="clearWithdrawals()">Reset History (Restore Balance)</button></div>
+<div id="withdrawHistory" style="margin-top:14px;font-size:12px;color:#94a3b8"></div>
 </div>
 </div>
 
 <script>
-const supabaseClient=supabase.createClient("https://afzwszicghxwjyqkhbua.supabase.co","sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS");
+const supabaseClient = supabase.createClient("https://afzwszicghxwjyqkhbua.supabase.co","sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS");
 let allData=[];
-let currentFee = Number(localStorage.getItem('remita_fee')||2);
-let feeStatusVal = localStorage.getItem('remita_fee_status')||'LOCKED';
-let withdrawals = JSON.parse(localStorage.getItem('remita_withdrawals')||'[]');
-
-function tab(id,el){
+let currentFee=Number(localStorage.getItem('remita_fee')||2);
+let feeStatusVal=localStorage.getItem('remita_fee_status')||'LOCKED';
+let withdrawals=JSON.parse(localStorage.getItem('remita_withdrawals')||'[]');
+function switchTab(id,el){
  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
- document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
  document.getElementById(id).classList.add('active'); el.classList.add('active');
 }
-function setFee(v){ document.getElementById('feeSlider').value=v; updateFee(v); }
-function updateFee(v){ currentFee=Number(v); document.getElementById('feeValue').textContent=v; document.getElementById('netSmall').textContent=`Fee ${v}%`; document.getElementById('feeLabel').textContent=`Fee ${v}% ${feeStatusVal}`; render(); }
-function saveSettings(){
+function setFee(v){ document.getElementById('feeSlider').value=v; updateFee(v); saveFee(); }
+function updateFee(v){
+ currentFee=Number(v);
+ document.getElementById('feeValue').textContent=v;
+ document.getElementById('feeBadge').textContent=`FUNDER • Fee ${v}% ${feeStatusVal}`;
+ document.getElementById('feeText').textContent=`Fee ${v}%`;
+ document.getElementById('netFeeLabel').textContent=`${v}%`;
+ render();
+}
+function saveFee(){
  feeStatusVal=document.getElementById('feeStatus').value;
  localStorage.setItem('remita_fee',currentFee);
  localStorage.setItem('remita_fee_status',feeStatusVal);
@@ -144,54 +143,63 @@ function saveSettings(){
  setTimeout(()=>document.getElementById('feeSaved').style.display='none',3000);
  updateFee(currentFee);
 }
-async function load(){
+async function loadData(){
  const {data,error}=await supabaseClient.from('transactions').select('*').order('created_at',{ascending:false});
- if(error){document.getElementById('ordersList').innerHTML=error.message;return;}
+ if(error){document.getElementById('orders').innerHTML=error.message;return;}
  allData=data; render();
 }
-function getNetBalance(){
- let gross=0; allData.forEach(r=>{ const gov=Number(r.amount||r.government_amount||0); gross+=Math.round(gov*currentFee/100); });
+function getBalances(){
+ let grossFee=0; allData.forEach(r=>{ const gov=Number(r.amount||r.government_amount||10000); grossFee+=Math.round(gov*currentFee/100); });
  const withdrawn=withdrawals.reduce((a,b)=>a+Number(b.amount),0);
- return {gross, withdrawn, available: gross-withdrawn};
+ return {grossFee, withdrawn, available: grossFee-withdrawn};
 }
 function render(){
  const q=document.getElementById('search').value.toLowerCase();
- const filtered=allData.filter(r=>`${r.customer_name||''} ${r.customer_phone||''} ${r.order_id||''} ${r.wave_transaction_id||''}`.toLowerCase().includes(q));
- let total=0,feeT=0,dailyMap={},ordersHtml='',bankHtml='';
+ let filtered=allData.filter(r=>`${r.customer_name||''} ${r.customer_phone||''} ${r.order_id||''} ${r.wave_transaction_id||''} ${r.service_type||''}`.toLowerCase().includes(q));
+ let total=0,feeTotal=0,dailyMap={},ordersHtml='',bankHtml='';
  filtered.forEach(r=>{
-  const gov=Number(r.amount||r.government_amount||10000); const fee=Math.round(gov*currentFee/100); const fin=gov+fee;
-  total+=fin; feeT+=fee;
-  const ord=r.order_id||`ORD-${String(r.id).slice(0,6).toUpperCase()}`; const rrr=r.wave_transaction_id||`GRR-${Math.floor(1000000000+Math.random()*9000000000)}`;
-  const name=r.customer_name||'Ousman Tunkara'; const phone=r.customer_phone||'3501234'; const service=r.service_type||'GRA Tax'; const d=r.created_at?new Date(r.created_at):new Date();
-  const day=d.toLocaleDateString(); if(!dailyMap[day]) dailyMap[day]={count:0,total:0,fee:0,d}; dailyMap[day].count++; dailyMap[day].total+=fin; dailyMap[day].fee+=fee;
-  ordersHtml+=`<div class="card"><div><div class="mono" style="font-weight:700">${ord}</div><div class="mono" style="color:var(--muted)">${rrr}</div><div style="margin-top:8px;font-size:13px"><b>${name}</b> • ${phone}<br><span style="color:var(--muted)">${service}</span></div></div><div><div style="font-size:12px;color:var(--muted)">GOV + FEE ${currentFee}%</div><div style="font-weight:600">${gov.toFixed(2)} + <span style="color:var(--green)">${fee.toFixed(2)}</span></div><div style="font-weight:700">${fin.toFixed(2)} GMD</div></div><div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><span class="badge badge-ok">APPROVED</span><div style="display:flex;gap:6px;margin-top:6px"><button class="btn" onclick="goBank('${ord}')">Slip</button><button class="btn" style="color:#b91c1c" onclick="del('${r.id}')">Delete</button></div></div></div>`;
-  bankHtml+=`<div class="bank-doc" id="slip-${ord}"><div class="bank-doc-head"><div><div style="font-weight:800">GAMBIA REVENUE AUTHORITY</div><div style="font-size:11px;color:var(--muted)">OFFICIAL DEPOSIT SLIP • Fee ${currentFee}% • ${feeStatusVal}</div><div class="mono">${ord} | ${rrr}</div></div><div style="text-align:right"><div class="mono" style="font-size:20px;font-weight:700">${fin.toFixed(2)} GMD</div></div></div><div style="padding:16px;font-size:13px">Gov ${gov} + Fee ${fee} = <b>${fin} GMD</b></div><div style="padding:0 16px 16px"><button class="btn btn-black" onclick="window.print()">Print Slip</button></div></div>`;
+   const gov=Number(r.amount||r.government_amount||10000);
+   const fee=Math.round(gov*currentFee/100);
+   const finalTotal=gov+fee;
+   total+=finalTotal; feeTotal+=fee;
+   const ordId=r.order_id||`ORD-${String(r.id).slice(0,6).toUpperCase()}-IO`;
+   const rrr=r.wave_transaction_id||`GRR-${Math.floor(1000000000+Math.random()*9000000000)}`;
+   const name=r.customer_name||'Ousman Tunkara';
+   const phone=r.customer_phone||'3501234';
+   const service=r.service_type||'GRA Tax';
+   const dateObj=r.created_at?new Date(r.created_at):new Date();
+   const dayKey=dateObj.toLocaleDateString();
+   if(!dailyMap[dayKey]) dailyMap[dayKey]={count:0,total:0,fee:0,dateObj};
+   dailyMap[dayKey].count++; dailyMap[dayKey].total+=finalTotal; dailyMap[dayKey].fee+=fee;
+   ordersHtml+=`<div class="order-card">
+     <div class="order-top"><div class="ord-id">${ordId}</div><div class="status">APPROVED • BANKED • AUDITED</div></div>
+     <div class="meta"><div>Tax Payer: <b>${name} • ${phone}</b></div><div>Service: <b>${service}</b></div><div>Gov Amount: <b>${gov.toFixed(2)} GMD</b></div><div>Service Fee (${currentFee}%): <b style="color:#16a34a">${fee.toFixed(2)} GMD</b></div><div>Final Collection: <b>${finalTotal.toFixed(2)} GMD</b></div><div>Date: <b>${dateObj.toLocaleString()}</b></div></div>
+     <div class="rrr">RRR / Transaction ID: ${rrr}</div>
+     <div class="actions"><button class="btn btn-dark" onclick="printSlip('${ordId}')">Bank Slip PDF</button><button class="btn" onclick="shareWA('${name}','${ordId}')">WhatsApp Receipt</button><button class="btn" style="color:#dc2626;border-color:#fecaca" onclick="delOrder('${r.id}')">Delete</button></div>
+   </div>`;
+   bankHtml+=`<div class="bank-slip" style="margin:12px 0" id="slip-${ordId}"><div class="slip-inner"><div class="slip-header"><div><b style="font-size:16px">GAMBIA REVENUE AUTHORITY</b><br><small>OFFICIAL BANK DEPOSIT SLIP • REMITA GATEWAY • Fee ${currentFee}% ${feeStatusVal}</small><br><small style="color:#64748b">Partner: Ousman Tunkara • Wave 872713918</small></div><div class="qr">QR<br>${ordId.slice(-4)}</div></div><div class="meta"><div>Order ID: <b>${ordId}</b></div><div>RRR: <b>${rrr}</b></div><div>Tax Payer: <b>${name}</b></div><div>Phone: <b>${phone}</b></div><div>Service: <b>${service}</b></div><div>Date: <b>${dateObj.toLocaleString()}</b></div></div><div style="margin-top:12px;padding:10px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0">Gov: ${gov.toFixed(2)} + Fee ${fee.toFixed(2)} = <b>${finalTotal.toFixed(2)} GMD</b><br><small>System generated - valid for GRA audit</small></div><div style="margin-top:10px"><button class="btn btn-dark" onclick="window.print()">Print Professional Slip</button></div></div></div>`;
  });
- document.getElementById('ordersList').innerHTML=ordersHtml||'No orders';
- document.getElementById('bankList').innerHTML=bankHtml||'No slips';
- let dHtml=''; Object.keys(dailyMap).sort((a,b)=>dailyMap[b].d-dailyMap[a].d).forEach(k=>{ const v=dailyMap[k]; dHtml+=`<div class="row"><div><b>${k}</b></div><div>${v.count}</div><div><b>${v.total.toFixed(2)} GMD</b></div><div style="color:var(--green);font-weight:700">${v.fee.toFixed(2)} GMD</div></div>`; });
- document.getElementById('dailyList').innerHTML=dHtml||'<div class="row">No data</div>';
- document.getElementById('approved').textContent=filtered.length; document.getElementById('pending').textContent=0; document.getElementById('total').textContent=total.toFixed(2)+' GMD';
- const bal=getNetBalance(); document.getElementById('net').textContent=bal.available.toFixed(2)+' GMD'; document.getElementById('withdrawBalance').textContent=bal.available.toFixed(2)+' GMD'; document.getElementById('sideNet').textContent=bal.available.toFixed(2)+' GMD';
- renderWithdrawHistory();
+ document.getElementById('orders').innerHTML=ordersHtml||'<div class="order-card">No transactions found</div>';
+ document.getElementById('bankList').innerHTML=bankHtml||'<div class="order-card">No bank slips</div>';
+ let dailyHtml=''; Object.keys(dailyMap).sort((a,b)=>dailyMap[b].dateObj-dailyMap[a].dateObj).forEach(day=>{ const d=dailyMap[day]; dailyHtml+=`<div class="daily-row"><div><b>${day}</b></div><div>${d.count}</div><div><b>${d.total.toFixed(2)} GMD</b></div><div style="color:#16a34a;font-weight:700">${d.fee.toFixed(2)} GMD</div></div>`; });
+ document.getElementById('dailyList').innerHTML=dailyHtml||'<div class="daily-row">No data</div>';
+ const bal=getBalances();
+ document.getElementById('approved').textContent=filtered.length;
+ document.getElementById('pending').textContent=0;
+ document.getElementById('totalAmt').textContent=total.toFixed(2)+' GMD';
+ document.getElementById('netWorth').textContent=bal.available.toFixed(2)+' GMD';
+ document.getElementById('net2').textContent=bal.available.toFixed(2)+' GMD';
+ document.getElementById('withdrawBal').textContent=bal.available.toFixed(2)+' GMD';
+ document.getElementById('withdrawHistory').innerHTML=withdrawals.length?withdrawals.map(w=>`<div style="padding:6px 0;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between"><span>${w.date} - ${w.amount} GMD → ${w.to}</span><span style="color:#22c55e">✓ Sent</span></div>`).join(''):'No withdrawals yet.';
 }
-function renderWithdrawHistory(){
- if(withdrawals.length===0){document.getElementById('withdrawHistory').innerHTML='No withdrawals yet.';return;}
- document.getElementById('withdrawHistory').innerHTML=withdrawals.map(w=>`<div style="padding:6px 0;border-bottom:1px solid #222;display:flex;justify-content:space-between"><span>${w.date} - ${w.amount} GMD to ${w.to}</span><span style="color:#22c55e">✓ Sent</span></div>`).join('');
-}
-function withdraw(){
- const amt=Number(document.getElementById('withdrawAmount').value); const bal=getNetBalance();
- if(!amt||amt<=0) return alert('Enter amount'); if(amt>bal.available) return alert('Not enough balance. Available: '+bal.available);
- withdrawals.unshift({amount:amt,to:'Wave 872713918',date:new Date().toLocaleString()}); localStorage.setItem('remita_withdrawals',JSON.stringify(withdrawals));
- document.getElementById('withdrawAmount').value=''; render(); alert(`Withdrawal Request: ${amt} GMD to Wave 872713918 - Success!`);
-}
-function withdrawAll(){ const bal=getNetBalance(); if(bal.available<=0) return alert('No balance'); if(!confirm(`Withdraw ALL ${bal.available.toFixed(2)} GMD to Wave 872713918?`))return; withdrawals.unshift({amount:bal.available,to:'Wave 872713918 - ALL',date:new Date().toLocaleString()}); localStorage.setItem('remita_withdrawals',JSON.stringify(withdrawals)); render(); }
-function clearWithdrawals(){ if(!confirm('Reset withdrawal history? This will restore balance.'))return; withdrawals=[]; localStorage.setItem('remita_withdrawals',JSON.stringify(withdrawals)); render(); }
-function goBank(id){ tab('bank',document.querySelectorAll('.nav button')[2]); setTimeout(()=>document.getElementById('slip-'+id)?.scrollIntoView({behavior:'smooth'}),200); }
-async function del(id){ if(!confirm('Delete?'))return; await supabaseClient.from('transactions').delete().eq('id',id); load(); }
-// init
-document.getElementById('feeSlider').value=currentFee; document.getElementById('feeValue').textContent=currentFee; document.getElementById('feeStatus').value=feeStatusVal; updateFee(currentFee);
-load();
+function exportCSV(){ let csv='OrderID,Name,Phone,Service,Gov,Fee,Total,RRR,Date\n'; allData.forEach(r=>{ const gov=Number(r.amount||r.government_amount||0); const fee=Math.round(gov*currentFee/100); const total=gov+fee; csv+=`${r.order_id||r.id},${r.customer_name||''},${r.customer_phone||''},${r.service_type||''},${gov},${fee},${total},${r.wave_transaction_id||''},${r.created_at||''}\n`; }); const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`GRA_Remita_${new Date().toISOString().slice(0,10)}.csv`; a.click(); }
+function printSlip(id){ switchTab('bankView',document.querySelectorAll('.tab')[2]); setTimeout(()=>document.getElementById('slip-'+id)?.scrollIntoView({behavior:'smooth'}),200); }
+function shareWA(n,o){ window.open('https://wa.me/?text='+encodeURIComponent(`GRA Tax Payment Confirmed\nName: ${n}\nOrder: ${o}\nAmount verified • Remita Gateway`),'_blank'); }
+async function delOrder(id){ if(!confirm('Professional Delete - Confirm?'))return; await supabaseClient.from('transactions').delete().eq('id',id); loadData(); }
+function withdraw(){ const amt=Number(document.getElementById('withdrawAmount').value); const bal=getBalances(); if(!amt||amt<=0) return alert('Enter amount'); if(amt>bal.available) return alert('Not enough. Available: '+bal.available); withdrawals.unshift({amount:amt,to:'Wave 872713918',date:new Date().toLocaleString()}); localStorage.setItem('remita_withdrawals',JSON.stringify(withdrawals)); document.getElementById('withdrawAmount').value=''; render(); alert(`✓ ${amt} GMD Withdrawn to Wave 872713918`); }
+function withdrawAll(){ const bal=getBalances(); if(bal.available<=0) return alert('No balance'); if(!confirm(`Withdraw ALL ${bal.available.toFixed(2)} GMD?`))return; withdrawals.unshift({amount:bal.available,to:'Wave 872713918 - ALL',date:new Date().toLocaleString()}); localStorage.setItem('remita_withdrawals',JSON.stringify(withdrawals)); render(); }
+function clearWithdrawals(){ if(!confirm('Reset history and restore balance?'))return; withdrawals=[]; localStorage.setItem('remita_withdrawals',JSON.stringify(withdrawals)); render(); }
+document.getElementById('feeSlider').value=currentFee; document.getElementById('feeValue').textContent=currentFee; document.getElementById('feeStatus').value=feeStatusVal; updateFee(currentFee); loadData();
 </script>
 </body>
 </html>
