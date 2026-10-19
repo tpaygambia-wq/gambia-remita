@@ -1,49 +1,191 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OT V9.2 NO LOGIN PRO</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OT ULTIMATE ADMIN V10.0</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>body{margin:0;font-family:system-ui;background:#070c1c;color:#e2e8f0}.top{position:sticky;top:0;background:#101b36;padding:14px;display:flex;justify-content:space-between;align-items:center}.stat{background:#111a32;padding:10px;border-radius:12px}.order-card{background:#f8fafc;color:#111;border-radius:16px;margin:10px;padding:12px;border-left:6px solid #22c55e}</style>
-</head><body>
-<div class="top"><div><b>Ousman Tunkara - V9.2 NO LOGIN</b><div id="stat" style="font-size:11px;color:#22c55e">Connecting...</div><div id="clock" style="font-size:10px"></div></div><button onclick="location.reload()" style="padding:8px 12px;border-radius:8px;border:none;font-weight:800">Reload</button></div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;padding:10px"><div class="stat"><small>Orders</small><b id="sTotal">0</b></div><div class="stat"><small>Pending</small><b id="sPend">0</b></div><div class="stat"><small>Volume</small><b id="sVol">D0</b></div><div class="stat"><small>Profit</small><b id="sProfit" style="color:#22c55e">D0</b></div></div>
-<div style="margin:10px;background:#111a32;padding:10px;border-radius:12px"><canvas id="chart" height="80"></canvas></div>
-<div style="padding:10px"><input id="search" oninput="render()" placeholder="Search ORD Name Phone" style="width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#0b1226;color:white"></div>
-<div id="list"></div>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,system-ui;background:#060d20;color:#e2e8f0}
+.login{height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(circle at top,#13265a,#060d20)}
+.card-login{background:#101b36;padding:24px;border-radius:24px;width:100%;max-width:400px;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 80px rgba(0,0,0,.7)}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0b1226;color:white}
+.btn{padding:11px 14px;border:none;border-radius:10px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:7px;justify-content:center}
+.btn-g{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000}.btn-blue{background:#2563eb;color:white}.btn-dark{background:rgba(255,255,255,.08);color:white;border:1px solid rgba(255,255,255,.1)}.btn-red{background:rgba(239,68,68,.15);color:#ff8a8a}
+.top{position:sticky;top:0;z-index:20;background:rgba(16,27,54,.95);backdrop-filter:blur(10px);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.07)}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;padding:10px}.stat{background:#111a32;border-radius:14px;padding:10px;border:1px solid rgba(255,255,255,.06)} .stat b{font-size:16px;display:block}
+.nav{display:flex;gap:6px;padding:8px 10px;overflow:auto}.nav-item{padding:8px 14px;border-radius:20px;background:rgba(255,255,255,.06);font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap}.nav-item.active{background:white;color:black}
+.card{background:#f8fafc;color:#111827;border-radius:18px;margin:10px;padding:12px;border-left:6px solid #f59e0b}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:99;align-items:center;justify-content:center;padding:14px}.modal.show{display:flex}.box{background:#101b36;width:100%;max-width:500px;border-radius:18px;padding:18px;max-height:90vh;overflow:auto;border:1px solid rgba(255,255,255,.1)}
+.kv{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.07);font-size:13px}
+</style>
+</head>
+<body>
+<!-- LOGIN -->
+<div id="loginDiv" class="login"><div class="card-login">
+<div style="text-align:center"><div style="width:62px;height:62px;background:linear-gradient(135deg,#22c55e,#3b82f6);border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:black">OT</div><h3 style="margin-top:10px">Ousman Tunkara</h3><p style="color:#94a3b8;font-size:11px">ULTIMATE ADMIN V10.0 • All Controls</p><p style="color:#22c55e;font-size:10px;margin-top:4px" id="debugPass">Loading...</p></div>
+<input id="pass" type="password" placeholder="Password">
+<button class="btn btn-g" style="width:100%;margin-top:8px" onclick="login()">🔐 Enter Empire</button>
+<button class="btn btn-blue" style="width:100%;margin-top:8px" onclick="emergencyLogin()">🚀 Emergency Enter (No Password)</button>
+<button class="btn btn-dark" style="width:100%;margin-top:8px;font-size:12px" onclick="resetPass()">Reset to OT2026CEO</button>
+<div style="margin-top:10px;background:rgba(255,255,255,.05);padding:8px;border-radius:10px;font-size:11px;color:#94a3b8">If login fails, click Emergency Enter. Inside you can change password, fee, wave, merchants, everything.</div>
+<p id="err" style="color:#ff8a8a;text-align:center;margin-top:8px;font-size:12px"></p>
+</div></div>
+
+<!-- ADMIN -->
+<div id="adminDiv" style="display:none">
+<div class="top">
+<div style="display:flex;gap:10px;align-items:center"><div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:900;color:black">OT</div><div><b id="ceoName">Ousman Tunkara</b><div style="font-size:10px;color:#22c55e" id="clock"></div><div style="font-size:9px" id="conn">Syncing...</div></div></div>
+<div style="display:flex;gap:6px"><button class="btn btn-dark" style="padding:8px" onclick="openModal('settingsModal')"><i class="fa fa-cog"></i></button><button class="btn btn-dark" style="padding:8px" onclick="location.reload()"><i class="fa fa-sign-out-alt"></i></button></div>
+</div>
+
+<div class="stats">
+<div class="stat"><small style="color:#94a3b8;font-size:9px">TOTAL ORDERS</small><b id="sTotal">0</b><small id="sToday" style="color:#22c55e;font-size:9px"></small></div>
+<div class="stat"><small style="color:#94a3b8;font-size:9px">PENDING</small><b id="sPend" style="color:#f59e0b">0</b></div>
+<div class="stat"><small style="color:#94a3b8;font-size:9px">VOLUME</small><b id="sVol">D0</b></div>
+<div class="stat"><small style="color:#94a3b8;font-size:9px">MY PROFIT</small><b id="sProfit" style="color:#22c55e">D0</b></div>
+</div>
+
+<div style="margin:0 10px;background:#111a32;border-radius:14px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div><small style="color:#94a3b8;font-size:10px;font-weight:800">7 DAYS REVENUE</small><canvas id="chart" height="80"></canvas><small id="chartTot" style="color:#22c55e;font-weight:800"></small></div>
+<div><small style="color:#94a3b8;font-size:10px;font-weight:800">TOP MERCHANTS</small><div id="merchantStats" style="font-size:11px;margin-top:6px;line-height:1.6"></div></div>
+</div>
+
+<div class="nav">
+<div class="nav-item active" onclick="setTab('all',this)"><i class="fa fa-list"></i> All</div>
+<div class="nav-item" onclick="setTab('pending',this)"><i class="fa fa-clock"></i> Pending <span id="pCount">0</span></div>
+<div class="nav-item" onclick="setTab('approved',this)"><i class="fa fa-check"></i> Approved</div>
+<div class="nav-item" onclick="setTab('customers',this)"><i class="fa fa-users"></i> Customers</div>
+<div class="nav-item" onclick="setTab('logs',this)"><i class="fa fa-history"></i> Logs</div>
+</div>
+
+<div style="padding:8px 10px;display:flex;gap:6px">
+<input id="search" placeholder="Search ORD, Name, Phone, RRR, Wave..." oninput="render()" style="flex:1">
+<button class="btn btn-dark" style="padding:10px" onclick="loadCloud()"><i class="fa fa-sync"></i></button>
+<button class="btn btn-dark" style="padding:10px" onclick="exportCSV()"><i class="fa fa-file-csv"></i></button>
+</div>
+
+<div id="list" style="padding-bottom:90px"></div>
+</div>
+
+<!-- SETTINGS MODAL - ALL PROFESSIONAL CONTROLS -->
+<div id="settingsModal" class="modal"><div class="box">
+<h3><i class="fa fa-crown" style="color:#22c55e"></i> Ultimate Professional Controls</h3>
+
+<div style="margin-top:12px;background:rgba(255,255,255,.04);padding:10px;border-radius:12px">
+<label style="color:#22c55e;font-size:11px;font-weight:900">1. SECURITY - CHANGE ADMIN PASSWORD</label>
+<input id="newPass" placeholder="New Password e.g OT2026BOSS">
+<input id="confirmPass" type="password" placeholder="Confirm Password">
+<button class="btn btn-g" style="width:100%;margin-top:6px" onclick="changePass()">Update Password</button>
+<small style="color:#94a3b8;font-size:10px">Current: <span id="curPassShow"></span></small>
+</div>
+
+<div style="margin-top:10px;background:rgba(255,255,255,.04);padding:10px;border-radius:12px">
+<label style="color:#3b82f6;font-size:11px;font-weight:900">2. BUSINESS - FEE & WAVE & CEO</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+<div><small style="font-size:10px;color:#94a3b8">Fee %</small><input id="feeInput" type="number" step="0.5" placeholder="2"></div>
+<div><small style="font-size:10px;color:#94a3b8">Wave No</small><input id="waveInput" placeholder="872713918"></div>
+</div>
+<input id="ceoInput" placeholder="CEO Name">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
+<button class="btn btn-dark" onclick="changeFee()">Save Fee</button>
+<button class="btn btn-dark" onclick="changeWave()">Save Wave</button>
+</div>
+<button class="btn btn-dark" style="width:100%;margin-top:6px" onclick="changeCEO()">Save CEO Name</button>
+</div>
+
+<div style="margin-top:10px;background:rgba(255,255,255,.04);padding:10px;border-radius:12px">
+<label style="color:#f59e0b;font-size:11px;font-weight:900">3. MERCHANTS & SERVICES MANAGER</label>
+<textarea id="merchantsInput" rows="4" placeholder='[{"name":"GRA","services":["TIN","VAT"]}]'></textarea>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
+<button class="btn btn-dark" onclick="saveMerchants()">Save Merchants</button>
+<button class="btn btn-dark" onclick="resetMerchants()">Reset Default</button>
+</div>
+<small style="color:#94a3b8;font-size:10px">Edit GRA, GPA, Police, Immigration services here. JSON format.</small>
+</div>
+
+<div style="margin-top:10px;background:rgba(255,255,255,.04);padding:10px;border-radius:12px">
+<label style="color:#ec4899;font-size:11px;font-weight:900">4. SYSTEM TOOLS - PROFESSIONAL</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+<button class="btn btn-dark" onclick="exportCSV()"><i class="fa fa-download"></i> Export CSV</button>
+<button class="btn btn-dark" onclick="exportJSON()"><i class="fa fa-code"></i> Backup JSON</button>
+<button class="btn btn-dark" onclick="printAll()"><i class="fa fa-print"></i> Print All</button>
+<button class="btn btn-dark" onclick="shareLink()"><i class="fa fa-share"></i> Share Link</button>
+</div>
+<div class="kv"><span>Supabase URL</span><span style="font-size:9px">afzwszicgh...qkhbua</span></div>
+<div class="kv"><span>Wave</span><span id="waveShow"></span></div>
+<div class="kv"><span>Fee</span><span id="feeShow"></span></div>
+<div class="kv"><span>Orders</span><span id="countShow"></span></div>
+</div>
+
+<div style="margin-top:10px;display:grid;gap:6px">
+<button class="btn btn-red" onclick="clearAll()"><i class="fa fa-trash"></i> DANGER: Delete All Transactions</button>
+<button class="btn btn-dark" style="width:100%" onclick="closeModal('settingsModal')">Close Settings</button>
+</div>
+</div></div>
+
+<div id="receiptModal" class="modal"><div class="box" style="background:white;color:black"><div id="receiptContent"></div><button class="btn" style="background:black;color:white;width:100%;margin-top:10px" onclick="closeModal('receiptModal')">Close</button><button class="btn btn-g" style="width:100%;margin-top:6px" onclick="window.print()">Print Receipt</button></div></div>
+
 <script>
 const supabaseUrl="https://afzwszicghxwjyqkhbua.supabase.co";
 const supabaseKey="sb_publishable_lEgI1aNiLJzE6cf_iC_roQ_jgfD8XTS";
 const sb=supabase.createClient(supabaseUrl,supabaseKey);
-let txs=[],chartI=null;
+let txs=[],tab='all',chartI=null,logs=[];
 const $=id=>document.getElementById(id);
+function getPass(){return localStorage.getItem("ot_admin_pass")||"OT2026CEO";}
+function getFee(){return parseFloat(localStorage.getItem("ot_fee")||"2");}
+function getWave(){return localStorage.getItem("ot_wave")||"872713918";}
+function getCEO(){return localStorage.getItem("ot_ceo")||"Ousman Tunkara";}
+function getMerchants(){try{return JSON.parse(localStorage.getItem("ot_merchants")||"null")||[{name:"GRA",services:["TIN","VAT","Income Tax"]},{name:"GPA",services:["Port Fees"]},{name:"Police",services:["Clearance"]},{name:"Immigration",services:["Passport"]}]}catch(e){return []}}
+function addLog(msg){logs.unshift({time:new Date().toLocaleString(),msg});if(logs.length>50)logs.pop();localStorage.setItem("ot_logs",JSON.stringify(logs));}
 function genRRR(){return "GRR-"+Math.floor(100000000000+Math.random()*900000000000);}
-async function loadCloud(){
- $("stat").innerText="● Syncing...";
- let {data,error}=await sb.from("transactions").select("*").order("created_at",{ascending:false});
- if(error){$("stat").innerText="● Error: "+error.message;return;}
- txs=data||[]; $("stat").innerText="● Connected • "+txs.length+" orders • No Login Mode • afzwszicghxwjyqkhbua";
- let tot=txs.length,pend=txs.filter(t=>(t.status||"").toUpperCase()=="PENDING").length,vol=txs.reduce((a,b)=>a+Number(b.total||0),0),prof=txs.reduce((a,b)=>a+Number(b.fee||0),0);
- $("sTotal").innerText=tot;$("sPend").innerText=pend;$("sVol").innerText="D"+vol.toLocaleString();$("sProfit").innerText="D"+prof.toLocaleString();
- render();renderChart();
-}
+function resetPass(){localStorage.setItem("ot_admin_pass","OT2026CEO");$("debugPass").innerText="Current Pass: OT2026CEO (Reset done)";$("curPassShow").innerText="OT2026CEO";alert("Reset to OT2026CEO");location.reload();}
+function login(){let p=$("pass").value.trim(),real=getPass();if(p!==real){$("err").innerText="Wrong! Real is: "+real+" — Use Emergency Enter";return;}showAdmin();}
+function emergencyLogin(){addLog("Emergency access used");showAdmin();}
+function showAdmin(){$("loginDiv").style.display="none";$("adminDiv").style.display="block";$("feeInput").value=getFee();$("waveInput").value=getWave();$("ceoInput").value=getCEO();$("merchantsInput").value=JSON.stringify(getMerchants(),null,2);$("ceoName").innerText=getCEO();$("curPassShow").innerText=getPass();$("debugPass").innerText="Current Pass: "+getPass();setInterval(()=>{$("clock").innerText=new Date().toLocaleString()+" • Live";},1000);loadCloud();}
+async function loadCloud(){$("conn").innerText="● Syncing...";let {data,error}=await sb.from("transactions").select("*").order("created_at",{ascending:false});if(error){$("conn").innerText="● Error "+error.message;return;}txs=data||[];$("conn").innerText="● Connected • "+txs.length+" orders • V10 ULTIMATE";$("waveShow").innerText=getWave();$("feeShow").innerText=getFee()+"%";$("countShow").innerText=txs.length;updateStats();render();renderChart();}
+function updateStats(){let tot=txs.length,pend=txs.filter(t=>(t.status||"").toUpperCase()=="PENDING").length,vol=txs.reduce((a,b)=>a+Number(b.total||0),0),prof=txs.reduce((a,b)=>a+Number(b.fee||0),0);$("sTotal").innerText=tot;$("sPend").innerText=pend;$("pCount").innerText=pend;$("sVol").innerText="D"+vol.toLocaleString();$("sProfit").innerText="D"+prof.toLocaleString();$("sToday").innerText="Today: "+txs.filter(t=>new Date(t.date).toLocaleDateString()==new Date().toLocaleDateString()).length;}
+function setTab(t,el){tab=t;document.querySelectorAll(".nav-item").forEach(e=>e.classList.remove("active"));el.classList.add("active");render();}
 function render(){
- let q=($("search").value||"").toLowerCase();
- let list=$("list");list.innerHTML="";
- let filt=txs.filter(t=>{if(!q)return true;return ((t.ord||"")+(t.customer||"")+(t.phone||"")).toLowerCase().includes(q);});
- filt.forEach(t=>{
-  let div=document.createElement("div");div.className="order-card";
-  div.innerHTML=`<div style="display:flex;justify-content:space-between"><b>${t.ord}</b><b style="color:${t.status=="APPROVED"?"#16a34a":"#d97706"}">${t.status} • ${t.rrr}</b></div>
-  <div style="margin-top:6px;font-size:13px">Name: <b>${t.customer}</b> • ${t.phone}<br>${t.merchant} - ${t.service}<br>D${t.amount}+D${t.fee}=D${t.total}<br>Wave: ${t.payref||t.payRef}<br>${t.date}</div>
-  <div style="display:flex;gap:6px;margin-top:8px">
-  ${t.status!="APPROVED"?`<button onclick="approve('${t.id}')" style="flex:1;padding:12px;background:#111827;color:white;border:none;border-radius:8px;font-weight:800">Approve & RRR</button>`:`<div style="flex:1;background:#dcfce7;color:#166534;padding:10px;border-radius:8px;text-align:center;font-weight:900">${t.rrr}</div>`}
-  <button onclick="delTx('${t.id}')" style="padding:10px;background:#fee2e2;color:#ef4444;border:none;border-radius:8px">Del</button>
-  </div>`;
-  list.appendChild(div);
- });
+let q=($("search").value||"").toLowerCase();let list=$("list");list.innerHTML="";
+if(tab=="customers"){let uniq={};txs.forEach(t=>{if(!uniq[t.phone])uniq[t.phone]={name:t.customer,phone:t.phone,count:0,total:0};uniq[t.phone].count++;uniq[t.phone].total+=Number(t.total);});let arr=Object.values(uniq);if(q)arr=arr.filter(c=> (c.name+c.phone).toLowerCase().includes(q));arr.forEach(c=>{let d=document.createElement("div");d.className="card";d.innerHTML=`<b>${c.name}</b> • ${c.phone}<br><small>${c.count} orders • D${c.total.toLocaleString()} volume</small>`;list.appendChild(d);});return;}
+if(tab=="logs"){let saved=JSON.parse(localStorage.getItem("ot_logs")||"[]");saved.forEach(l=>{let d=document.createElement("div");d.className="card";d.innerHTML=`<small style="color:#64748b">${l.time}</small><br>${l.msg}`;list.appendChild(d);});return;}
+let filt=txs.filter(t=>{if(q){let hay=(t.ord+t.customer+t.phone+t.rrr+(t.payref||"")).toLowerCase();if(!hay.includes(q))return false;}if(tab=="pending")return (t.status||"").toUpperCase()=="PENDING";if(tab=="approved")return (t.status||"").toUpperCase()=="APPROVED";return true;});
+if(filt.length==0){list.innerHTML="<div style='text-align:center;padding:40px;color:#94a3b8'>No data</div>";return;}
+filt.forEach(t=>{
+let st=(t.status||"").toUpperCase(),app=st=="APPROVED";
+let div=document.createElement("div");div.className="card";div.style.borderLeftColor=app?"#22c55e":"#f59e0b";
+div.innerHTML=`<div style="display:flex;justify-content:space-between"><b>${t.ord}</b><span style="background:${app?"#dcfce7":"#fef3c7"};color:${app?"#166534":"#92400e"};padding:4px 8px;border-radius:12px;font-size:11px;font-weight:900">${st} • ${t.rrr}</span></div>
+<div style="margin-top:6px;font-size:13px;line-height:1.5">Name: <b>${t.customer}</b> • ${t.phone}<br>${t.merchant} - ${t.service}<br>Gov D${Number(t.amount).toLocaleString()} + Fee D${Number(t.fee)} = <b>D${Number(t.total).toLocaleString()}</b><br>ORD: <b style="color:#d97706">${t.ord}</b> • RRR: <b style="color:#16a34a">${t.rrr}</b><br>Wave Ref: ${t.payref||t.payRef} → ${getWave()} • ${t.date}</div>
+<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+${!app?`<button class="btn" style="flex:1;background:#111827;color:white" onclick="approve('${t.id}')"><i class="fa fa-check"></i> Approve & Gen RRR</button><button class="btn btn-dark" onclick="reject('${t.id}')">Reject</button>`:`<div style="flex:1;background:#dcfce7;color:#166534;padding:10px;border-radius:10px;text-align:center;font-weight:900"><i class="fa fa-check-circle"></i> ${t.rrr}</div>`}
+<button class="btn btn-dark" onclick="showReceipt('${t.id}')"><i class="fa fa-receipt"></i></button>
+<button class="btn btn-dark" onclick="copyData('${t.ord}','${t.rrr}')"><i class="fa fa-copy"></i></button>
+<button class="btn btn-red" onclick="delTx('${t.id}')"><i class="fa fa-trash"></i></button>
+</div>`;
+list.appendChild(div);
+});
 }
-async function approve(id){let t=txs.find(x=>x.id==id);let r=genRRR();if(!confirm("Approve "+t.ord+"? "+r))return;await sb.from("transactions").update({status:"APPROVED",rrr:r}).eq("id",id);loadCloud();}
-async function delTx(id){if(!confirm("Delete?"))return;await sb.from("transactions").delete().eq("id",id);loadCloud();}
-function renderChart(){let map={};for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let k=d.toLocaleDateString();map[k]={v:0,l:d.toLocaleDateString('en',{weekday:'short'})};}txs.forEach(t=>{let k=new Date(t.date).toLocaleDateString();if(map[k])map[k].v+=Number(t.amount);});let labs=Object.values(map).map(m=>m.l),vals=Object.values(map).map(m=>m.v);let ctx=$("chart").getContext("2d");if(chartI)chartI.destroy();chartI=new Chart(ctx,{type:'bar',data:{labels:labs,datasets:[{data:vals,backgroundColor:'#22c55e'}]},options:{plugins:{legend:{display:false}}}});}
-setInterval(()=>{$("clock").innerText=new Date().toLocaleString()+" • Live • NO PASSWORD NEEDED";},1000);
-loadCloud();
-</script></body></html>
+async function approve(id){let t=txs.find(x=>x.id==id),rrr=genRRR();if(!confirm("Approve "+t.customer+" "+t.ord+" → "+rrr+" ?"))return;let {error}=await sb.from("transactions").update({status:"APPROVED",rrr}).eq("id",id);if(error){alert(error.message);return;}addLog("Approved "+t.ord+" → "+rrr);alert("✅ Approved "+rrr);loadCloud();}
+async function reject(id){if(!confirm("Reject this order?"))return;let {error}=await sb.from("transactions").update({status:"REJECTED"}).eq("id",id);if(error){alert(error.message);return;}addLog("Rejected "+id);loadCloud();}
+async function delTx(id){if(!confirm("Delete permanently?"))return;await sb.from("transactions").delete().eq("id",id);addLog("Deleted "+id);loadCloud();}
+function showReceipt(id){let t=txs.find(x=>x.id==id);$("receiptContent").innerHTML=`<div style="text-align:center"><h3>🇬🇲 Gambia Remita</h3><small>${getCEO()} • Wave ${getWave()} • Fee ${getFee()}%</small><hr></div><div style="line-height:1.7;font-size:14px"><b>ORD:</b> ${t.ord}<br><b>RRR:</b> ${t.rrr}<br><b>Status:</b> ${t.status}<br><b>Name:</b> ${t.customer}<br><b>Phone:</b> ${t.phone}<br><b>Service:</b> ${t.merchant} - ${t.service}<br><b>Gov:</b> D${t.amount}<br><b>Fee:</b> D${t.fee}<br><b>Total:</b> D${t.total}<br><b>Wave Ref:</b> ${t.payref||t.payRef}<br><b>Date:</b> ${t.date}</div><hr><p style="text-align:center;font-size:11px;color:#64748b">remita.vercel.app • Track ORD to see RRR</p>`;openModal('receiptModal');}
+function copyData(ord,rrr){navigator.clipboard.writeText(`ORD ${ord} | RRR ${rrr} | Wave ${getWave()} | CEO ${getCEO()}`);alert("Copied "+ord);}
+function openModal(id){$(id).classList.add("show");}function closeModal(id){$(id).classList.remove("show");}
+function changePass(){let n=$("newPass").value.trim(),c=$("confirmPass").value.trim();if(!n||n.length<3){alert("Too short");return;}if(c&&n!==c){alert("No match");return;}localStorage.setItem("ot_admin_pass",n);$("curPassShow").innerText=n;$("debugPass").innerText="Current Pass: "+n;addLog("Password changed");alert("✅ Password changed to: "+n);}
+function changeFee(){let f=parseFloat($("feeInput").value);if(isNaN(f))return;localStorage.setItem("ot_fee",f);$("feeShow").innerText=f+"%";addLog("Fee changed to "+f+"%");alert("Fee "+f+"% saved");loadCloud();}
+function changeWave(){let w=$("waveInput").value.trim();if(!w)return;localStorage.setItem("ot_wave",w);$("waveShow").innerText=w;addLog("Wave changed to "+w);alert("Wave "+w+" saved");loadCloud();}
+function changeCEO(){let c=$("ceoInput").value.trim();if(!c)return;localStorage.setItem("ot_ceo",c);$("ceoName").innerText=c;addLog("CEO changed to "+c);alert("CEO "+c);}
+function saveMerchants(){try{let j=JSON.parse($("merchantsInput").value);localStorage.setItem("ot_merchants",JSON.stringify(j));addLog("Merchants saved");alert("Merchants saved! Refresh customer page to see");}catch(e){alert("Invalid JSON: "+e.message);}}
+function resetMerchants(){localStorage.removeItem("ot_merchants");$("merchantsInput").value=JSON.stringify(getMerchants(),null,2);alert("Reset to default");}
+function exportCSV(){if(txs.length==0){alert("No data");return;}let h="ord,rrr,customer,phone,merchant,service,amount,fee,total,waveRef,status,date\n";let rows=txs.map(t=>`"${t.ord}","${t.rrr}","${t.customer}","${t.phone}","${t.merchant}","${t.service}",${t.amount},${t.fee},${t.total},"${t.payref||t.payRef}","${t.status}","${t.date}"`).join("\n");let b=new Blob([h+rows],{type:"text/csv"});let u=URL.createObjectURL(b);let a=document.createElement("a");a.href=u;a.download="gambia_remita_"+new Date().toISOString().slice(0,10)+".csv";a.click();addLog("Exported CSV");}
+function exportJSON(){let b=new Blob([JSON.stringify(txs,null,2)],{type:"application/json"});let u=URL.createObjectURL(b);let a=document.createElement("a");a.href=u;a.download="backup_"+Date.now()+".json";a.click();}
+function printAll(){window.print();}
+function shareLink(){let txt=`🇬🇲 Gambia Remita - Pay GRA, GPA, Police, Immigration Online\nNo Queue • Wave ${getWave()} • Fee ${getFee()}%\nLink: https://remita.vercel.app`;if(navigator.share){navigator.share({title:"Gambia Remita",text:txt});}else{navigator.clipboard.writeText(txt);alert("Link copied");}}
+async function clearAll(){if(!confirm("DANGER: Delete ALL "+txs.length+" orders?"))return;if(!confirm("Type YES? This cannot be undone!"))return;await sb.from("transactions").delete().neq("id","00000000-0000-0000-0000-000000000000");addLog("Cleared all transactions");loadCloud();}
+function renderChart(){let map={};for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let k=d.toLocaleDateString();map[k]={v:0,l:d.toLocaleDateString('en',{weekday:'short'})};}txs.forEach(t=>{let k=new Date(t.date).toLocaleDateString();if(map[k])map[k].v+=Number(t.amount);});let labs=Object.values(map).map(m=>m.l),vals=Object.values(map).map(m=>m.v),tot=vals.reduce((a,b)=>a+b,0);$("chartTot").innerText="D"+tot.toLocaleString();let ctx=$("chart").getContext("2d");if(chartI)chartI.destroy();chartI=new Chart(ctx,{type:'bar',data:{labels:labs,[STRIPPED]
+(function(){logs=JSON.parse(localStorage.getItem("ot_logs")||"[]");$("debugPass").innerText="Current Pass: "+getPass()+" • Click Emergency if fails";$("curPassShow")?$("curPassShow").innerText=getPass():null;})();
+</script>
+</body>
+</html>
